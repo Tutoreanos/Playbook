@@ -33,7 +33,7 @@ nav{position:fixed;top:0;left:0;right:0;z-index:200;display:flex;align-items:cen
 .hero-title{font-family:'Barlow Condensed',sans-serif;font-weight:800;font-size:clamp(60px,9vw,120px);line-height:.9;letter-spacing:-2px;text-transform:uppercase;margin-bottom:40px;opacity:0;animation:fadeUp .6s .35s forwards;}
 .hero-title .acc{color:var(--laranja);}
 .hero-meta{display:flex;align-items:flex-end;justify-content:space-between;gap:40px;opacity:0;animation:fadeUp .6s .5s forwards;}
-.hero-desc{max-width:460px;font-size:15px;font-weight:300;line-height:1.75;color:rgba(255,255,255,.55);}
+.hero-desc{max-width:580px;font-size:20px;font-weight:300;line-height:1.6;color:rgba(255,255,255,.75);letter-spacing:0.2px;}
 .hero-stats{display:flex;gap:40px;flex-shrink:0;}
 .stat-n{font-family:'Barlow Condensed',sans-serif;font-weight:800;font-size:48px;color:var(--laranja);line-height:1;}
 .stat-l{font-size:11px;font-weight:300;color:rgba(255,255,255,.4);letter-spacing:1px;text-transform:uppercase;margin-top:4px;}
@@ -120,7 +120,23 @@ nav{position:fixed;top:0;left:0;right:0;z-index:200;display:flex;align-items:cen
 .canal-ul{list-style:none;display:flex;flex-direction:column;gap:7px;}
 .canal-ul li{font-size:12px;font-weight:300;color:rgba(255,255,255,.5);line-height:1.5;padding-left:14px;position:relative;}
 .canal-ul li::before{content:'—';position:absolute;left:0;color:rgba(223,95,46,.4);font-size:10px;top:2px;}
-
+.canal-card{position:relative;}
+.canal-tooltip{
+  position:absolute; bottom:calc(100% + 15px); left:50%; transform:translateX(-50%) translateY(15px);
+  background:var(--preto); border:1px solid rgba(223,95,46,.5);
+  color:var(--branco); padding:16px; font-size:12px; font-weight:300; line-height:1.6;
+  width:260px; text-align:center; border-radius:4px;
+  visibility:hidden; opacity:0; transition:all .3s cubic-bezier(0.175, 0.885, 0.32, 1.275); z-index:10;
+  box-shadow:0 10px 30px rgba(0,0,0,.6); pointer-events:none;
+}
+.canal-card:hover .canal-tooltip{
+  visibility:visible; opacity:1; transform:translateX(-50%) translateY(0);
+}
+.canal-tooltip::after{
+  content:''; position:absolute; top:100%; left:50%; transform:translateX(-50%);
+  border-width:8px; border-style:solid; border-color:rgba(223,95,46,.5) transparent transparent transparent;
+}
+.canal-tooltip-title{font-family:'Barlow Condensed',sans-serif;font-size:11px;font-weight:700;color:var(--laranja);text-transform:uppercase;letter-spacing:1px;margin-bottom:6px;display:flex;align-items:center;justify-content:center;gap:6px;}
 /* ACCORDION */
 .acc{margin-top:0;}
 .acc-item{border-bottom:1px solid var(--linha);}
@@ -388,167 +404,159 @@ footer{background:var(--cinza-e);padding:56px 80px;display:flex;align-items:cent
 
 <div class="divider"></div>
 
-<!-- CANAIS COM TABS -->
+<!-- CANAIS INBOUND E OUTBOUND -->
 <div class="sec-full" style="background:var(--cinza-e);" id="canais">
 <div class="sec-inner">
   <div class="stag reveal">Fases 1 e 2</div>
   <h2 class="stitle reveal">Os <span class="acc">10 canais</span><br>de aquisição</h2>
 
-  <div class="tabs-nav reveal" id="canal-tabs">
-    <button class="tab-btn active" onclick="setTab(this, 'todos')">Todos os canais</button>
-    <button class="tab-btn" onclick="setTab(this, 'digital')">Digital</button>
-    <button class="tab-btn" onclick="setTab(this, 'presencial')">Presencial</button>
-    <button class="tab-btn" onclick="setTab(this, 'indicacao')">Indicação</button>
-  </div>
-
-  <!-- TODOS -->
-  <div class="tab-pane active" id="tab-todos">
-    <div class="canal-grid">
-      <div class="canal-card reveal">
-        <div class="canal-icon-wrap">📱</div>
-        <div class="canal-name">WhatsApp</div>
-        <div class="canal-fase-tag">Fase 0 · base de relacionamento</div>
-        <ul class="canal-ul">
-          <li>Canal principal de atendimento e follow-up de leads</li>
-          <li>Catálogo de serviços ativo com link para diagnóstico</li>
-          <li>Respostas rápidas configuradas para perguntas frequentes</li>
-          <li>Follow-up em até 24h para quem preencheu o diagnóstico</li>
-          <li>Grupos estratégicos: VIP de mentoria, parceiros, clientes ativos</li>
-          <li>Envio de conteúdo de valor segmentado por perfil de lead</li>
-        </ul>
-      </div>
-      <div class="canal-card reveal" style="transition-delay:.05s">
+  <div class="reveal" style="margin-top:48px;">
+    <!-- INBOUND SECTION -->
+    <div style="display:flex;align-items:baseline;gap:12px;margin-bottom:20px;border-bottom:2px solid rgba(223,95,46,.3);padding-bottom:12px">
+      <h3 style="font-family:'Barlow Condensed',sans-serif;font-weight:800;font-size:32px;text-transform:uppercase;color:#fff;margin:0;line-height:1">Máquina Inbound</h3>
+      <span style="font-family:'Barlow Condensed',sans-serif;font-size:15px;font-weight:500;letter-spacing:1.5px;text-transform:uppercase;color:var(--laranja);">Geração de demanda · Conteúdo estratégico · Atração magnética</span>
+    </div>
+    <div class="canal-grid" style="margin-bottom:64px">
+      
+      <!-- Instagram -->
+      <div class="canal-card">
+        <div class="canal-tooltip"><div class="canal-tooltip-title"><span>☁️</span>Dinâmica Inbound</div>No Inbound, o Instagram atua como a vitrine principal. Reels criam alcance orgânico, stories qualificam a necessidade e a Bio converte visitantes direto para a Landing Page de Diagnóstico. Funciona 24/7 trabalhando a sua autoridade.</div>
         <div class="canal-icon-wrap">📸</div>
         <div class="canal-name">Instagram</div>
-        <div class="canal-fase-tag">Fase 0–2 · autoridade e geração orgânica</div>
+        <div class="canal-fase-tag">Fase 0–2 · Autoridade e alcance</div>
         <ul class="canal-ul">
-          <li>Bio com proposta de valor + link estratégico (LP)</li>
-          <li>Cronograma semanal baseado nas dores da persona</li>
-          <li>Vídeos como formato prioritário (reels de 60–90s)</li>
-          <li>Cortes de mentorias e imersões com a franqueadora</li>
-          <li>CTA em todo conteúdo: link do diagnóstico de gestão</li>
-          <li>Stories diários com bastidores, resultados e provas sociais</li>
-          <li>Seguir e comentar referências e empreendedores da região</li>
-        </ul>
-      </div>
-      <div class="canal-card reveal" style="transition-delay:.1s">
-        <div class="canal-icon-wrap">💼</div>
-        <div class="canal-name">LinkedIn</div>
-        <div class="canal-fase-tag">Fase 0–2 · B2B e prospecção ativa</div>
-        <ul class="canal-ul">
-          <li>Perfil otimizado com palavras-chave de consultoria empresarial</li>
-          <li>Publicações 3x/semana com conteúdo de autoridade B2B</li>
-          <li>Prospecção ativa e segmentada no LinkedIn</li>
-          <li>Sequência de conexão → engajamento → abordagem</li>
-          <li>Consistência de conteúdo monitorada semanalmente</li>
-          <li>Artigos longos para posicionamento de especialista</li>
-        </ul>
-      </div>
-      <div class="canal-card reveal" style="transition-delay:.15s">
-        <div class="canal-icon-wrap">🤝</div>
-        <div class="canal-name">Networking</div>
-        <div class="canal-fase-tag">Fase 1–2 · relacionamento ativo</div>
-        <ul class="canal-ul">
-          <li>Lista mapeada: todos os empresários do círculo próximo</li>
-          <li>Expansão: conhecidos que conhecem empresários (3º grau)</li>
-          <li>Eventos, palestras e imersões com a persona</li>
-          <li>Entrega de cartão de visita com QR code para diagnóstico</li>
-          <li>Frequentar clubes e espaços onde a persona está presente</li>
-          <li>Conectar contatos do presencial ao LinkedIn no mesmo dia</li>
-        </ul>
-      </div>
-      <div class="canal-card reveal" style="transition-delay:.2s">
-        <div class="canal-icon-wrap">🏢</div>
-        <div class="canal-name">Associações</div>
-        <div class="canal-fase-tag">Fase 1 · comunidade empresarial</div>
-        <ul class="canal-ul">
-          <li>Inscrição na ACE/CDL/ACIL da cidade</li>
-          <li>Participação ativa em grupos de empresários</li>
-          <li>Escolas de negócios e cursos presenciais</li>
-          <li>BNI: grupo estruturado de indicação mútua</li>
-          <li>Apresentação formal da Tutoreanos ao grupo</li>
-          <li>Distribuir link do diagnóstico em toda apresentação</li>
-        </ul>
-      </div>
-      <div class="canal-card reveal" style="transition-delay:.25s">
-        <div class="canal-icon-wrap">🔄</div>
-        <div class="canal-name">Parceiros</div>
-        <div class="canal-fase-tag">Fase 1–4 · canal de indicação recorrente</div>
-        <ul class="canal-ul">
-          <li>Canvas do planning: mínimo 4 parceiros identificados</li>
-          <li>Reunião de apresentação com material padrão da rede</li>
-          <li>Acordo: 50% da 1ª parcela ou 15% mensal do contrato</li>
-          <li>Mencionar Grupo NTW e Studio Fiscal como referência</li>
-          <li>Gerar valor antes de pedir: falar sobre as dores do segmento</li>
-          <li>Visita periódica para manter a parceria aquecida</li>
+          <li>Bio com proposta de valor + link do diagnóstico</li>
+          <li>Reels de 60–90s focados na dor da persona</li>
+          <li>Stories diários com enquetes qualificadoras</li>
+          <li>CTA em todo conteúdo apontando para a LP</li>
         </ul>
       </div>
 
-      <div class="canal-card reveal" style="transition-delay:.35s">
+      <!-- Google -->
+      <div class="canal-card">
+        <div class="canal-tooltip"><div class="canal-tooltip-title"><span>☁️</span>Dinâmica Inbound</div>O Google Meu Negócio intercepta o lead de alta intenção local. Quando empresários procuram por "consultoria" na sua região, eles veem você e suas avaliações 5 estrelas. Conversão de altíssimo nível.</div>
         <div class="canal-icon-wrap">⭐</div>
-        <div class="canal-name">Google</div>
-        <div class="canal-fase-tag">Fase 0 · presença local em busca</div>
+        <div class="canal-name">Google Local</div>
+        <div class="canal-fase-tag">Fase 0 · Presença em busca ativa</div>
         <ul class="canal-ul">
-          <li>Google Meu Negócio configurado com orientação da franqueadora</li>
-          <li>Solicitar avaliação 5★ a cada cliente atendido (enviar link)</li>
-          <li>Responder todos os comentários — positivos e negativos</li>
-          <li>Fotos profissionais e informações atualizadas mensalmente</li>
-          <li>Categoria: consultoria de gestão empresarial</li>
-          <li>Posts semanais de conteúdo no próprio Google Perfil</li>
+          <li>Perfil otimizado: "Consultoria de Negócios"</li>
+          <li>Avaliações 5★ solicitadas após cada diagnóstico</li>
+          <li>Fotos profissionais e posts de Dicas semanais</li>
+          <li>Tráfego quente: o cliente busca e te encontra</li>
         </ul>
       </div>
-      <div class="canal-card reveal" style="transition-delay:.4s">
+
+      <!-- Site / Tráfego -->
+      <div class="canal-card">
+        <div class="canal-tooltip"><div class="canal-tooltip-title"><span>☁️</span>Dinâmica Inbound</div>A Landing Page com tráfego pago (Meta Ads) é o acelerador do Inbound. Você compra a atenção da persona na sua cidade e envia para uma página ultraconversiva (diagnóstico), gerando volume previsível fora da rede quente.</div>
         <div class="canal-icon-wrap">🌐</div>
-        <div class="canal-name">Site</div>
-        <div class="canal-fase-tag">Fase 2+ · escala com tráfego pago</div>
+        <div class="canal-name">Site + Tráfego</div>
+        <div class="canal-fase-tag">Fase 2+ · Escala programada</div>
         <ul class="canal-ul">
-          <li>Modelo aprovado pela consultoria de sucesso</li>
-          <li>Landing page com diagnóstico como CTA principal</li>
-          <li>Avaliar investimento em tráfego pago após os primeiros 30 dias</li>
-          <li>Acompanhamento semanal: investimento × leads × conversão</li>
-          <li>Pixel do Meta instalado para retargeting</li>
-          <li>SEO local com palavras-chave da cidade + segmento</li>
+          <li>Landing page focada 100% no Diagnóstico T.</li>
+          <li>Campanhas locais no Meta Ads para empresários</li>
+          <li>Retargeting (Pixel) para quem visitou e não marcou</li>
+          <li>Acompanhamento de Custo por Lead (CPL) semanal</li>
         </ul>
       </div>
-      <div class="canal-card reveal" style="transition-delay:.45s">
+
+      <!-- Podcast / YT -->
+      <div class="canal-card">
+        <div class="canal-tooltip"><div class="canal-tooltip-title"><span>☁️</span>Dinâmica Inbound</div>O Podcast converte sua experiência em um ativo de longtail (cauda longa). Entrevistas com empresários locais geram reciprocidade, networking premium e infinitos cortes comerciais para o Instagram e LinkedIn.</div>
         <div class="canal-icon-wrap">🎙️</div>
-        <div class="canal-name">Podcast</div>
-        <div class="canal-fase-tag">Longo prazo · autoridade e alcance</div>
+        <div class="canal-name">Podcast / YouTube</div>
+        <div class="canal-fase-tag">Construção de ecossistema local</div>
         <ul class="canal-ul">
-          <li>Mínimo 10 cortes por episódio com legendas e edição</li>
-          <li>Roteiros e temas definidos por segmento de atuação</li>
-          <li>Kit de participação para convidados estratégicos</li>
-          <li>Cotas de patrocínio definidas via media kit</li>
-          <li>Replicar conteúdo no YouTube e Spotify simultaneamente</li>
-          <li>Usar clipes como conteúdo do Instagram e LinkedIn</li>
+          <li>Convidar empresários alvo para entrevistas de alto valor</li>
+          <li>Transformar 1 hora de papo em 10 cortes (Nuggets)</li>
+          <li>Patrocínios locais cobrem ou superam custo de estúdio</li>
+          <li>Conteúdo longo gera autoridade brutal na cidade</li>
         </ul>
       </div>
-    </div>
-  </div>
 
-  <div class="tab-pane" id="tab-digital">
-    <div class="canal-grid">
-      <div class="canal-card"><div class="canal-icon-wrap">📱</div><div class="canal-name">WhatsApp</div><div class="canal-fase-tag">Relacionamento e follow-up</div><ul class="canal-ul"><li>Follow-up em até 24h para leads do diagnóstico</li><li>Catálogo de serviços com link direto</li><li>Respostas rápidas configuradas</li><li>Grupos segmentados: VIP de mentoria, parceiros, clientes ativos</li></ul></div>
-      <div class="canal-card"><div class="canal-icon-wrap">📸</div><div class="canal-name">Instagram</div><div class="canal-fase-tag">Autoridade e geração orgânica</div><ul class="canal-ul"><li>Vídeos prioritários: reels de 60–90s</li><li>3 publicações/semana no feed + stories diários</li><li>CTA em todo conteúdo para o diagnóstico</li><li>Repostar provas sociais coletadas</li></ul></div>
-      <div class="canal-card"><div class="canal-icon-wrap">💼</div><div class="canal-name">LinkedIn</div><div class="canal-fase-tag">B2B e prospecção ativa</div><ul class="canal-ul"><li>3 publicações/semana com conteúdo B2B</li><li>Prospecção orgânica ativa: busca, conexões e grupos</li><li>Sequência de 10 dias por lead</li><li>Conteúdo B2B 3x/semana para atrair leads inbound</li></ul></div>
-      <div class="canal-card"><div class="canal-icon-wrap">⭐</div><div class="canal-name">Google</div><div class="canal-fase-tag">Presença local</div><ul class="canal-ul"><li>Avaliações 5★ após cada atendimento</li><li>Posts semanais no perfil Google</li><li>Fotos atualizadas mensalmente</li><li>Responder todos os comentários</li></ul></div>
-      <div class="canal-card"><div class="canal-icon-wrap">🌐</div><div class="canal-name">Site + Tráfego</div><div class="canal-fase-tag">Escala</div><ul class="canal-ul"><li>LP com diagnóstico como CTA principal</li><li>Pixel do Meta instalado</li><li>SEO local por cidade e segmento</li><li>Dashboard semanal de leads e ROI</li></ul></div>
-    </div>
-  </div>
+      <!-- Clientes / NPS -->
+      <div class="canal-card">
+        <div class="canal-tooltip"><div class="canal-tooltip-title"><span>☁️</span>Dinâmica Inbound</div>O cliente atual gerando demanda passiva. Ao aplicar NPS alto, eles recomendam naturalmente você e participam dos depoimentos em vídeo. Zero custo de aquisição (CAC), máxima conversão e ticket.</div>
+        <div class="canal-icon-wrap">🔄</div>
+        <div class="canal-name">Clientes (Indicação)</div>
+        <div class="canal-fase-tag">Inbound passivo · Custo Zero</div>
+        <ul class="canal-ul">
+          <li>NPS aplicado constantemente = gatilho de prova social</li>
+          <li>Sessão estratégica com Clientes A gera novas vendas</li>
+          <li>5 perguntas matadoras gravadas após sucessos T3/T5</li>
+          <li>Link de recomendação direta usado pelo cliente</li>
+        </ul>
+      </div>
 
-  <div class="tab-pane" id="tab-presencial">
+    </div>
+
+    <!-- OUTBOUND SECTION -->
+    <div style="display:flex;align-items:baseline;gap:12px;margin-bottom:20px;border-bottom:2px solid rgba(223,95,46,.3);padding-bottom:12px">
+      <h3 style="font-family:'Barlow Condensed',sans-serif;font-weight:800;font-size:32px;text-transform:uppercase;color:var(--laranja);margin:0;line-height:1">Máquina Outbound</h3>
+      <span style="font-family:'Barlow Condensed',sans-serif;font-size:15px;font-weight:500;letter-spacing:1.5px;text-transform:uppercase;color:#fff;">Prospecção hiperfocada · Follow-up implacável · Networking de alto nível</span>
+    </div>
     <div class="canal-grid">
-      <div class="canal-card"><div class="canal-icon-wrap">🤝</div><div class="canal-name">Networking</div><div class="canal-fase-tag">Relacionamento ativo</div><ul class="canal-ul"><li>Lista mapeada de empresários do círculo</li><li>Eventos e palestras com a persona</li><li>Cartão com QR code para o diagnóstico</li><li>Conectar presencial ao LinkedIn no mesmo dia</li></ul></div>
-      <div class="canal-card"><div class="canal-icon-wrap">🏢</div><div class="canal-name">Associações</div><div class="canal-fase-tag">Comunidade empresarial</div><ul class="canal-ul"><li>Inscrição na ACE/CDL/ACIL</li><li>BNI: grupo de indicação estruturado</li><li>Apresentação formal da Tutoreanos</li><li>Link do diagnóstico em toda apresentação</li></ul></div>
       
-    </div>
-  </div>
+      <!-- LinkedIn -->
+      <div class="canal-card">
+        <div class="canal-tooltip"><div class="canal-tooltip-title"><span>☁️</span>Dinâmica Outbound</div>A maior vitrine B2B do mundo usada como um rifle sniper. Aqui você levanta listas exatas (Dono, Sócio, Fundador na cidade X), interage ativamente, constrói rapport e faz o convite direto para o Diagnóstico no 1x1.</div>
+        <div class="canal-icon-wrap">💼</div><div class="canal-name">LinkedIn Ativo</div><div class="canal-fase-tag">Fase 0–2 · Prospecção B2B</div>
+        <ul class="canal-ul">
+          <li>Buscas exatas por Cargo + Cidade + Setor</li>
+          <li>Sequência de toque: Curtir → Comentar → Conectar</li>
+          <li>Abordagem 1x1 com diagnóstico via mensagem VIP</li>
+          <li>Conteúdo B2B focado em dor para reter a atenção</li>
+        </ul>
+      </div>
 
-  <div class="tab-pane" id="tab-indicacao">
-    <div class="canal-grid">
-      <div class="canal-card"><div class="canal-icon-wrap">🔄</div><div class="canal-name">Parceiros</div><div class="canal-fase-tag">Indicação recorrente</div><ul class="canal-ul"><li>Mínimo 4 parceiros com acordo formalizado</li><li>50% da 1ª parcela ou 15% mensal</li><li>Visita periódica para manter aquecido</li><li>Convidar para eventos de rede e mentorias</li></ul></div>
-      <div class="canal-card"><div class="canal-icon-wrap">⭐</div><div class="canal-name">Clientes ativos</div><div class="canal-fase-tag">NPS e indicação</div><ul class="canal-ul"><li>NPS aplicado após 30 dias de contrato</li><li>Mentoria VIP de 60 min para promotores</li><li>5 perguntas matadoras + prova social gravada</li><li>Link do diagnóstico para indicados</li></ul></div>
-      <div class="canal-card"><div class="canal-icon-wrap">🏢</div><div class="canal-name">BNI</div><div class="canal-fase-tag">Grupo de indicação</div><ul class="canal-ul"><li>Apresentação formal com material da rede</li><li>Link do diagnóstico distribuído ao grupo</li><li>Reciprocidade: indicar membros do grupo</li><li>Presença semanal nas reuniões</li></ul></div>
+      <!-- WhatsApp -->
+      <div class="canal-card">
+        <div class="canal-tooltip"><div class="canal-tooltip-title"><span>☁️</span>Dinâmica Outbound</div>Não é apenas para suporte; o WhatsApp é arma ativa. Reaquecimento da base que não converteu, listas de transmissão de valor para parceiros, e o follow-up incansável de quem engajou no Insta mas parou de responder.</div>
+        <div class="canal-icon-wrap">📱</div><div class="canal-name">WhatsApp</div><div class="canal-fase-tag">Fase 0 · Follow-up de ouro</div>
+        <ul class="canal-ul">
+          <li>Fluxo de reativação para leads frios semanais</li>
+          <li>Catálogo business sempre atualizado e disponível</li>
+          <li>Script de resgate para Diagnósticos não concluídos</li>
+          <li>Grupos de aceleração VIP e nutrição 1:1</li>
+        </ul>
+      </div>
+
+      <!-- Parceiros -->
+      <div class="canal-card">
+        <div class="canal-tooltip"><div class="canal-tooltip-title"><span>☁️</span>Dinâmica Outbound</div>A "Bala de Prata". Você prospecta ESCRITÓRIOS (contabilidades, agências) que já possuem os seus clientes. Sela um comissionamento, cria material e bate na carteira dele ativamente, multiplicando acessos.</div>
+        <div class="canal-icon-wrap">🤝</div><div class="canal-name">Parceiros B2B</div><div class="canal-fase-tag">Alavancagem de base alheia</div>
+        <ul class="canal-ul">
+          <li>Caçar ativamente mín. 4 parceiros com sua persona</li>
+          <li>Reunião comercial de alinhamento com comissionamento</li>
+          <li>Material de divulgação entregue pronto ao parceiro</li>
+          <li>Visitas mensais presenciais para manter calor do acordo</li>
+        </ul>
+      </div>
+
+      <!-- Networking -->
+      <div class="canal-card">
+        <div class="canal-tooltip"><div class="canal-tooltip-title"><span>☁️</span>Dinâmica Outbound</div>É você colocando os pés na rua. Controles 100% sob seu domínio. Ir fisicamente a eventos da associação comercial da cidade, abordando e distribuindo o cartão digital que leva direto para seu Diagnóstico.</div>
+        <div class="canal-icon-wrap">🏢</div><div class="canal-name">Ações Locais/Eventos</div><div class="canal-fase-tag">Fase 1–2 · Relacionamento ativo</div>
+        <ul class="canal-ul">
+          <li>Presença cirúrgica em eventos que a persona frequenta</li>
+          <li>Abordagem investigativa: focar em fazer perguntas</li>
+          <li>Conectar online no mesmo dia (WhatsApp + Insta + LinkedIn)</li>
+          <li>Nunca oferecer serviços de cara na roda</li>
+        </ul>
+      </div>
+
+      <!-- Associações e BNI -->
+      <div class="canal-card">
+        <div class="canal-tooltip"><div class="canal-tooltip-title"><span>☁️</span>Dinâmica Outbound</div>Pagamento de pedágio inteligente. Você entra em células como BNI ou LIDE e usa a reunião semanal para fazer pitches focados num gatilho único, pedindo indicação ativa para as dores do seu Método.</div>
+        <div class="canal-icon-wrap">🎯</div><div class="canal-name">Redes de Referência</div><div class="canal-fase-tag">Prospecção Institucional</div>
+        <ul class="canal-ul">
+          <li>Entrada estratégica em BNI, ACE ou LIDE</li>
+          <li>Apresentações com link 1x1 para testar diagnóstico</li>
+          <li>1-to-1 semanais com membros aplicando sua consulta</li>
+          <li>Tornar-se a referência consultiva técnica do círculo</li>
+        </ul>
+      </div>
+
     </div>
   </div>
 </div>
@@ -1196,7 +1204,7 @@ footer{background:var(--cinza-e);padding:56px 80px;display:flex;align-items:cent
       </div>
       <div style="background:var(--cinza-e);padding:20px 16px">
         <div style="font-family:'Barlow Condensed',sans-serif;font-size:11px;font-weight:600;letter-spacing:1.5px;text-transform:uppercase;color:var(--laranja);margin-bottom:8px">Quarta</div>
-        <p style="font-size:12px;font-weight:300;color:rgba(255,255,255,.5);line-height:1.6"><strong style="color:#fff;font-weight:500">IG:</strong> publicar Reel + story com pergunta interativa + abrir DM com os 3 prospects aquecidos há 5+ dias. <strong style="color:#fff;font-weight:500">WA:</strong> follow-up nos leads que preencheram o diagnóstico</p>
+        <p style="font-size:12px;font-weight:300;color:rgba(255,255,255,.5);line-height:1.6"><strong style="color:#fff;font-weight:500">IG:</strong> Continuar interagindo com os leads com follow-ups fora da caixa. <strong style="color:#fff;font-weight:500">Meta:</strong> Tentar sempre levar a conversa para o WhatsApp ou agendar uma chamada de vídeo (Consulta).</p>
       </div>
       <div style="background:var(--cinza-e);padding:20px 16px">
         <div style="font-family:'Barlow Condensed',sans-serif;font-size:11px;font-weight:600;letter-spacing:1.5px;text-transform:uppercase;color:var(--laranja);margin-bottom:8px">Quinta</div>
@@ -1204,7 +1212,7 @@ footer{background:var(--cinza-e);padding:56px 80px;display:flex;align-items:cent
       </div>
       <div style="background:var(--cinza-e);padding:20px 16px">
         <div style="font-family:'Barlow Condensed',sans-serif;font-size:11px;font-weight:600;letter-spacing:1.5px;text-transform:uppercase;color:var(--laranja);margin-bottom:8px">Sexta</div>
-        <p style="font-size:12px;font-weight:300;color:rgba(255,255,255,.5);line-height:1.6"><strong style="color:#fff;font-weight:500">IG:</strong> story de bastidores + checar DMs abertas e dar continuidade. <strong style="color:#fff;font-weight:500">LI:</strong> revisar lista de prospecção + enviar 3 conexões com nota. Planejar conteúdo e prospects da próxima semana</p>
+        <p style="font-size:12px;font-weight:300;color:rgba(255,255,255,.5);line-height:1.6"><strong style="color:#fff;font-weight:500">Conversão:</strong> Compartilhar o link de pré-consulta (Diagnóstico) e tentar agendar a Consulta Tutoreanos com o lead. <strong style="color:#fff;font-weight:500">Feeling:</strong> Usar soft/hard skills para ler se há rapport e dor suficientes antes de fazer a oferta.</p>
       </div>
     </div>
   </div>
@@ -1213,43 +1221,7 @@ footer{background:var(--cinza-e);padding:56px 80px;display:flex;align-items:cent
 
 <div class="divider"></div>
 
-<!-- GERAÇÃO DE LEADS ACCORDION -->
-<div class="sec" id="geracao">
-  <div class="stag reveal">Fase 2</div>
-  <h2 class="stitle reveal">Geração de <span class="acc">leads</span><br>por canal</h2>
-  <div class="acc reveal">
-    <div class="acc-item">
-      <button class="acc-hdr" onclick="ta(this)"><span class="acc-ttl"><span class="acc-badge">Prioridade máxima</span>Diagnóstico de gestão</span><span class="acc-arr">▾</span></button>
-      <div class="acc-body"><div class="acc-content"><div class="acc-2col">
-        <div><div class="acc-col-t">Distribuição</div><ul class="acc-ul"><li>Enviar link para todos da lista mapeada na Fase 1</li><li>Parceiros distribuem para a própria base de clientes</li><li>BNI e eventos: disponível em tempo real na apresentação</li><li>Sequência LinkedIn (dia 9 do protocolo de prospecção)</li><li>Instagram: CTA em todo post e story com swipe up</li></ul></div>
-        <div><div class="acc-col-t">Ações após preenchimento</div><ul class="acc-ul"><li>Respondeu "sim" na última pergunta → Consulta Tutoreanos em até 24h</li><li>Preencheu mas não agendou → WhatsApp follow-up em até 24h</li><li>Foto da reunião nos stories marcando o cliente</li><li>Resultado compartilhado no grupo VIP</li></ul></div>
-      </div></div></div>
-    </div>
-    <div class="acc-item">
-      <button class="acc-hdr" onclick="ta(this)"><span class="acc-ttl"><span class="acc-badge">Importante</span>LinkedIn — prospecção ativa</span><span class="acc-arr">▾</span></button>
-      <div class="acc-body"><div class="acc-content"><div class="acc-2col">
-        <div><div class="acc-col-t">Prospecção orgânica</div><ul class="acc-ul"><li>Sequência de 10 dias: curtir → conectar → mensagem → diagnóstico → Consulta Tutoreanos</li><li>Busca gratuita: cargo, cidade, setor e grupos de empresários</li><li>Comentar em posts antes de conectar — aquecimento obrigatório</li><li>Nunca conectar sem nota personalizada mencionando algo específico</li></ul></div>
-        <div><div class="acc-col-t">Crescimento da rede</div><ul class="acc-ul"><li>Meta: 10 novas conexões qualificadas por semana</li><li>Navegar pelas conexões de parceiros e associações locais</li><li>Grupos de empresários da cidade e do segmento</li><li>Migrar para WhatsApp quando a conversa aquece</li></ul></div>
-      </div></div></div>
-    </div>
-    <div class="acc-item">
-      <button class="acc-hdr" onclick="ta(this)"><span class="acc-ttl"><span class="acc-badge">Importante</span>Instagram — social selling</span><span class="acc-arr">▾</span></button>
-      <div class="acc-body"><div class="acc-content"><div class="acc-2col">
-        <div><div class="acc-col-t">Conteúdo estratégico</div><ul class="acc-ul"><li>Reels 3x/semana com dores da persona</li><li>Stories diários com pergunta interativa (qualifica leads)</li><li>Quem responde à pergunta → abordar por DM com contexto</li><li>CTA em todo post: link do diagnóstico na bio</li></ul></div>
-        <div><div class="acc-col-t">Prospecção ativa</div><ul class="acc-ul"><li>Quem curtiu/comentou → verificar perfil → DM se for persona</li><li>Mensagem referenciando o post específico — nunca genérica</li><li>Seguir e comentar em perfis de empreendedores da região</li><li>Collab com parceiros para alcance cruzado</li></ul></div>
-      </div></div></div>
-    </div>
-    <div class="acc-item">
-      <button class="acc-hdr" onclick="ta(this)"><span class="acc-ttl"><span class="acc-badge">Importante</span>Parceiros estratégicos</span><span class="acc-arr">▾</span></button>
-      <div class="acc-body"><div class="acc-content"><div class="acc-2col">
-        <div><div class="acc-col-t">Construção da parceria</div><ul class="acc-ul"><li>Gerar valor primeiro: falar sobre as dores do segmento do parceiro</li><li>Visitar periodicamente — não deixar esfriar</li><li>Negociar reuniões com clientes no espaço do parceiro</li><li>Enviar clientes para o parceiro: reciprocidade cria lealdade</li></ul></div>
-        <div><div class="acc-col-t">Modelo comercial</div><ul class="acc-ul"><li>50% da 1ª parcela por indicação convertida</li><li>Ou 15% do contrato mensalmente enquanto durar</li><li>Mencionar Grupo NTW e Studio Fiscal como rede de suporte</li><li>Convidar para eventos de mentoria e networking da rede</li></ul></div>
-      </div></div></div>
-    </div>
-  </div>
-</div>
 
-<div class="divider"></div>
 
 <!-- FUNIL COMERCIAL -->
 <div class="sec-full" id="funil" style="background:var(--preto)">
@@ -1282,339 +1254,284 @@ footer{background:var(--cinza-e);padding:56px 80px;display:flex;align-items:cent
     </div>
   </div>
 
-  <!-- FUNIL ILUSTRADO -->
+  <!-- FUNIL ILUSTRADO — PREMIUM -->
   <div class="reveal">
   <style>
-  .funil-stage{display:grid;align-items:stretch;margin-bottom:3px;position:relative}
-  .funil-stage::after{content:'';position:absolute;bottom:-18px;left:50%;transform:translateX(-50%);width:0;height:0;border-style:solid;z-index:3}
-  .funil-stage:last-child::after{display:none}
-  .fs-left{padding:28px 24px;display:flex;flex-direction:column;justify-content:center}
-  .fs-center{display:flex;flex-direction:column;justify-content:center;align-items:center;text-align:center;padding:28px 20px;position:relative}
-  .fs-right{padding:28px 24px;display:flex;flex-direction:column;justify-content:center}
-  .fs-tag{font-family:'Barlow Condensed',sans-serif;font-size:10px;font-weight:600;letter-spacing:2px;text-transform:uppercase;color:var(--laranja);margin-bottom:6px}
-  .fs-title{font-family:'Barlow Condensed',sans-serif;font-weight:800;font-size:28px;text-transform:uppercase;letter-spacing:-0.5px;line-height:1;margin-bottom:6px}
-  .fs-sub{font-size:12px;font-weight:300;color:rgba(255,255,255,.45);line-height:1.5}
-  .fs-num{font-family:'Barlow Condensed',sans-serif;font-weight:800;font-size:64px;color:var(--laranja);line-height:1;opacity:.15;position:absolute;bottom:8px;right:12px}
-  .fs-kpi{background:rgba(223,95,46,.08);border:1px solid rgba(223,95,46,.2);padding:8px 14px;margin-bottom:8px;display:inline-block}
-  .fs-kpi-l{font-family:'Barlow Condensed',sans-serif;font-size:9px;font-weight:600;letter-spacing:1.5px;text-transform:uppercase;color:rgba(255,255,255,.35)}
-  .fs-kpi-v{font-family:'Barlow Condensed',sans-serif;font-size:20px;font-weight:800;color:var(--laranja)}
-  .fs-ul{list-style:none;display:flex;flex-direction:column;gap:7px}
-  .fs-ul li{font-size:12px;font-weight:300;color:rgba(255,255,255,.55);line-height:1.5;padding-left:14px;position:relative}
-  .fs-ul li::before{content:'—';position:absolute;left:0;color:rgba(223,95,46,.4);font-size:10px}
-  .fs-badge{font-family:'Barlow Condensed',sans-serif;font-size:9px;font-weight:600;letter-spacing:1.5px;text-transform:uppercase;padding:3px 10px;border-radius:2px;display:inline-block;margin-bottom:10px}
+  /* ─── FUNIL PREMIUM ─── */
+  .fnl-wrap{position:relative;padding:0 0 20px;}
+  .fnl-spine{position:absolute;left:50%;top:0;bottom:0;width:2px;background:linear-gradient(to bottom,var(--laranja),rgba(223,95,46,.05));transform:translateX(-50%);z-index:0;}
+  .fnl-stage{display:grid;grid-template-columns:1fr auto 1fr;gap:0;position:relative;margin-bottom:3px;}
+  .fnl-stage:last-child .fnl-center::after{display:none}
+  /* Center column */
+  .fnl-center{width:300px;display:flex;flex-direction:column;align-items:center;z-index:2;position:relative;padding:32px 16px;}
+  .fnl-center::after{content:'';position:absolute;bottom:-3px;left:50%;transform:translateX(-50%);width:0;height:0;border-left:18px solid transparent;border-right:18px solid transparent;z-index:5;}
+  .fnl-num{width:56px;height:56px;border-radius:50%;display:flex;align-items:center;justify-content:center;font-family:'Barlow Condensed',sans-serif;font-weight:800;font-size:22px;margin-bottom:14px;position:relative;flex-shrink:0;}
+  .fnl-num-ring{position:absolute;inset:-4px;border-radius:50%;border:1px solid rgba(223,95,46,.3);animation:ripple 3s infinite ease-out;}
+  @keyframes ripple{0%{transform:scale(1);opacity:.4}70%{transform:scale(1.3);opacity:0}100%{opacity:0}}
+  .fnl-etapa-lbl{font-family:'Barlow Condensed',sans-serif;font-size:9px;font-weight:600;letter-spacing:2.5px;text-transform:uppercase;color:rgba(255,255,255,.3);margin-bottom:4px;}
+  .fnl-name{font-family:'Barlow Condensed',sans-serif;font-weight:800;font-size:24px;text-transform:uppercase;letter-spacing:-.5px;text-align:center;line-height:1;margin-bottom:10px;}
+  .fnl-sub{font-size:11px;font-weight:300;color:rgba(255,255,255,.4);line-height:1.55;text-align:center;margin-bottom:12px;}
+  .fnl-kpi-pill{background:rgba(223,95,46,.1);border:1px solid rgba(223,95,46,.25);padding:6px 14px;text-align:center;}
+  .fnl-kpi-l{font-family:'Barlow Condensed',sans-serif;font-size:8px;font-weight:600;letter-spacing:2px;text-transform:uppercase;color:rgba(255,255,255,.3);}
+  .fnl-kpi-v{font-family:'Barlow Condensed',sans-serif;font-size:18px;font-weight:800;color:var(--laranja);line-height:1.1;}
+  /* Side panels */
+  .fnl-card{padding:28px 30px;display:flex;flex-direction:column;justify-content:center;}
+  .fnl-card-tag{font-family:'Barlow Condensed',sans-serif;font-size:9px;font-weight:600;letter-spacing:2px;text-transform:uppercase;color:var(--laranja);margin-bottom:12px;display:flex;align-items:center;gap:8px;}
+  .fnl-card-tag::before{content:'';display:inline-block;width:14px;height:1px;background:var(--laranja);}
+  .fnl-ul{list-style:none;display:flex;flex-direction:column;gap:8px;margin-bottom:14px;padding-left:0;margin-left:0;}
+  .fnl-ul li{list-style:none;font-size:12px;font-weight:300;color:rgba(255,255,255,.55);line-height:1.55;padding-left:16px;position:relative;}
+  .fnl-ul li::before{content:'▸';position:absolute;left:0;color:rgba(223,95,46,.5);font-size:9px;top:1px;}
+  .fnl-trigger{padding:12px 14px;background:rgba(223,95,46,.05);border-left:3px solid var(--laranja);margin-top:10px;}
+  .fnl-trigger-l{font-family:'Barlow Condensed',sans-serif;font-size:9px;font-weight:600;letter-spacing:2px;text-transform:uppercase;color:var(--laranja);margin-bottom:4px;}
+  .fnl-trigger p{font-size:11px;font-weight:300;color:rgba(255,255,255,.5);line-height:1.5;}
+  .fnl-err{padding:12px 14px;background:rgba(0,0,0,.25);border-left:3px solid rgba(223,95,46,.4);margin-top:10px;}
+  .fnl-err-l{font-family:'Barlow Condensed',sans-serif;font-size:9px;font-weight:600;letter-spacing:2px;text-transform:uppercase;color:rgba(223,95,46,.7);margin-bottom:4px;}
+  .fnl-err p{font-size:11px;font-weight:300;color:rgba(255,255,255,.4);line-height:1.5;}
+  .fnl-script{background:var(--preto);padding:16px;margin-bottom:10px;border-top:2px solid rgba(223,95,46,.2);}
+  .fnl-script-lbl{font-family:'Barlow Condensed',sans-serif;font-size:9px;font-weight:600;letter-spacing:1.5px;text-transform:uppercase;color:var(--laranja);margin-bottom:6px;}
+  .fnl-row{display:flex;gap:0;flex-direction:column;gap:2px;margin-bottom:6px;}
+  .fnl-row-item{display:flex;gap:12px;background:var(--preto);padding:10px 14px;align-items:baseline;}
+  .fnl-row-time{font-family:'Barlow Condensed',sans-serif;font-size:12px;font-weight:700;color:var(--laranja);width:44px;flex-shrink:0;}
+  .fnl-row-txt{font-size:12px;font-weight:300;color:rgba(255,255,255,.6);}
+  .fnl-bant{display:flex;flex-direction:column;gap:2px;margin-bottom:12px;}
+  .fnl-bant-row{display:flex;gap:12px;align-items:center;background:var(--preto);padding:10px 14px;}
+  .fnl-bant-letter{font-family:'Barlow Condensed',sans-serif;font-size:20px;font-weight:800;color:var(--laranja);width:22px;flex-shrink:0;}
+  .fnl-bant-txt{font-size:12px;font-weight:300;color:rgba(255,255,255,.55);}
+  .fnl-chain{display:flex;flex-direction:column;gap:6px;}
+  .fnl-chain-row{display:flex;gap:12px;align-items:center;}
+  .fnl-chain-prod{font-family:'Barlow Condensed',sans-serif;font-size:14px;font-weight:800;color:var(--laranja);width:66px;flex-shrink:0;}
+  .fnl-chain-line{flex:1;height:1px;background:rgba(223,95,46,.18);}
+  .fnl-chain-next{font-size:11px;font-weight:300;color:rgba(255,255,255,.4);}
+  .fnl-objection{display:flex;flex-direction:column;gap:3px;}
+  .fnl-obj-item{background:var(--preto);padding:10px 14px;}
+  .fnl-obj-title{font-family:'Barlow Condensed',sans-serif;font-size:11px;font-weight:700;color:#fff;margin-bottom:2px;}
+  .fnl-obj-txt{font-size:11px;font-weight:300;color:rgba(255,255,255,.45);line-height:1.4;}
+  .fnl-post-close{display:flex;flex-direction:column;gap:4px;}
+  .fnl-pc-item{display:flex;gap:10px;align-items:flex-start;padding:8px 14px;background:var(--preto);}
+  .fnl-pc-n{font-family:'Barlow Condensed',sans-serif;font-size:10px;font-weight:700;color:var(--laranja);width:18px;flex-shrink:0;margin-top:1px;}
+  .fnl-pc-txt{font-size:12px;font-weight:300;color:rgba(255,255,255,.55);}
+  /* Stage color themes */
+  .fnl-s1{background:var(--cinza-e);} .fnl-s1 .fnl-center{background:var(--preto);}
+  .fnl-s2{background:var(--cinza-m);} .fnl-s2 .fnl-center{background:rgba(0,0,0,.3);}
+  .fnl-s3{background:var(--cinza-e);} .fnl-s3 .fnl-center{background:var(--preto);}
+  .fnl-s4{background:var(--cinza-m);} .fnl-s4 .fnl-center{background:rgba(223,95,46,.08);border-left:1px solid rgba(223,95,46,.2);border-right:1px solid rgba(223,95,46,.2);}
+  .fnl-s5{background:var(--cinza-e);} .fnl-s5 .fnl-center{background:var(--preto);}
+  .fnl-s6{background:rgba(223,95,46,.05);border:1px solid rgba(223,95,46,.18);border-top:4px solid var(--laranja) !important;}
+    .fnl-s6 .fnl-center{background:transparent;}
+  /* Arrow connectors per stage */
+  .fnl-s1 .fnl-center::after{border-top-color:var(--preto)}
+  .fnl-s2 .fnl-center::after{border-top-color:rgba(0,0,0,.3)}
+  .fnl-s3 .fnl-center::after{border-top-color:var(--preto)}
+  .fnl-s4 .fnl-center::after{border-top-color:rgba(223,95,46,.08)}
+  .fnl-s5 .fnl-center::after{border-top-color:var(--preto)}
   </style>
 
-  <!-- ETAPA 1: TOPO — ATRAÇÃO -->
-  <div class="funil-stage" style="grid-template-columns:1fr 340px 1fr;background:var(--cinza-e);border-top:3px solid var(--laranja)">
-    <div class="fs-left">
-      <div class="fs-tag">Canais de aquisição</div>
-      <div style="display:flex;flex-direction:column;gap:8px">
-        <div style="background:var(--preto);padding:10px 14px;display:flex;align-items:center;gap:10px">
-          <span style="font-size:16px">📸</span>
-          <div>
-            <div style="font-family:'Barlow Condensed',sans-serif;font-size:12px;font-weight:700;text-transform:uppercase;color:var(--laranja)">Instagram</div>
-            <div style="font-size:11px;font-weight:300;color:rgba(255,255,255,.4)">Motor principal · aquecimento por interação</div>
-          </div>
-        </div>
-        <div style="background:var(--preto);padding:10px 14px;display:flex;align-items:center;gap:10px">
-          <span style="font-size:16px">💼</span>
-          <div>
-            <div style="font-family:'Barlow Condensed',sans-serif;font-size:12px;font-weight:700;text-transform:uppercase;color:var(--laranja)">LinkedIn</div>
-            <div style="font-size:11px;font-weight:300;color:rgba(255,255,255,.4)">Prospecção B2B · sequência de 10 dias</div>
-          </div>
-        </div>
-        <div style="background:var(--preto);padding:10px 14px;display:flex;align-items:center;gap:10px">
-          <span style="font-size:16px">🤝</span>
-          <div>
-            <div style="font-family:'Barlow Condensed',sans-serif;font-size:12px;font-weight:700;text-transform:uppercase;color:var(--laranja)">Networking + Parceiros</div>
-            <div style="font-size:11px;font-weight:300;color:rgba(255,255,255,.4)">Indicação e presença em eventos</div>
-          </div>
-        </div>
-        <div style="background:var(--preto);padding:10px 14px;display:flex;align-items:center;gap:10px">
-          <span style="font-size:16px">⭐</span>
-          <div>
-            <div style="font-family:'Barlow Condensed',sans-serif;font-size:12px;font-weight:700;text-transform:uppercase;color:var(--laranja)">Google + Site</div>
-            <div style="font-size:11px;font-weight:300;color:rgba(255,255,255,.4)">Presença local · inbound passivo</div>
-          </div>
-        </div>
-      </div>
-    </div>
-    <div class="fs-center" style="background:var(--preto);border-left:1px solid rgba(255,255,255,.06);border-right:1px solid rgba(255,255,255,.06)">
-      <div class="fs-tag">Etapa 1 · Topo</div>
-      <div class="fs-title">Atração</div>
-      <div class="fs-sub" style="margin-bottom:16px">O lead descobre que você existe e começa a te acompanhar. Ainda não é lead — é uma audiência potencial.</div>
-      <div class="fs-kpi"><div class="fs-kpi-l">Volume necessário</div><div class="fs-kpi-v">100+ contatos</div></div>
-      <div class="fs-num">01</div>
-    </div>
-    <div class="fs-right">
-      <div class="fs-tag">O que fazer nessa etapa</div>
-      <ul class="fs-ul">
-        <li>Publicar conteúdo consistente que fala diretamente com a dor do empresário</li>
-        <li>Interagir proativamente: responder stories, comentar posts, seguir prospects</li>
-        <li>Aparecer onde a persona está: eventos, grupos, associações, BNI</li>
-        <li>Construir presença digital que valida sua autoridade antes do primeiro contato</li>
-        <li>Nunca abordar frio — primeiro gerar familiaridade, depois conexão</li>
-      </ul>
-      <div style="margin-top:14px;padding:12px 14px;background:rgba(223,95,46,.06);border-left:3px solid var(--laranja)">
-        <div style="font-family:'Barlow Condensed',sans-serif;font-size:9px;font-weight:600;letter-spacing:2px;text-transform:uppercase;color:var(--laranja);margin-bottom:4px">Gatilho de avanço</div>
-        <p style="font-size:12px;font-weight:300;color:rgba(255,255,255,.55);line-height:1.5">Lead interage com seu conteúdo ou aceita uma conexão → avança para prospecção ativa</p>
-      </div>
-    </div>
-    <div style="position:absolute;bottom:-18px;left:50%;transform:translateX(-50%);width:0;height:0;border-left:28px solid transparent;border-right:28px solid transparent;border-top:18px solid var(--cinza-e);z-index:3;pointer-events:none"></div>
-  </div>
+  <div class="fnl-wrap">
+    <div class="fnl-spine"></div>
 
-  <!-- ETAPA 2: CONEXÃO -->
-  <div class="funil-stage" style="grid-template-columns:1fr 340px 1fr;background:var(--cinza-m);margin-left:40px;margin-right:40px;border-top:3px solid rgba(223,95,46,.7)">
-    <div class="fs-left">
-      <div class="fs-tag">Como criar conexão real</div>
-      <ul class="fs-ul" style="margin-bottom:12px">
-        <li>Responder o story do lead com comentário genuíno sobre o negócio dele</li>
-        <li>Comentar posts com opinião real — nunca "ótimo conteúdo!"</li>
-        <li>Curtir 3 a 5 posts seguidos em dias diferentes — ele verá seu nome repetido</li>
-        <li>Enviar DM referenciando algo específico do negócio ou do conteúdo dele</li>
-        <li>No LinkedIn: nota personalizada ao conectar + 1ª mensagem com valor</li>
-      </ul>
-      <div style="padding:12px 14px;background:rgba(0,0,0,.2);border-left:3px solid rgba(223,95,46,.5)">
-        <div style="font-family:'Barlow Condensed',sans-serif;font-size:9px;font-weight:600;letter-spacing:2px;text-transform:uppercase;color:rgba(223,95,46,.7);margin-bottom:4px">Erro mais comum</div>
-        <p style="font-size:12px;font-weight:300;color:rgba(255,255,255,.45);line-height:1.5">Pular essa etapa e ir direto para o pitch. A conexão mal construída destrói toda a sequência seguinte.</p>
+    <!-- ══ ETAPA 1: ATRAÇÃO ══ -->
+    <div class="fnl-stage fnl-s1" style="border-top:3px solid var(--laranja)">
+      <div class="fnl-card" style="background:var(--cinza-e)">
+        <div class="fnl-card-tag">Canais de aquisição</div>
+        <div style="display:flex;flex-direction:column;gap:6px">
+          <div style="background:var(--preto);padding:10px 14px;display:flex;align-items:center;gap:10px"><span style="font-size:15px">📸</span><div><div style="font-family:'Barlow Condensed',sans-serif;font-size:11px;font-weight:700;text-transform:uppercase;color:var(--laranja)">Instagram</div><div style="font-size:10px;font-weight:300;color:rgba(255,255,255,.4)">Motor principal · aquecimento por interação</div></div></div>
+          <div style="background:var(--preto);padding:10px 14px;display:flex;align-items:center;gap:10px"><span style="font-size:15px">💼</span><div><div style="font-family:'Barlow Condensed',sans-serif;font-size:11px;font-weight:700;text-transform:uppercase;color:var(--laranja)">LinkedIn</div><div style="font-size:10px;font-weight:300;color:rgba(255,255,255,.4)">Prospecção B2B · sequência de 10 dias</div></div></div>
+          <div style="background:var(--preto);padding:10px 14px;display:flex;align-items:center;gap:10px"><span style="font-size:15px">🤝</span><div><div style="font-family:'Barlow Condensed',sans-serif;font-size:11px;font-weight:700;text-transform:uppercase;color:var(--laranja)">Networking + Parceiros</div><div style="font-size:10px;font-weight:300;color:rgba(255,255,255,.4)">Indicação e presença em eventos</div></div></div>
+          <div style="background:var(--preto);padding:10px 14px;display:flex;align-items:center;gap:10px"><span style="font-size:15px">⭐</span><div><div style="font-family:'Barlow Condensed',sans-serif;font-size:11px;font-weight:700;text-transform:uppercase;color:var(--laranja)">Google + Site</div><div style="font-size:10px;font-weight:300;color:rgba(255,255,255,.4)">Presença local · inbound passivo</div></div></div>
+        </div>
+      </div>
+      <div class="fnl-center">
+        <div class="fnl-num" style="background:var(--laranja);color:#fff"><div class="fnl-num-ring"></div>01</div>
+        <div class="fnl-etapa-lbl">Etapa 1 · Topo</div>
+        <div class="fnl-name">Atração</div>
+        <div class="fnl-sub">O lead descobre que você existe e começa a te acompanhar. Ainda não é lead — é audiência potencial.</div>
+        <div class="fnl-kpi-pill"><div class="fnl-kpi-l">Volume necessário</div><div class="fnl-kpi-v">100+ contatos</div></div>
+      </div>
+      <div class="fnl-card" style="background:var(--cinza-e)">
+        <div class="fnl-card-tag">O que fazer nessa etapa</div>
+        <ul class="fnl-ul">
+          <li>Publicar conteúdo consistente que fala diretamente com a dor do empresário</li>
+          <li>Interagir proativamente: responder stories, comentar posts, seguir prospects</li>
+          <li>Aparecer onde a persona está: eventos, grupos, associações, BNI</li>
+          <li>Construir presença digital que valida sua autoridade antes do primeiro contato</li>
+          <li>Nunca abordar frio — primeiro gerar familiaridade, depois conexão</li>
+        </ul>
+        <div class="fnl-trigger"><div class="fnl-trigger-l">Gatilho de avanço</div><p>Lead interage com seu conteúdo ou aceita uma conexão → avança para prospecção ativa</p></div>
       </div>
     </div>
-    <div class="fs-center" style="background:rgba(0,0,0,.2);border-left:1px solid rgba(255,255,255,.05);border-right:1px solid rgba(255,255,255,.05)">
-      <div class="fs-tag">Etapa 2 · Meio</div>
-      <div class="fs-title">Conexão</div>
-      <div class="fs-sub" style="margin-bottom:16px">O lead passa a te conhecer. Você existe no radar dele. A confiança começa a ser construída antes de qualquer oferta.</div>
-      <div class="fs-kpi"><div class="fs-kpi-l">Meta semanal</div><div class="fs-kpi-v">5 novos aquecidos</div></div>
-      <div class="fs-num">02</div>
-    </div>
-    <div class="fs-right">
-      <div class="fs-tag">Script de abertura de DM · Instagram</div>
-      <div style="background:var(--preto);padding:16px;margin-bottom:10px">
-        <div style="font-family:'Barlow Condensed',sans-serif;font-size:9px;font-weight:600;letter-spacing:1.5px;text-transform:uppercase;color:var(--laranja);margin-bottom:6px">Após 5 dias de interação</div>
-        <p style="font-size:12px;font-weight:300;color:rgba(255,255,255,.6);line-height:1.65;font-style:italic">"[Nome], venho acompanhando seu conteúdo e me identifiquei com o que você compartilha sobre [tema]. Trabalho ajudando empresários do [setor] a organizarem a gestão e crescerem com mais controle — tenho um diagnóstico gratuito que mapeia os principais gargalos de negócios como o seu. Posso te enviar?"</p>
-      </div>
-      <div style="padding:12px 14px;background:rgba(223,95,46,.06);border-left:3px solid var(--laranja)">
-        <div style="font-family:'Barlow Condensed',sans-serif;font-size:9px;font-weight:600;letter-spacing:2px;text-transform:uppercase;color:var(--laranja);margin-bottom:4px">Gatilho de avanço</div>
-        <p style="font-size:12px;font-weight:300;color:rgba(255,255,255,.55);line-height:1.5">Lead responde positivamente à DM → enviar link do diagnóstico de gestão</p>
-      </div>
-    </div>
-    <div style="position:absolute;bottom:-18px;left:50%;transform:translateX(-50%);width:0;height:0;border-left:28px solid transparent;border-right:28px solid transparent;border-top:18px solid var(--cinza-m);z-index:3;pointer-events:none"></div>
-  </div>
 
-  <!-- ETAPA 3: QUALIFICAÇÃO -->
-  <div class="funil-stage" style="grid-template-columns:1fr 340px 1fr;background:var(--cinza-e);margin-left:80px;margin-right:80px;border-top:3px solid rgba(223,95,46,.6)">
-    <div class="fs-left">
-      <div class="fs-tag">O diagnóstico de gestão</div>
-      <p style="font-size:13px;font-weight:300;color:rgba(255,255,255,.55);line-height:1.7;margin-bottom:14px">O diagnóstico não é apenas uma ferramenta de captação — é o primeiro momento em que o lead se vê no espelho. Quando o empresário preenche o diagnóstico, ele explicita as próprias dores. Isso cria urgência interna antes da sua reunião.</p>
-      <ul class="fs-ul">
-        <li>Enviar o link após a primeira resposta positiva na DM</li>
-        <li>Follow-up em até 24h após o preenchimento — nunca deixar esfriar</li>
-        <li>Quem responde "sim" na última pergunta é lead quente: contato imediato</li>
-        <li>Quem preencheu mas não agendou: WhatsApp com insight do diagnóstico</li>
-      </ul>
-    </div>
-    <div class="fs-center" style="background:var(--preto);border-left:1px solid rgba(255,255,255,.06);border-right:1px solid rgba(255,255,255,.06)">
-      <div class="fs-tag">Etapa 3 · Qualificação</div>
-      <div class="fs-title">Diagnóstico</div>
-      <div class="fs-sub" style="margin-bottom:16px">O lead preenche o diagnóstico de gestão. Você qualifica. Ele se auto-qualifica. A urgência começa a ser criada pelo próprio lead.</div>
-      <div class="fs-kpi"><div class="fs-kpi-l">Taxa de avanço</div><div class="fs-kpi-v">~30% viram consulta</div></div>
-      <div class="fs-num">03</div>
-    </div>
-    <div class="fs-right">
-      <div class="fs-tag">Critérios de qualificação BANT</div>
-      <div style="display:flex;flex-direction:column;gap:6px;margin-bottom:12px">
-        <div style="display:flex;gap:10px;align-items:center;background:var(--preto);padding:10px 14px">
-          <span style="font-family:'Barlow Condensed',sans-serif;font-size:18px;font-weight:800;color:var(--laranja);width:20px;flex-shrink:0">B</span>
-          <span style="font-size:12px;font-weight:300;color:rgba(255,255,255,.55)">Tem orçamento para investir em consultoria?</span>
-        </div>
-        <div style="display:flex;gap:10px;align-items:center;background:var(--preto);padding:10px 14px">
-          <span style="font-family:'Barlow Condensed',sans-serif;font-size:18px;font-weight:800;color:var(--laranja);width:20px;flex-shrink:0">A</span>
-          <span style="font-size:12px;font-weight:300;color:rgba(255,255,255,.55)">É o decisor? (dono, sócio, diretor)</span>
-        </div>
-        <div style="display:flex;gap:10px;align-items:center;background:var(--preto);padding:10px 14px">
-          <span style="font-family:'Barlow Condensed',sans-serif;font-size:18px;font-weight:800;color:var(--laranja);width:20px;flex-shrink:0">N</span>
-          <span style="font-size:12px;font-weight:300;color:rgba(255,255,255,.55)">A dor é real e urgente?</span>
-        </div>
-        <div style="display:flex;gap:10px;align-items:center;background:var(--preto);padding:10px 14px">
-          <span style="font-family:'Barlow Condensed',sans-serif;font-size:18px;font-weight:800;color:var(--laranja);width:20px;flex-shrink:0">T</span>
-          <span style="font-size:12px;font-weight:300;color:rgba(255,255,255,.55)">Quando precisa resolver?</span>
-        </div>
+    <!-- ══ ETAPA 2: CONEXÃO ══ -->
+    <div class="fnl-stage fnl-s2" style="border-top:3px solid rgba(223,95,46,.7)">
+      <div class="fnl-card" style="background:var(--cinza-m)">
+        <div class="fnl-card-tag">Como criar conexão real</div>
+        <ul class="fnl-ul" style="margin-bottom:12px">
+          <li>Responder o story do lead com comentário genuíno sobre o negócio dele</li>
+          <li>Comentar posts com opinião real — nunca "ótimo conteúdo!"</li>
+          <li>Curtir 3 a 5 posts seguidos em dias diferentes — ele verá seu nome repetido</li>
+          <li>Enviar DM referenciando algo específico do negócio ou do conteúdo dele</li>
+          <li>No LinkedIn: nota personalizada ao conectar + 1ª mensagem com valor</li>
+        </ul>
+        <div class="fnl-err"><div class="fnl-err-l">Erro mais comum</div><p>Pular essa etapa e ir direto para o pitch. A conexão mal construída destrói toda a sequência seguinte.</p></div>
       </div>
-      <div style="padding:12px 14px;background:rgba(223,95,46,.06);border-left:3px solid var(--laranja)">
-        <div style="font-family:'Barlow Condensed',sans-serif;font-size:9px;font-weight:600;letter-spacing:2px;text-transform:uppercase;color:var(--laranja);margin-bottom:4px">Gatilho de avanço</div>
-        <p style="font-size:12px;font-weight:300;color:rgba(255,255,255,.55);line-height:1.5">BANT positivo → agendar a Consulta Tutoreanos</p>
+      <div class="fnl-center">
+        <div class="fnl-num" style="background:rgba(223,95,46,.15);color:var(--laranja);border:2px solid rgba(223,95,46,.4)"><div class="fnl-num-ring"></div>02</div>
+        <div class="fnl-etapa-lbl">Etapa 2 · Meio</div>
+        <div class="fnl-name">Conexão</div>
+        <div class="fnl-sub">O lead passa a te conhecer. Você existe no radar dele. A confiança começa antes de qualquer oferta.</div>
+        <div class="fnl-kpi-pill"><div class="fnl-kpi-l">Meta semanal</div><div class="fnl-kpi-v">5 novos aquecidos</div></div>
+      </div>
+      <div class="fnl-card" style="background:var(--cinza-m)">
+        <div class="fnl-card-tag">Script de abertura de DM · Instagram</div>
+        <div class="fnl-script">
+          <div class="fnl-script-lbl">Após 5 dias de interação</div>
+          <p style="font-size:12px;font-weight:300;color:rgba(255,255,255,.6);line-height:1.65;font-style:italic">"[Nome], venho acompanhando seu conteúdo e me identifiquei com o que você compartilha sobre [tema]. Trabalho ajudando empresários do [setor] a organizarem a gestão e crescerem com mais controle — tenho um diagnóstico gratuito que mapeia os principais gargalos de negócios como o seu. Posso te enviar?"</p>
+        </div>
+        <div class="fnl-trigger"><div class="fnl-trigger-l">Gatilho de avanço</div><p>Lead responde positivamente à DM → enviar link do diagnóstico de gestão</p></div>
       </div>
     </div>
-    <div style="position:absolute;bottom:-18px;left:50%;transform:translateX(-50%);width:0;height:0;border-left:28px solid transparent;border-right:28px solid transparent;border-top:18px solid var(--cinza-e);z-index:3;pointer-events:none"></div>
-  </div>
 
-  <!-- ETAPA 4: REUNIÃO DE VENDAS -->
-  <div class="funil-stage" style="grid-template-columns:1fr 340px 1fr;background:var(--cinza-m);margin-left:120px;margin-right:120px;border-top:3px solid rgba(223,95,46,.8)">
-    <div class="fs-left">
-      <div class="fs-tag">Estrutura da Consulta Tutoreanos</div>
-      <div style="display:flex;flex-direction:column;gap:3px">
-        <div style="display:flex;gap:12px;background:var(--preto);padding:10px 14px;align-items:baseline">
-          <span style="font-family:'Barlow Condensed',sans-serif;font-size:13px;font-weight:700;color:var(--laranja);width:40px;flex-shrink:0">0–5</span>
-          <span style="font-size:12px;font-weight:300;color:rgba(255,255,255,.6)"><strong style="font-weight:500;color:#fff">Rapport</strong> — contexto do segmento, mostrar que você entende o mercado dele</span>
+    <!-- ══ ETAPA 3: DIAGNÓSTICO ══ -->
+    <div class="fnl-stage fnl-s3" style="border-top:3px solid rgba(223,95,46,.6)">
+      <div class="fnl-card" style="background:var(--cinza-e)">
+        <div class="fnl-card-tag">O diagnóstico de gestão</div>
+        <p style="font-size:12px;font-weight:300;color:rgba(255,255,255,.55);line-height:1.7;margin-bottom:14px">O diagnóstico não é apenas uma ferramenta de captação — é o primeiro momento em que o lead se vê no espelho. Quando o empresário preenche o diagnóstico, ele explicita as próprias dores. Isso cria urgência interna antes da sua reunião.</p>
+        <ul class="fnl-ul">
+          <li>Enviar o link após a primeira resposta positiva na DM</li>
+          <li>Follow-up em até 24h após o preenchimento — nunca deixar esfriar</li>
+          <li>Quem responde "sim" na última pergunta é lead quente: contato imediato</li>
+          <li>Quem preencheu mas não agendou: WhatsApp com insight do diagnóstico</li>
+        </ul>
+      </div>
+      <div class="fnl-center">
+        <div class="fnl-num" style="background:rgba(223,95,46,.1);color:var(--laranja);border:2px solid rgba(223,95,46,.35)"><div class="fnl-num-ring"></div>03</div>
+        <div class="fnl-etapa-lbl">Etapa 3 · Qualificação</div>
+        <div class="fnl-name">Diagnóstico</div>
+        <div class="fnl-sub">O lead preenche o diagnóstico. Você qualifica. Ele se auto-qualifica. A urgência começa a ser criada pelo próprio lead.</div>
+        <div class="fnl-kpi-pill"><div class="fnl-kpi-l">Taxa de avanço</div><div class="fnl-kpi-v">~30% viram consulta</div></div>
+      </div>
+      <div class="fnl-card" style="background:var(--cinza-e)">
+        <div class="fnl-card-tag">Critérios de qualificação BANT</div>
+        <div class="fnl-bant">
+          <div class="fnl-bant-row"><div class="fnl-bant-letter">B</div><div class="fnl-bant-txt">Tem orçamento para investir em consultoria?</div></div>
+          <div class="fnl-bant-row"><div class="fnl-bant-letter">A</div><div class="fnl-bant-txt">É o decisor? (dono, sócio, diretor)</div></div>
+          <div class="fnl-bant-row"><div class="fnl-bant-letter">N</div><div class="fnl-bant-txt">A dor é real e urgente?</div></div>
+          <div class="fnl-bant-row"><div class="fnl-bant-letter">T</div><div class="fnl-bant-txt">Quando precisa resolver?</div></div>
         </div>
-        <div style="display:flex;gap:12px;background:var(--preto);padding:10px 14px;align-items:baseline">
-          <span style="font-family:'Barlow Condensed',sans-serif;font-size:13px;font-weight:700;color:var(--laranja);width:40px;flex-shrink:0">5–20</span>
-          <span style="font-size:12px;font-weight:300;color:rgba(255,255,255,.6)"><strong style="font-weight:500;color:#fff">SPIN + Gap</strong> — descoberta profunda, lead fala 80%, você fala 20%</span>
-        </div>
-        <div style="display:flex;gap:12px;background:var(--preto);padding:10px 14px;align-items:baseline">
-          <span style="font-family:'Barlow Condensed',sans-serif;font-size:13px;font-weight:700;color:var(--laranja);width:40px;flex-shrink:0">20–25</span>
-          <span style="font-size:12px;font-weight:300;color:rgba(255,255,255,.6)"><strong style="font-weight:500;color:#fff">Challenger</strong> — insight que reframe o problema real, âncora no custo da dor</span>
-        </div>
-        <div style="display:flex;gap:12px;background:var(--preto);padding:10px 14px;align-items:baseline">
-          <span style="font-family:'Barlow Condensed',sans-serif;font-size:13px;font-weight:700;color:var(--laranja);width:40px;flex-shrink:0">25–30</span>
-          <span style="font-size:12px;font-weight:300;color:rgba(255,255,255,.6)"><strong style="font-weight:500;color:#fff">Proposta</strong> — apresentação comercial + produto indicado + CTA de fechamento</span>
-        </div>
+        <div class="fnl-trigger"><div class="fnl-trigger-l">Gatilho de avanço</div><p>BANT positivo → agendar a Consulta Tutoreanos</p></div>
       </div>
     </div>
-    <div class="fs-center" style="background:rgba(223,95,46,.07);border:1px solid rgba(223,95,46,.2);border-top:none">
-      <div class="fs-tag">Etapa 4 · Decisão</div>
-      <div class="fs-title">Consulta<br>Tutoreanos</div>
-      <div class="fs-sub" style="margin-bottom:16px">A reunião de vendas. Não é uma apresentação — é uma conversa guiada onde o lead chega à conclusão de que precisa da consultoria.</div>
-      <div class="fs-kpi"><div class="fs-kpi-l">Taxa de conversão alvo</div><div class="fs-kpi-v">≥ 30%</div></div>
-      <div class="fs-num" style="opacity:.1">04</div>
-    </div>
-    <div class="fs-right">
-      <div class="fs-tag">O que determina o sucesso aqui</div>
-      <ul class="fs-ul" style="margin-bottom:14px">
-        <li>Lead já aquecido — a conversa começa com confiança, não do zero</li>
-        <li>Diagnóstico preenchido — você entra com informações concretas sobre a dor</li>
-        <li>Âncora feita antes do preço — o custo do problema vai antes do investimento</li>
-        <li>Produto certo indicado — Consulta, Decola, T3 ou T5 conforme o perfil</li>
-        <li>CTA claro — fechamento assumido, não pergunta aberta</li>
-      </ul>
-      <div style="padding:12px 14px;background:rgba(223,95,46,.08);border-left:3px solid var(--laranja)">
-        <div style="font-family:'Barlow Condensed',sans-serif;font-size:9px;font-weight:600;letter-spacing:2px;text-transform:uppercase;color:var(--laranja);margin-bottom:4px">Gatilho de avanço</div>
-        <p style="font-size:12px;font-weight:300;color:rgba(255,255,255,.55);line-height:1.5">Lead concorda com a proposta → enviar contrato e iniciar onboarding imediatamente</p>
-      </div>
-    </div>
-    <div style="position:absolute;bottom:-18px;left:50%;transform:translateX(-50%);width:0;height:0;border-left:28px solid transparent;border-right:28px solid transparent;border-top:18px solid var(--cinza-m);z-index:3;pointer-events:none"></div>
-  </div>
 
-  <!-- ETAPA 5: FECHAMENTO -->
-  <div class="funil-stage" style="grid-template-columns:1fr 340px 1fr;background:var(--cinza-e);margin-left:160px;margin-right:160px;border-top:3px solid var(--laranja)">
-    <div class="fs-left">
-      <div class="fs-tag">Gestão de leads que não fecharam</div>
-      <ul class="fs-ul" style="margin-bottom:14px">
-        <li><strong style="color:#fff;font-weight:500">"Preciso pensar"</strong> — pergunte o que falta para a decisão. Reconecte à dor.</li>
-        <li><strong style="color:#fff;font-weight:500">"Está caro"</strong> — retome a âncora no custo do problema. Reposicione o ROI.</li>
-        <li><strong style="color:#fff;font-weight:500">"Não é o momento"</strong> — entre no grupo VIP. Reativar em 30 dias com novo contexto.</li>
-        <li><strong style="color:#fff;font-weight:500">Sem resposta</strong> — 3 tentativas com canal e contexto diferentes, depois pause.</li>
-      </ul>
-      <div style="background:var(--preto);padding:14px">
-        <div style="font-family:'Barlow Condensed',sans-serif;font-size:9px;font-weight:600;letter-spacing:2px;text-transform:uppercase;color:var(--laranja);margin-bottom:6px">Lead não fechou agora — não perdeu</div>
-        <p style="font-size:12px;font-weight:300;color:rgba(255,255,255,.45);line-height:1.5">Coloque no grupo VIP, continue entregando conteúdo de valor. 40% dos contratos fecham na segunda ou terceira abordagem — desde que o relacionamento seja mantido.</p>
-      </div>
-    </div>
-    <div class="fs-center" style="background:var(--preto);border-left:1px solid rgba(255,255,255,.06);border-right:1px solid rgba(255,255,255,.06)">
-      <div class="fs-tag">Etapa 5 · Conversão</div>
-      <div class="fs-title">Fechamento</div>
-      <div class="fs-sub" style="margin-bottom:16px">Contrato assinado, produto iniciado. O lead vira cliente e entra na jornada da esteira comercial Tutoreanos.</div>
-      <div class="fs-kpi"><div class="fs-kpi-l">Próximo passo imediato</div><div class="fs-kpi-v">Onboarding</div></div>
-      <div class="fs-num">05</div>
-    </div>
-    <div class="fs-right">
-      <div class="fs-tag">O que fazer logo após o fechamento</div>
-      <ul class="fs-ul">
-        <li>Enviar contrato imediatamente — nunca deixar esfriar após o "sim"</li>
-        <li>Tirar foto do momento e postar nos stories marcando o cliente (com permissão)</li>
-        <li>Apresentar o plano de onboarding — o cliente precisa saber o que vem pela frente</li>
-        <li>Comunicar à consultoria de sucesso da franqueadora</li>
-        <li>Lançar o cliente na curva ABC — já começa como curva C, monitorar evolução</li>
-        <li>Agendar a primeira reunião de acompanhamento de resultados</li>
-      </ul>
-    </div>
-    <div style="position:absolute;bottom:-18px;left:50%;transform:translateX(-50%);width:0;height:0;border-left:28px solid transparent;border-right:28px solid transparent;border-top:18px solid var(--cinza-e);z-index:3;pointer-events:none"></div>
-  </div>
-
-  <!-- ETAPA 6: JORNADA DO CLIENTE -->
-  <div class="funil-stage" style="grid-template-columns:1fr 340px 1fr;background:rgba(223,95,46,.06);border:1px solid rgba(223,95,46,.2);border-top:4px solid var(--laranja);margin-left:200px;margin-right:200px">
-    <div class="fs-left">
-      <div class="fs-tag">Esteira de produtos</div>
-      <div style="display:flex;flex-direction:column;gap:6px">
-        <div style="display:flex;gap:12px;align-items:center">
-          <span style="font-family:'Barlow Condensed',sans-serif;font-size:14px;font-weight:800;color:var(--laranja);width:60px;flex-shrink:0">Consulta</span>
-          <div style="flex:1;height:1px;background:rgba(223,95,46,.2)"></div>
-          <span style="font-size:11px;font-weight:300;color:rgba(255,255,255,.4)">→ Decola, T3 ou T5</span>
-        </div>
-        <div style="display:flex;gap:12px;align-items:center">
-          <span style="font-family:'Barlow Condensed',sans-serif;font-size:14px;font-weight:800;color:var(--laranja);width:60px;flex-shrink:0">T3</span>
-          <div style="flex:1;height:1px;background:rgba(223,95,46,.2)"></div>
-          <span style="font-size:11px;font-weight:300;color:rgba(255,255,255,.4)">→ T5 ou CGD</span>
-        </div>
-        <div style="display:flex;gap:12px;align-items:center">
-          <span style="font-family:'Barlow Condensed',sans-serif;font-size:14px;font-weight:800;color:var(--laranja);width:60px;flex-shrink:0">T5</span>
-          <div style="flex:1;height:1px;background:rgba(223,95,46,.2)"></div>
-          <span style="font-size:11px;font-weight:300;color:rgba(255,255,255,.4)">→ CGD 6 ou 12 meses</span>
-        </div>
-        <div style="display:flex;gap:12px;align-items:center">
-          <span style="font-family:'Barlow Condensed',sans-serif;font-size:14px;font-weight:800;color:var(--laranja);width:60px;flex-shrink:0">CGD</span>
-          <div style="flex:1;height:1px;background:rgba(223,95,46,.2)"></div>
-          <span style="font-size:11px;font-weight:300;color:rgba(255,255,255,.4)">→ Renovação + indicação ativa</span>
+    <!-- ══ ETAPA 4: CONSULTA TUTOREANOS ══ -->
+    <div class="fnl-stage fnl-s4" style="border-top:3px solid rgba(223,95,46,.85)">
+      <div class="fnl-card" style="background:var(--cinza-m)">
+        <div class="fnl-card-tag" style="margin-bottom:6px">Estrutura da Consulta Tutoreanos</div>
+        <div style="font-family:'Barlow Condensed',sans-serif;font-size:16px;font-weight:600;letter-spacing:1px;text-transform:uppercase;color:#fff;margin-bottom:14px;line-height:1.2">Hard Skills a dominar: Reunião consultiva no mais alto nível</div>
+        <div class="fnl-row">
+          <div class="fnl-row-item"><div class="fnl-row-txt"><strong style="font-weight:500;color:#fff">Rapport</strong> — contexto do segmento, mostrar que você entende o mercado dele</div></div>
+          <div class="fnl-row-item"><div class="fnl-row-txt"><strong style="font-weight:500;color:#fff">SPIN + Gap</strong> — descoberta profunda, lead fala 80%, você fala 20%</div></div>
+          <div class="fnl-row-item"><div class="fnl-row-txt"><strong style="font-weight:500;color:#fff">Challenger</strong> — insight que reframe o problema real, âncora no custo da dor</div></div>
+          <div class="fnl-row-item"><div class="fnl-row-txt"><strong style="font-weight:500;color:#fff">Proposta</strong> — apresentação comercial + produto indicado + CTA de fechamento</div></div>
         </div>
       </div>
+      <div class="fnl-center">
+        <div class="fnl-num" style="background:var(--laranja);color:#fff;box-shadow:0 0 24px rgba(223,95,46,.5)"><div class="fnl-num-ring"></div>04</div>
+        <div class="fnl-etapa-lbl">Etapa 4 · Decisão</div>
+        <div class="fnl-name">Consulta<br>Tutoreanos</div>
+        <div class="fnl-sub">A reunião de vendas guiada onde o lead chega à conclusão de que precisa da consultoria.</div>
+        <div class="fnl-kpi-pill"><div class="fnl-kpi-l">Taxa de conversão alvo</div><div class="fnl-kpi-v">≥ 30%</div></div>
+      </div>
+      <div class="fnl-card" style="background:var(--cinza-m)">
+        <div class="fnl-card-tag">O que determina o sucesso aqui</div>
+        <ul class="fnl-ul" style="margin-bottom:14px">
+          <li>Lead já aquecido — a conversa começa com confiança, não do zero</li>
+          <li>Diagnóstico preenchido — você entra com informações concretas sobre a dor</li>
+          <li>Âncora feita antes do preço — o custo do problema vai antes do investimento</li>
+          <li>Produto certo indicado — Consulta, Decola, T3 ou T5 conforme o perfil</li>
+          <li>CTA claro — fechamento assumido, não pergunta aberta</li>
+        </ul>
+        <div class="fnl-trigger"><div class="fnl-trigger-l">Gatilho de avanço</div><p>Lead concorda com a proposta → enviar contrato e iniciar onboarding imediatamente</p></div>
+      </div>
     </div>
-    <div class="fs-center">
-      <div class="fs-tag">Etapa 6 · Expansão</div>
-      <div class="fs-title">Jornada<br>do cliente</div>
-      <div class="fs-sub" style="margin-bottom:16px">O cliente entra na esteira. Cada produto bem entregue prepara o terreno para o próximo. O CGD é o destino — e a prova máxima de valor.</div>
-      <div class="fs-kpi"><div class="fs-kpi-l">LTV máximo</div><div class="fs-kpi-v">R$21.150+</div></div>
-      <div class="fs-num">06</div>
-    </div>
-    <div class="fs-right">
-      <div class="fs-tag">Como maximizar o LTV por cliente</div>
-      <ul class="fs-ul">
-        <li>Aplicar CSAT no meio de cada produto — corrigir rota antes de perder o cliente</li>
-        <li>Acompanhar a curva ABC mensal — clientes A recebem atenção estratégica diferenciada</li>
-        <li>Reunião trimestral com consultoria de sucesso para clientes A — planejar expansão</li>
-        <li>Mentoria VIP de 60 min para promotores — coleta de prova social e ativação de indicação</li>
-        <li>Apresentar o próximo produto no momento certo — quando o resultado do atual já é visível</li>
-        <li>CGD vendido pós T3 ou T5 como extensão natural — não como produto novo</li>
-      </ul>
-    </div>
-  </div>
 
+    <!-- ══ ETAPA 5: FECHAMENTO ══ -->
+    <div class="fnl-stage fnl-s5" style="border-top:3px solid var(--laranja)">
+      <div class="fnl-card" style="background:var(--cinza-e)">
+        <div class="fnl-card-tag">Gestão de leads que não fecharam</div>
+        <div class="fnl-objection">
+          <div class="fnl-obj-item"><div class="fnl-obj-title">"Preciso pensar"</div><div class="fnl-obj-txt">Pergunte o que falta para a decisão. Reconecte à dor.</div></div>
+          <div class="fnl-obj-item"><div class="fnl-obj-title">"Está caro"</div><div class="fnl-obj-txt">Retome a âncora no custo do problema. Reposicione o ROI.</div></div>
+          <div class="fnl-obj-item"><div class="fnl-obj-title">"Não é o momento"</div><div class="fnl-obj-txt">Entre no grupo VIP. Reativar em 30 dias com novo contexto.</div></div>
+          <div class="fnl-obj-item"><div class="fnl-obj-title">Sem resposta</div><div class="fnl-obj-txt">3 tentativas com canal e contexto diferentes, depois pause.</div></div>
+        </div>
+        <div style="background:var(--preto);padding:12px 14px;margin-top:8px">
+          <div style="font-family:'Barlow Condensed',sans-serif;font-size:9px;font-weight:600;letter-spacing:2px;text-transform:uppercase;color:var(--laranja);margin-bottom:4px">Lead não fechou agora — não perdeu</div>
+          <p style="font-size:11px;font-weight:300;color:rgba(255,255,255,.45);line-height:1.5">40% dos contratos fecham na segunda ou terceira abordagem — desde que o relacionamento seja mantido.</p>
+        </div>
+      </div>
+      <div class="fnl-center">
+        <div class="fnl-num" style="background:rgba(223,95,46,.12);color:var(--laranja);border:2px solid rgba(223,95,46,.35)"><div class="fnl-num-ring"></div>05</div>
+        <div class="fnl-etapa-lbl">Etapa 5 · Conversão</div>
+        <div class="fnl-name">Fechamento</div>
+        <div class="fnl-sub">Contrato assinado, produto iniciado. O lead vira cliente e entra na jornada da esteira comercial.</div>
+        <div class="fnl-kpi-pill"><div class="fnl-kpi-l">Próximo passo imediato</div><div class="fnl-kpi-v">Onboarding</div></div>
+      </div>
+      <div class="fnl-card" style="background:var(--cinza-e)">
+        <div class="fnl-card-tag">O que fazer logo após o fechamento</div>
+        <div class="fnl-post-close">
+          <div class="fnl-pc-item"><div class="fnl-pc-n">→</div><div class="fnl-pc-txt">Enviar contrato imediatamente — nunca deixar esfriar após o "sim"</div></div>
+          <div class="fnl-pc-item"><div class="fnl-pc-n">→</div><div class="fnl-pc-txt">Tirar foto do momento e postar nos stories marcando o cliente (com permissão)</div></div>
+          <div class="fnl-pc-item"><div class="fnl-pc-n">→</div><div class="fnl-pc-txt">Apresentar o plano de onboarding — o cliente precisa saber o que vem pela frente</div></div>
+          <div class="fnl-pc-item"><div class="fnl-pc-n">→</div><div class="fnl-pc-txt">Comunicar à consultoria de sucesso da franqueadora</div></div>
+          <div class="fnl-pc-item"><div class="fnl-pc-n">→</div><div class="fnl-pc-txt">Lançar o cliente na curva ABC — já começa como curva C, monitorar evolução</div></div>
+          <div class="fnl-pc-item"><div class="fnl-pc-n">→</div><div class="fnl-pc-txt">Agendar a primeira reunião de acompanhamento de resultados</div></div>
+        </div>
+      </div>
+    </div>
+
+    <!-- ══ ETAPA 6: JORNADA DO CLIENTE ══ -->
+    <div class="fnl-stage fnl-s6" style="border-top:4px solid var(--laranja)">
+      <div class="fnl-card">
+        <div class="fnl-card-tag">Esteira de produtos</div>
+        <div class="fnl-chain">
+          <div class="fnl-chain-row"><div class="fnl-chain-prod">Consulta</div><div class="fnl-chain-line"></div><span class="fnl-chain-next">→ Decola, T3 ou T5</span></div>
+          <div class="fnl-chain-row"><div class="fnl-chain-prod">T3</div><div class="fnl-chain-line"></div><span class="fnl-chain-next">→ T5 ou CGD</span></div>
+          <div class="fnl-chain-row"><div class="fnl-chain-prod">T5</div><div class="fnl-chain-line"></div><span class="fnl-chain-next">→ CGD 6 ou 12 meses</span></div>
+          <div class="fnl-chain-row"><div class="fnl-chain-prod">CGD</div><div class="fnl-chain-line"></div><span class="fnl-chain-next">→ Renovação + indicação ativa</span></div>
+        </div>
+        <div style="margin-top:16px;padding:12px 14px;background:rgba(223,95,46,.07);border-left:3px solid var(--laranja)">
+          <p style="font-size:11px;font-weight:300;color:rgba(255,255,255,.5);line-height:1.5">O cliente entra na esteira. Cada produto bem entregue prepara o terreno para o próximo. O CGD é o destino — e a prova máxima de valor.</p>
+        </div>
+      </div>
+      <div class="fnl-center">
+        <div class="fnl-num" style="background:var(--laranja);color:#fff;box-shadow:0 0 32px rgba(223,95,46,.6)"><div class="fnl-num-ring" style="animation-duration:2s"></div>06</div>
+        <div class="fnl-etapa-lbl">Etapa 6 · Expansão</div>
+        <div class="fnl-name" style="color:var(--laranja)">Jornada<br>do cliente</div>
+        <div class="fnl-sub">O cliente entra na esteira. Cada produto bem entregue abre o próximo. O CGD é o destino — e a prova máxima de valor.</div>
+        <div class="fnl-kpi-pill" style="background:rgba(223,95,46,.15);border-color:var(--laranja)"><div class="fnl-kpi-l">LTV máximo</div><div class="fnl-kpi-v" style="font-size:22px">R$21.150+</div></div>
+      </div>
+      <div class="fnl-card">
+        <div class="fnl-card-tag">Como maximizar o LTV por cliente</div>
+        <ul class="fnl-ul">
+          <li>Aplicar CSAT no meio de cada produto — corrigir rota antes de perder o cliente</li>
+          <li>Acompanhar a curva ABC mensal — clientes A recebem atenção estratégica diferenciada</li>
+          <li>Reunião trimestral com consultoria de sucesso para clientes A — planejar expansão</li>
+          <li>Apresentar o próximo produto no momento certo — quando o resultado do atual já é visível</li>
+          <li>CGD vendido pós T3 ou T5 como extensão natural — não como produto novo</li>
+        </ul>
+      </div>
+    </div>
+
+  </div><!-- end fnl-wrap -->
   </div><!-- end reveal -->
 
-  <!-- MÉTRICAS DO FUNIL -->
-  <div class="reveal" style="margin-top:40px">
-    <div style="font-family:'Barlow Condensed',sans-serif;font-weight:700;font-size:20px;text-transform:uppercase;letter-spacing:-0.5px;margin-bottom:16px">Taxa de conversão esperada por etapa</div>
-    <div style="display:grid;grid-template-columns:repeat(5,1fr);gap:2px">
-      <div style="background:var(--cinza-e);padding:20px 16px">
-        <div style="font-family:'Barlow Condensed',sans-serif;font-size:10px;font-weight:600;letter-spacing:1.5px;text-transform:uppercase;color:rgba(255,255,255,.35);margin-bottom:6px">Atração → Conexão</div>
-        <div style="font-family:'Barlow Condensed',sans-serif;font-weight:800;font-size:40px;color:var(--laranja);line-height:1">30%</div>
-        <p style="font-size:11px;font-weight:300;color:rgba(255,255,255,.4);line-height:1.5;margin-top:6px">De cada 100 pessoas que veem seu conteúdo, 30 interagem e entram em conexão ativa</p>
-      </div>
-      <div style="background:var(--cinza-e);padding:20px 16px">
-        <div style="font-family:'Barlow Condensed',sans-serif;font-size:10px;font-weight:600;letter-spacing:1.5px;text-transform:uppercase;color:rgba(255,255,255,.35);margin-bottom:6px">Conexão → Diagnóstico</div>
-        <div style="font-family:'Barlow Condensed',sans-serif;font-weight:800;font-size:40px;color:var(--laranja);line-height:1">40%</div>
-        <p style="font-size:11px;font-weight:300;color:rgba(255,255,255,.4);line-height:1.5;margin-top:6px">De cada 30 conexões ativas, 12 aceitam preencher o diagnóstico quando bem abordados</p>
-      </div>
-      <div style="background:var(--cinza-e);padding:20px 16px">
-        <div style="font-family:'Barlow Condensed',sans-serif;font-size:10px;font-weight:600;letter-spacing:1.5px;text-transform:uppercase;color:rgba(255,255,255,.35);margin-bottom:6px">Diagnóstico → Consulta</div>
-        <div style="font-family:'Barlow Condensed',sans-serif;font-weight:800;font-size:40px;color:var(--laranja);line-height:1">50%</div>
-        <p style="font-size:11px;font-weight:300;color:rgba(255,255,255,.4);line-height:1.5;margin-top:6px">De cada 12 diagnósticos, 6 aceitam a Consulta Tutoreanos com follow-up em 24h</p>
-      </div>
-      <div style="background:var(--cinza-e);padding:20px 16px">
-        <div style="font-family:'Barlow Condensed',sans-serif;font-size:10px;font-weight:600;letter-spacing:1.5px;text-transform:uppercase;color:rgba(255,255,255,.35);margin-bottom:6px">Consulta → Contrato</div>
-        <div style="font-family:'Barlow Condensed',sans-serif;font-weight:800;font-size:40px;color:var(--laranja);line-height:1">50%</div>
-        <p style="font-size:11px;font-weight:300;color:rgba(255,255,255,.4);line-height:1.5;margin-top:6px">De cada 6 consultas bem conduzidas com metodologia, 3 fecham contrato</p>
-      </div>
-      <div style="background:rgba(223,95,46,.08);border:1px solid rgba(223,95,46,.2);padding:20px 16px">
-        <div style="font-family:'Barlow Condensed',sans-serif;font-size:10px;font-weight:600;letter-spacing:1.5px;text-transform:uppercase;color:var(--laranja);margin-bottom:6px">Resultado final</div>
-        <div style="font-family:'Barlow Condensed',sans-serif;font-weight:800;font-size:40px;color:var(--laranja);line-height:1">3%</div>
-        <p style="font-size:11px;font-weight:300;color:rgba(255,255,255,.55);line-height:1.5;margin-top:6px">De cada 100 contatos, 3 viram clientes — com processo estruturado e seguido</p>
-      </div>
-    </div>
-  </div>
 
-  <div class="dica reveal" style="margin-top:20px">
-    <div class="dica-l">A matemática da previsibilidade</div>
-    <p>Se você precisa de 3 novos clientes por mês, precisa de pelo menos 100 contatos novos entrando no topo do funil. Isso se traduz em: 10 novos prospects no Instagram por semana + 3 conexões no LinkedIn por dia + 1 reunião de parceiro por semana. Quando você conhece a taxa de cada etapa, a meta mensal deixa de ser uma esperança e vira um cálculo.</p>
-  </div>
+
+
+
+
+
+
+
 </div>
 </div>
 
@@ -1634,10 +1551,10 @@ footer{background:var(--cinza-e);padding:56px 80px;display:flex;align-items:cent
     <div style="background:var(--preto);padding:28px;border-top:3px solid var(--laranja)">
       <div style="font-family:'Barlow Condensed',sans-serif;font-size:10px;font-weight:600;letter-spacing:2px;text-transform:uppercase;color:rgba(255,255,255,.35);margin-bottom:16px">Estrutura da Consulta Tutoreanos</div>
       <div style="display:flex;flex-direction:column;gap:0">
-        <div style="display:flex;gap:16px;padding:12px 0;border-bottom:1px solid rgba(255,255,255,.06)"><div style="font-family:'Barlow Condensed',sans-serif;font-size:13px;font-weight:700;color:var(--laranja);width:48px;flex-shrink:0">0–5</div><div style="font-size:13px;font-weight:300;color:rgba(255,255,255,.65);line-height:1.5"><strong style="color:#fff;font-weight:500">Rapport e contexto</strong> — apresente brevemente quem é você e a Tutoreanos. Mostre que você entende o segmento do lead.</div></div>
-        <div style="display:flex;gap:16px;padding:12px 0;border-bottom:1px solid rgba(255,255,255,.06)"><div style="font-family:'Barlow Condensed',sans-serif;font-size:13px;font-weight:700;color:var(--laranja);width:48px;flex-shrink:0">5–20</div><div style="font-size:13px;font-weight:300;color:rgba(255,255,255,.65);line-height:1.5"><strong style="color:#fff;font-weight:500">Descoberta profunda</strong> — perguntas SPIN e Gap Selling. Você fala 20%, o lead fala 80%. Nunca interrompa uma dor emergindo.</div></div>
-        <div style="display:flex;gap:16px;padding:12px 0;border-bottom:1px solid rgba(255,255,255,.06)"><div style="font-family:'Barlow Condensed',sans-serif;font-size:13px;font-weight:700;color:var(--laranja);width:48px;flex-shrink:0">20–25</div><div style="font-size:13px;font-weight:300;color:rgba(255,255,255,.65);line-height:1.5"><strong style="color:#fff;font-weight:500">Insight Challenger</strong> — mostre algo que ele não estava enxergando. Reframe o problema com dados do seu segmento.</div></div>
-        <div style="display:flex;gap:16px;padding:12px 0"><div style="font-family:'Barlow Condensed',sans-serif;font-size:13px;font-weight:700;color:var(--laranja);width:48px;flex-shrink:0">25–30</div><div style="font-size:13px;font-weight:300;color:rgba(255,255,255,.65);line-height:1.5"><strong style="color:#fff;font-weight:500">Próximos passos</strong> — apresentação comercial resumida. Proposta de valor clara. CTA direto para a proposta formal.</div></div>
+        <div style="display:flex;gap:16px;padding:12px 0;border-bottom:1px solid rgba(255,255,255,.06)"><div style="font-size:13px;font-weight:300;color:rgba(255,255,255,.65);line-height:1.5"><strong style="color:#fff;font-weight:500">Rapport e contexto</strong> — apresente brevemente quem é você e a Tutoreanos. Mostre que você entende o segmento do lead.</div></div>
+        <div style="display:flex;gap:16px;padding:12px 0;border-bottom:1px solid rgba(255,255,255,.06)"><div style="font-size:13px;font-weight:300;color:rgba(255,255,255,.65);line-height:1.5"><strong style="color:#fff;font-weight:500">Descoberta profunda</strong> — perguntas SPIN e Gap Selling. Você fala 20%, o lead fala 80%. Nunca interrompa uma dor emergindo.</div></div>
+        <div style="display:flex;gap:16px;padding:12px 0;border-bottom:1px solid rgba(255,255,255,.06)"><div style="font-size:13px;font-weight:300;color:rgba(255,255,255,.65);line-height:1.5"><strong style="color:#fff;font-weight:500">Insight Challenger</strong> — mostre algo que ele não estava enxergando. Reframe o problema com dados do seu segmento.</div></div>
+        <div style="display:flex;gap:16px;padding:12px 0"><div style="font-size:13px;font-weight:300;color:rgba(255,255,255,.65);line-height:1.5"><strong style="color:#fff;font-weight:500">Próximos passos</strong> — apresentação comercial resumida. Proposta de valor clara. CTA direto para a proposta formal.</div></div>
       </div>
     </div>
   </div>
@@ -1773,6 +1690,38 @@ footer{background:var(--cinza-e);padding:56px 80px;display:flex;align-items:cent
           <div style="display:flex;gap:10px;align-items:baseline"><span style="font-family:'Barlow Condensed',sans-serif;font-size:13px;font-weight:700;color:var(--laranja);width:20px">I</span><span style="font-size:12px;font-weight:300;color:rgba(255,255,255,.5)"><strong style="color:#fff;font-weight:500">Identify pain</strong> — a dor está clara e quantificada?</span></div>
           <div style="display:flex;gap:10px;align-items:baseline"><span style="font-family:'Barlow Condensed',sans-serif;font-size:13px;font-weight:700;color:var(--laranja);width:20px">C</span><span style="font-size:12px;font-weight:300;color:rgba(255,255,255,.5)"><strong style="color:#fff;font-weight:500">Champion</strong> — tem alguém de dentro que vai defender a solução internamente?</span></div>
         </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- MÉTRICAS DO FUNIL OUTBOUND -->
+  <div class="reveal" style="margin-top:40px;margin-bottom:40px">
+    <div style="font-family:'Barlow Condensed',sans-serif;font-weight:700;font-size:20px;text-transform:uppercase;letter-spacing:-0.5px;margin-bottom:16px">Taxa de conversão esperada · Outbound Ativo</div>
+    <div style="display:grid;grid-template-columns:repeat(5,1fr);gap:2px">
+      <div style="background:var(--cinza-e);padding:20px 16px">
+        <div style="font-family:'Barlow Condensed',sans-serif;font-size:10px;font-weight:600;letter-spacing:1.5px;text-transform:uppercase;color:rgba(255,255,255,.35);margin-bottom:6px">Lista → Contato com decisor</div>
+        <div style="font-family:'Barlow Condensed',sans-serif;font-weight:800;font-size:40px;color:var(--laranja);line-height:1">15%</div>
+        <p style="font-size:11px;font-weight:300;color:rgba(255,255,255,.4);line-height:1.5;margin-top:6px">De 100 empresas prospectadas a frio, você consegue conversar de fato com 15 decisores (Dono/Sócio).</p>
+      </div>
+      <div style="background:var(--cinza-e);padding:20px 16px">
+        <div style="font-family:'Barlow Condensed',sans-serif;font-size:10px;font-weight:600;letter-spacing:1.5px;text-transform:uppercase;color:rgba(255,255,255,.35);margin-bottom:6px">Contato → Diagnóstico Agendado</div>
+        <div style="font-family:'Barlow Condensed',sans-serif;font-weight:800;font-size:40px;color:var(--laranja);line-height:1">30%</div>
+        <p style="font-size:11px;font-weight:300;color:rgba(255,255,255,.4);line-height:1.5;margin-top:6px">Dos 15 decisores abordados ativamente, cerca de 4 a 5 aceitam preencher o diagnóstico pré-consulta.</p>
+      </div>
+      <div style="background:var(--cinza-e);padding:20px 16px">
+        <div style="font-family:'Barlow Condensed',sans-serif;font-size:10px;font-weight:600;letter-spacing:1.5px;text-transform:uppercase;color:rgba(255,255,255,.35);margin-bottom:6px">Diagnóstico → Consulta</div>
+        <div style="font-family:'Barlow Condensed',sans-serif;font-weight:800;font-size:40px;color:var(--laranja);line-height:1">80%</div>
+        <p style="font-size:11px;font-weight:300;color:rgba(255,255,255,.4);line-height:1.5;margin-top:6px">Quem preenche o diagnóstico tem alta intenção. De 5 diagnósticos, 4 avançam para a reunião (Consulta Tutoreanos).</p>
+      </div>
+      <div style="background:var(--cinza-e);padding:20px 16px">
+        <div style="font-family:'Barlow Condensed',sans-serif;font-size:10px;font-weight:600;letter-spacing:1.5px;text-transform:uppercase;color:rgba(255,255,255,.35);margin-bottom:6px">Consulta → Fechamento</div>
+        <div style="font-family:'Barlow Condensed',sans-serif;font-weight:800;font-size:40px;color:var(--laranja);line-height:1">25%</div>
+        <p style="font-size:11px;font-weight:300;color:rgba(255,255,255,.4);line-height:1.5;margin-top:6px">De 4 reuniões estruturadas apresentando o projeto e os gaps mapeados, 1 decide fechar contrato.</p>
+      </div>
+      <div style="background:rgba(223,95,46,.07);border:1px solid rgba(223,95,46,.2);padding:20px 16px">
+        <div style="font-family:'Barlow Condensed',sans-serif;font-size:10px;font-weight:800;letter-spacing:1.5px;text-transform:uppercase;color:var(--laranja);margin-bottom:6px">A Matemática Outbound</div>
+        <div style="font-family:'Barlow Condensed',sans-serif;font-weight:800;font-size:40px;color:#fff;line-height:1">1%</div>
+        <p style="font-size:11px;font-weight:300;color:rgba(255,255,255,.5);line-height:1.5;margin-top:6px">Para cada 100 cold leads abordados na sua lista, a expectativa média é gerar <strong style="color:#fff;font-weight:500">1 novo contrato fechado</strong>.</p>
       </div>
     </div>
   </div>
@@ -2222,7 +2171,7 @@ footer{background:var(--cinza-e);padding:56px 80px;display:flex;align-items:cent
           <p style="font-size:13px;font-weight:300;color:rgba(255,255,255,.6);line-height:1.65">Clientes de maior valor, engajamento e potencial de expansão. O franqueado e a consultoria de sucesso analisam juntos como usar a satisfação desses clientes para gerar novas fontes de receita: expansão de escopo, upgrade de plano, indicação ativa e prova social qualificada.</p>
           <div style="margin-top:12px;padding-top:12px;border-top:1px solid rgba(255,255,255,.06)">
             <div style="font-size:11px;font-weight:600;font-family:'Barlow Condensed',sans-serif;letter-spacing:1.5px;text-transform:uppercase;color:rgba(223,95,46,.6);margin-bottom:6px">Ações exclusivas</div>
-            <p style="font-size:12px;font-weight:300;color:rgba(255,255,255,.4);line-height:1.6">Mentoria VIP 60 min · revisão de escopo junto à franqueadora · programa de indicação premium · análise de expansão de contrato · apresentação a novos serviços da rede</p>
+            <p style="font-size:12px;font-weight:300;color:rgba(255,255,255,.4);line-height:1.6">Revisão de escopo junto à franqueadora · programa de indicação premium · análise de expansão de contrato · apresentação a novos serviços da rede</p>
           </div>
         </div>
         <div style="background:var(--preto);padding:24px;border-left:4px solid rgba(223,95,46,.5)">
@@ -2306,7 +2255,7 @@ footer{background:var(--cinza-e);padding:56px 80px;display:flex;align-items:cent
         <div style="background:var(--preto);padding:16px;text-align:center">
           <div style="font-family:'Barlow Condensed',sans-serif;font-weight:800;font-size:28px;color:rgba(80,200,120,.7)">9–10</div>
           <div style="font-size:10px;font-weight:600;font-family:'Barlow Condensed',sans-serif;letter-spacing:1px;text-transform:uppercase;color:rgba(255,255,255,.35);margin-top:4px">Promotor</div>
-          <p style="font-size:11px;font-weight:300;color:rgba(255,255,255,.4);line-height:1.5;margin-top:6px">Ativar imediatamente: depoimento, indicação, prova social e mentoria VIP.</p>
+          <p style="font-size:11px;font-weight:300;color:rgba(255,255,255,.4);line-height:1.5;margin-top:6px">Ativar imediatamente: depoimento, indicação e prova social.</p>
         </div>
       </div>
 
@@ -2334,7 +2283,7 @@ footer{background:var(--cinza-e);padding:56px 80px;display:flex;align-items:cent
       <div style="background:var(--preto);padding:24px 20px">
         <div style="font-family:'Barlow Condensed',sans-serif;font-weight:800;font-size:48px;color:rgba(223,95,46,.1);line-height:1;margin-bottom:12px">02</div>
         <div style="font-family:'Barlow Condensed',sans-serif;font-weight:700;font-size:16px;text-transform:uppercase;margin-bottom:8px">Curva A → indicação ativa</div>
-        <p style="font-size:12px;font-weight:300;color:rgba(255,255,255,.45);line-height:1.6">Na mentoria VIP de 60 min: perguntar quem o cliente A conhece que pode se beneficiar → entregar link do diagnóstico para ele encaminhar → acompanhar o lead indicado com prioridade máxima</p>
+        <p style="font-size:12px;font-weight:300;color:rgba(255,255,255,.45);line-height:1.6">Na sessão estratégica: perguntar quem o cliente A conhece que pode se beneficiar → entregar link do diagnóstico para ele encaminhar → acompanhar o lead indicado com prioridade máxima</p>
       </div>
       <div style="background:var(--preto);padding:24px 20px">
         <div style="font-family:'Barlow Condensed',sans-serif;font-weight:800;font-size:48px;color:rgba(223,95,46,.1);line-height:1;margin-bottom:12px">03</div>
@@ -2349,15 +2298,15 @@ footer{background:var(--cinza-e);padding:56px 80px;display:flex;align-items:cent
     </div>
   </div>
 
-  <!-- NPS + MENTORIA VIP -->
+  <!-- NPS + FIDELIZAÇÃO -->
   <div class="fidel-row">
-    <div class="fidel-card reveal"><div class="fidel-n">01</div><div class="fidel-t">NPS ativo</div><div class="fidel-d">Aplique NPS com todos os clientes ativos e inativos. Publique os resultados nas redes sociais e no site para construir prova social contínua.</div><div class="fidel-detail"><p>Clientes com NPS ≥ 8 são candidatos à mentoria VIP e ao programa de indicação. Trate-os como promotores ativos da marca.</p></div></div>
-    <div class="fidel-card reveal" style="transition-delay:.1s"><div class="fidel-n">02</div><div class="fidel-t">Mentoria VIP 60 min</div><div class="fidel-d">Ofereça aos clientes da curva A e B uma mentoria de 60 minutos pautada no maior desafio atual. Grave toda a reunião obrigatoriamente.</div><div class="fidel-detail"><p>40 min de consultoria · 20 min de coleta de prova social com as 5 perguntas matadoras. Gravar é obrigatório — o material vira conteúdo e prova social.</p></div></div>
+    <div class="fidel-card reveal"><div class="fidel-n">01</div><div class="fidel-t">NPS ativo</div><div class="fidel-d">Aplique NPS com todos os clientes ativos e inativos. Publique os resultados nas redes sociais e no site para construir prova social contínua.</div><div class="fidel-detail"><p>Clientes com NPS ≥ 8 são candidatos ao programa de indicação VIP. Trate-os como promotores ativos da marca.</p></div></div>
+    <div class="fidel-card reveal" style="transition-delay:.1s"><div class="fidel-n">02</div><div class="fidel-t">Sessão Estratégica</div><div class="fidel-d">Ofereça aos clientes da curva A e B uma sessão avaliativa pautada no maior desafio atual. Grave toda a reunião obrigatoriamente.</div><div class="fidel-detail"><p>40 min de consultoria · 20 min de coleta de prova social com as 5 perguntas matadoras. Gravar é obrigatório — o material vira conteúdo e prova social.</p></div></div>
     <div class="fidel-card reveal" style="transition-delay:.2s"><div class="fidel-n">03</div><div class="fidel-t">Indicação ativa</div><div class="fidel-d">Pergunte o que o cliente gostaria de ganhar por indicar. Dê o link do diagnóstico para ele enviar a quem indicar. Inclua no grupo VIP de empreendedores estratégicos.</div><div class="fidel-detail"><p>Diferencie o empreendedor tático do estratégico. O grupo VIP é o benefício — e também o ambiente onde novas indicações surgem naturalmente.</p></div></div>
   </div>
 
   <div class="dica reveal">
-    <div class="dica-l">As 5 perguntas matadoras da mentoria VIP</div>
+    <div class="dica-l">As 5 perguntas matadoras de Prova Social</div>
     <p>1. Qual foi o maior resultado desde que começamos? &nbsp;|&nbsp; 2. O que mudou na forma como você enxerga seu negócio? &nbsp;|&nbsp; 3. Qual era o principal obstáculo e como foi superado? &nbsp;|&nbsp; 4. O que você diria para outro empresário na mesma situação? &nbsp;|&nbsp; 5. Você indicaria a Tutoreanos? Quem você conhece que se beneficiaria?</p>
   </div>
 </div>
@@ -2385,14 +2334,74 @@ footer{background:var(--cinza-e);padding:56px 80px;display:flex;align-items:cent
 </div>
 
 <!-- FOOTER -->
-<footer>
-  <div>
-    <div class="footer-brand">método <span>t.</span></div>
-    <div class="footer-sub">Playbook de Vendas com Previsibilidade · Tutoreanos Consultores de Negócios</div>
+<footer style="background:var(--cinza-e);border-top:1px solid rgba(223,95,46,.15);padding:0 80px;">
+
+  <!-- Top bar accent -->
+  <div style="height:3px;background:linear-gradient(to right,var(--laranja),rgba(223,95,46,.1),transparent);margin-bottom:0;"></div>
+
+  <div style="max-width:1200px;margin:0 auto;padding:56px 0 36px;display:grid;grid-template-columns:1.6fr 1fr 1fr;gap:48px;align-items:start;">
+
+    <!-- Brand column -->
+    <div>
+      <div style="display:flex;align-items:center;gap:12px;margin-bottom:16px;">
+        <div style="width:40px;height:40px;background:var(--laranja);border-radius:50%;display:flex;align-items:center;justify-content:center;font-family:'Barlow Condensed',sans-serif;font-weight:800;font-size:20px;color:#fff;flex-shrink:0;">t.</div>
+        <div>
+          <div style="font-family:'Barlow Condensed',sans-serif;font-weight:800;font-size:28px;letter-spacing:-1px;text-transform:uppercase;line-height:1;">método <span style="color:var(--laranja);">t.</span></div>
+          <div style="font-size:10px;font-weight:300;color:rgba(255,255,255,.3);letter-spacing:1.5px;text-transform:uppercase;margin-top:1px;">tutoreanos</div>
+        </div>
+      </div>
+      <p style="font-size:13px;font-weight:300;color:rgba(255,255,255,.4);line-height:1.7;max-width:300px;margin-bottom:20px;">Playbook de Vendas com Previsibilidade · o sistema que transforma franqueados em consultores de alto desempenho.</p>
+      <!-- Creator badge -->
+      <div style="display:inline-flex;align-items:center;gap:10px;background:rgba(223,95,46,.07);border:1px solid rgba(223,95,46,.2);border-left:3px solid var(--laranja);padding:10px 16px;">
+        <div>
+          <div style="font-family:'Barlow Condensed',sans-serif;font-size:9px;font-weight:600;letter-spacing:2px;text-transform:uppercase;color:rgba(255,255,255,.3);margin-bottom:2px;">criado por</div>
+          <div style="font-family:'Barlow Condensed',sans-serif;font-weight:800;font-size:20px;text-transform:uppercase;letter-spacing:-.5px;color:#fff;">Eron <span style="color:var(--laranja);">Gomes</span></div>
+          <div style="font-size:10px;font-weight:300;color:rgba(255,255,255,.35);">Consultor de Campo Tutoreanos</div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Links / info column -->
+    <div>
+      <div style="font-family:'Barlow Condensed',sans-serif;font-size:10px;font-weight:600;letter-spacing:2px;text-transform:uppercase;color:var(--laranja);margin-bottom:16px;padding-bottom:10px;border-bottom:1px solid rgba(223,95,46,.15);">Rede Tutoreanos</div>
+      <div style="display:flex;flex-direction:column;gap:10px;">
+        <div style="font-size:12px;font-weight:300;color:rgba(255,255,255,.45);line-height:1.5;">Documento exclusivo para franqueados da rede Tutoreanos. Uso interno e confidencial.</div>
+        <div style="display:flex;flex-direction:column;gap:6px;margin-top:6px;">
+          <div style="display:flex;align-items:center;gap:8px;">
+            <span style="color:var(--laranja);font-size:10px;">▸</span>
+            <span style="font-size:12px;font-weight:300;color:rgba(255,255,255,.5);">tutoreanos.com.br</span>
+          </div>
+          <div style="display:flex;align-items:center;gap:8px;">
+            <span style="color:var(--laranja);font-size:10px;">▸</span>
+            <span style="font-size:12px;font-weight:300;color:rgba(255,255,255,.5);">@tutoreanos</span>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Contact column -->
+    <div>
+      <div style="font-family:'Barlow Condensed',sans-serif;font-size:10px;font-weight:600;letter-spacing:2px;text-transform:uppercase;color:var(--laranja);margin-bottom:16px;padding-bottom:10px;border-bottom:1px solid rgba(223,95,46,.15);">Suporte</div>
+      <div style="display:flex;flex-direction:column;gap:10px;">
+        <div>
+          <div style="font-family:'Barlow Condensed',sans-serif;font-size:9px;font-weight:600;letter-spacing:1.5px;text-transform:uppercase;color:rgba(255,255,255,.25);margin-bottom:3px;">Consultoria de Sucesso</div>
+          <div style="font-size:12px;font-weight:300;color:rgba(255,255,255,.5);">marketing@tutoreanos.com.br</div>
+        </div>
+        <div>
+          <div style="font-family:'Barlow Condensed',sans-serif;font-size:9px;font-weight:600;letter-spacing:1.5px;text-transform:uppercase;color:rgba(255,255,255,.25);margin-bottom:3px;">Dúvidas sobre o método</div>
+          <div style="font-size:12px;font-weight:300;color:rgba(255,255,255,.5);">Fale com a sua consultoria de sucesso</div>
+        </div>
+      </div>
+    </div>
+
   </div>
-  <div class="footer-r">
-    <p>Franqueados Tutoreanos · Método t.<br>Dúvidas: fale com a consultoria de sucesso<br>marketing@tutoreanos.com.br</p>
+
+  <!-- Bottom bar -->
+  <div style="max-width:1200px;margin:0 auto;padding:18px 0;border-top:1px solid rgba(255,255,255,.05);display:flex;align-items:center;justify-content:space-between;">
+    <div style="font-size:11px;font-weight:300;color:rgba(255,255,255,.2);">© 2025 Tutoreanos Consultores de Negócios. Todos os direitos reservados.</div>
+    <div style="font-family:'Barlow Condensed',sans-serif;font-size:10px;font-weight:600;letter-spacing:2px;text-transform:uppercase;color:rgba(223,95,46,.4);">Método t. · sistema exclusivo</div>
   </div>
+
 </footer>
 
 <script>
