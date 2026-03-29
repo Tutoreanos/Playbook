@@ -34,9 +34,7 @@ nav{position:fixed;top:0;left:0;right:0;z-index:200;display:flex;align-items:cen
 .hero-title .acc{color:var(--laranja);}
 .hero-meta{display:flex;align-items:flex-end;justify-content:space-between;gap:40px;opacity:0;animation:fadeUp .6s .5s forwards;}
 .hero-desc{max-width:580px;font-size:20px;font-weight:300;line-height:1.6;color:rgba(255,255,255,.75);letter-spacing:0.2px;}
-.hero-stats{display:flex;gap:40px;flex-shrink:0;}
-.stat-n{font-family:'Barlow Condensed',sans-serif;font-weight:800;font-size:48px;color:var(--laranja);line-height:1;}
-.stat-l{font-size:11px;font-weight:300;color:rgba(255,255,255,.4);letter-spacing:1px;text-transform:uppercase;margin-top:4px;}
+
 .scroll-hint{position:absolute;bottom:36px;left:50%;transform:translateX(-50%);display:flex;flex-direction:column;align-items:center;gap:8px;opacity:0;animation:fadeIn 1s 1.1s forwards;}
 .scroll-hint span{font-size:10px;letter-spacing:2px;color:rgba(255,255,255,.3);text-transform:uppercase;}
 .scroll-line{width:1px;height:36px;background:linear-gradient(to bottom,rgba(223,95,46,.6),transparent);animation:pulse 2s infinite;}
@@ -286,9 +284,137 @@ footer{background:var(--cinza-e);padding:56px 80px;display:flex;align-items:cent
 .flow-desc { font-size: 10px; font-weight: 300; color: rgba(255,255,255,.5); line-height: 1.2; }
 .flow-arrow { font-size: 18px; color: rgba(223,95,46,.3); }
 .flow-note { margin-top: 12px; font-size: 11px; color: rgba(255,255,255,.35); font-style: italic; text-align: center; }
+
+  /* LOGIN OVERLAY */
+  #login-overlay {
+    position: fixed;
+    inset: 0;
+    background: rgba(10,10,10,0.8);
+    backdrop-filter: blur(25px);
+    -webkit-backdrop-filter: blur(25px);
+    z-index: 9999;
+    padding: 20px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    transition: opacity 0.6s cubic-bezier(0.4, 0, 0.2, 1), visibility 0.6s;
+  }
+  #login-overlay.hidden {
+    opacity: 0;
+    visibility: hidden;
+    pointer-events: none;
+  }
+  .login-card {
+    background: rgba(255,255,255,0.03);
+    border: 1px solid rgba(223,95,46,0.2);
+    max-width: 500px;
+    width: 100%;
+    padding: 48px;
+    border-radius: 4px;
+    text-align: center;
+    box-shadow: 0 40px 100px rgba(0,0,0,0.5);
+    position: relative;
+    overflow: hidden;
+  }
+  .login-card::before {
+    content: '';
+    position: absolute;
+    top: 0; left: 0; width: 100%; height: 2px;
+    background: linear-gradient(to right, transparent, var(--laranja), transparent);
+  }
+  .login-logo {
+    width: 60px; height: 60px;
+    background: var(--laranja);
+    border-radius: 50%;
+    margin: 0 auto 32px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-family: 'Barlow Condensed', sans-serif;
+    font-weight: 800; font-size: 32px; color: #fff;
+    box-shadow: 0 0 30px rgba(223,95,46,0.4);
+  }
+  .login-step { display: none; }
+  .login-step.active { display: block; animation: loginFade 0.4s ease-out; }
+  @keyframes loginFade { from { opacity: 0; transform: translateY(10px); } to { opacity: 1; transform: translateY(0); } }
+  
+  .q-title { font-family: 'Barlow Condensed', sans-serif; font-size: 24px; font-weight: 800; text-transform: uppercase; color: #fff; margin-bottom: 12px; letter-spacing: -0.5px; }
+  .q-desc { font-size: 14px; color: rgba(255,255,255,0.5); margin-bottom: 32px; line-height: 1.6; }
+  .q-options { display: flex; flex-direction: column; gap: 12px; }
+  .q-opt {
+    background: rgba(255,255,255,0.05);
+    border: 1px solid rgba(255,255,255,0.1);
+    padding: 16px 20px;
+    border-radius: 4px;
+    color: rgba(255,255,255,0.7);
+    font-size: 13px;
+    cursor: pointer;
+    text-align: left;
+    transition: all 0.2s;
+    line-height: 1.4;
+  }
+  .q-opt:hover { background: rgba(223,95,46,0.1); border-color: rgba(223,95,46,0.3); color: #fff; }
+  .q-opt.wrong { background: rgba(255,80,80,0.1); border-color: rgba(255,80,80,0.3); color: #ff8080; }
+  .q-opt.correct { background: rgba(80,255,120,0.1); border-color: rgba(80,255,120,0.3); color: #50ff78; }
 </style>
 </head>
 <body>
+
+<!-- LOGIN OVERLAY -->
+<div id="login-overlay">
+  <div class="login-card">
+    <div class="login-logo">t.</div>
+    
+    <!-- STEP 0: WELCOME -->
+    <div class="login-step active" id="step-0">
+      <h2 class="q-title">Acesso Restrito</h2>
+      <p class="q-desc">Bem-vindo ao Playbook Tutoreanos. Para acessar este material estratégico, prove que você domina a filosofia da nossa rede.</p>
+      <button onclick="nextLoginStep(1)" style="background:var(--laranja); color:#fff; border:none; padding:14px 32px; font-family:'Barlow Condensed', sans-serif; font-weight:700; text-transform:uppercase; letter-spacing:1px; cursor:pointer; border-radius:2px; font-size:14px; width:100%">Iniciar Questionário</button>
+    </div>
+
+    <!-- STEP 1: MISSÃO -->
+    <div class="login-step" id="step-1">
+      <h2 class="q-title">Qual a Missão da Tutoreanos?</h2>
+      <p class="q-desc">Escolha a alternativa que define nossa razão de existir.</p>
+      <div class="q-options">
+        <div class="q-opt" onclick="checkAnswer(this, false, 'A missão não é apenas sobre nós, é sobre o impacto direto no cliente.')">A) Ser a maior rede de franqueados do Brasil e dominar o mercado de consultoria.</div>
+        <div class="q-opt" onclick="checkAnswer(this, true)">B) Ajudar donos e donas de micro e pequenas empresas a ter mais lucro e mais qualidade de vida.</div>
+        <div class="q-opt" onclick="checkAnswer(this, false, 'Isso é importante, mas não resume nossa missão fim.')">C) Organizar o financeiro de empresas que estão no vermelho através do método T5.</div>
+      </div>
+    </div>
+
+    <!-- STEP 2: PERSONA -->
+    <div class="login-step" id="step-2">
+      <h2 class="q-title">Qual a nossa Persona Principal?</h2>
+      <p class="q-desc">Para quem o Método t. foi desenhado cirurgicamente?</p>
+      <div class="q-options">
+        <div class="q-opt" onclick="checkAnswer(this, false, 'Grandes empresas têm processos diferentes dos que o Método t. resolve.')">A) Diretores e CEOs de multinacionais e grandes S/A.</div>
+        <div class="q-opt" onclick="checkAnswer(this, true)">B) Donos e Donas de Micro e Pequenas Empresas (MPEs).</div>
+        <div class="q-opt" onclick="checkAnswer(this, false, 'Focamos no negócio tradicional que gera riqueza e vida real.')">C) Startups de tecnologia e empresas de economia digital.</div>
+      </div>
+    </div>
+
+    <!-- STEP 3: ROI T5 -->
+    <div class="login-step" id="step-3">
+      <h2 class="q-title">Lógica de Retorno (T5)</h2>
+      <p class="q-desc">Em quanto tempo e como o produto T5 geralmente se paga?</p>
+      <div class="q-options">
+        <div class="q-opt" onclick="checkAnswer(this, false, 'O prazo de retorno é mais curto se a margem for recuperada.')">A) Em 12 meses, através da redução drástica de impostos.</div>
+        <div class="q-opt" onclick="checkAnswer(this, true)">B) Em 90 dias, com a recuperação de ~3.5% de margem no faturamento.</div>
+        <div class="q-opt" onclick="checkAnswer(this, false, 'Não prometemos milagres, mas sim gestão eficiente.')">C) Em 30 dias, triplicando o faturamento do cliente.</div>
+      </div>
+    </div>
+
+    <!-- STEP 4: SUCCESS -->
+    <div class="login-step" id="step-4">
+      <h2 class="q-title" style="color:var(--laranja)">Mentalidade Provada</h2>
+      <p class="q-desc">Parabéns. Você domina os fundamentos. O acesso ao Playbook de Elite está liberado. Vamos pra cima!</p>
+      <button onclick="unlockPlaybook()" style="background:#50ff78; color:#000; border:none; padding:14px 32px; font-family:'Barlow Condensed', sans-serif; font-weight:800; text-transform:uppercase; letter-spacing:1px; cursor:pointer; border-radius:2px; font-size:14px; width:100%">Entrar no Playbook</button>
+    </div>
+
+    <div id="login-feedback" style="margin-top:20px; font-size:12px; min-height:18px; text-align:center;"></div>
+  </div>
+</div>
 
 <!-- NAV -->
 <nav id="nav">
@@ -299,12 +425,14 @@ footer{background:var(--cinza-e);padding:56px 80px;display:flex;align-items:cent
   <ul class="nav-links">
     <li><a href="#inicio">Início</a></li>
     <li><a href="#fases">Fases</a></li>
-    <li><a href="#esteira">Esteira</a></li>
     <li><a href="#canais">Canais</a></li>
     <li><a href="#social-selling">Social Selling</a></li>
     <li><a href="#funil">Funil</a></li>
     <li><a href="#metodologias">Metodologias</a></li>
     <li><a href="#conversao">Conversão</a></li>
+    <li><a href="#protocolo-reuniao">Protocolo</a></li>
+    <li><a href="#esteira">Esteira</a></li>
+    <li><a href="#cross-selling">Cross-selling</a></li>
     <li><a href="#fidelizacao">Carteira</a></li>
     <li><a href="#kpis">KPIs</a></li>
   </ul>
@@ -317,12 +445,8 @@ footer{background:var(--cinza-e);padding:56px 80px;display:flex;align-items:cent
   <p class="hero-tag">Método t. · Playbook de Vendas com Previsibilidade</p>
   <h1 class="hero-title">Método <span class="acc">t.</span><br>Tutoreanos</h1>
   <div class="hero-meta">
-    <p class="hero-desc">O guia definitivo de vendas com previsibilidade para franqueados Tutoreanos. Social selling com Instagram como motor, metodologias de qualificação, gestão de carteira por curva ABC e loops de crescimento que transformam clientes satisfeitos em nova receita.</p>
-    <div class="hero-stats">
-      <div><div class="stat-n">4</div><div class="stat-l">Fases</div></div>
-      <div><div class="stat-n">10</div><div class="stat-l">Canais</div></div>
-      <div><div class="stat-n">60d</div><div class="stat-l">Meta</div></div>
-    </div>
+    <p class="hero-desc">O mapa operacional definitivo para construir vendas com previsibilidade na sua franquia. Domine as máquinas de atração Inbound e Outbound, conduza reuniões consultivas no mais alto nível e ative loops de crescimento que transformam clientes satisfeitos na sua maior fonte de novas receitas.</p>
+
   </div>
   <div class="scroll-hint"><span>scroll</span><div class="scroll-line"></div></div>
 </div>
@@ -557,6 +681,7 @@ footer{background:var(--cinza-e);padding:56px 80px;display:flex;align-items:cent
         </ul>
       </div>
 
+
     </div>
   </div>
 </div>
@@ -564,268 +689,6 @@ footer{background:var(--cinza-e);padding:56px 80px;display:flex;align-items:cent
 
 <div class="divider"></div>
 
-<!-- ESTEIRA COMERCIAL -->
-<div class="sec-full" style="background:var(--cinza-e);" id="esteira-old">
-<div class="sec-inner">
-  <div class="stag reveal">Portfólio de produtos</div>
-  <h2 class="stitle reveal">Esteira<br><span class="acc">comercial</span></h2>
-
-  <div style="display:grid;grid-template-columns:1fr 1fr;gap:48px;margin-bottom:48px;" class="reveal">
-    <div>
-      <p style="font-size:15px;font-weight:300;line-height:1.75;color:rgba(255,255,255,.55);margin-bottom:16px">A esteira comercial da Tutoreanos foi desenhada para guiar o empresário por uma jornada de crescimento — do primeiro contato ao relacionamento de longo prazo. Cada produto tem um papel claro: eliminar objeção, entregar resultado e preparar o cliente para o próximo nível.</p>
-      <p style="font-size:15px;font-weight:300;line-height:1.75;color:rgba(255,255,255,.55)">O franqueado que entende a lógica da esteira não vende produtos isolados — ele conduz uma jornada. A venda mais fácil sempre é o próximo passo de um cliente satisfeito com o passo anterior.</p>
-    </div>
-    <div style="background:var(--preto);padding:28px;border-top:3px solid var(--laranja)">
-      <div style="font-family:'Barlow Condensed',sans-serif;font-size:10px;font-weight:600;letter-spacing:2px;text-transform:uppercase;color:rgba(255,255,255,.35);margin-bottom:16px">Lógica da jornada</div>
-      <div style="display:flex;flex-direction:column;gap:0">
-        <div style="display:flex;gap:14px;padding:11px 0;border-bottom:1px solid rgba(255,255,255,.05)"><div style="font-family:'Barlow Condensed',sans-serif;font-size:11px;font-weight:700;color:var(--laranja);width:70px;flex-shrink:0;text-transform:uppercase">Entrada</div><div style="font-size:12px;font-weight:300;color:rgba(255,255,255,.6);line-height:1.5">Consulta e Decola — quebram a desconfiança e entregam o primeiro valor real</div></div>
-        <div style="display:flex;gap:14px;padding:11px 0;border-bottom:1px solid rgba(255,255,255,.05)"><div style="font-family:'Barlow Condensed',sans-serif;font-size:11px;font-weight:700;color:var(--laranja);width:70px;flex-shrink:0;text-transform:uppercase">Core</div><div style="font-size:12px;font-weight:300;color:rgba(255,255,255,.6);line-height:1.5">T3 e T5 — implantam gestão real e geram a transformação que justifica o investimento</div></div>
-        <div style="display:flex;gap:14px;padding:11px 0;border-bottom:1px solid rgba(255,255,255,.05)"><div style="font-family:'Barlow Condensed',sans-serif;font-size:11px;font-weight:700;color:var(--laranja);width:70px;flex-shrink:0;text-transform:uppercase">LTV</div><div style="font-size:12px;font-weight:300;color:rgba(255,255,255,.6);line-height:1.5">CGD — extensão do relacionamento, receita recorrente e prova máxima de valor entregue</div></div>
-        <div style="display:flex;gap:14px;padding:11px 0"><div style="font-family:'Barlow Condensed',sans-serif;font-size:11px;font-weight:700;color:var(--laranja);width:70px;flex-shrink:0;text-transform:uppercase">Sinal</div><div style="font-size:12px;font-weight:300;color:rgba(255,255,255,.6);line-height:1.5">Chegar ao CGD é a prova de que a jornada funcionou — e de que o franqueado entregou valor real</div></div>
-      </div>
-    </div>
-  </div>
-
-  <!-- FUNIL VISUAL -->
-  <div class="reveal" style="margin-bottom:3px">
-    <div style="position:relative">
-
-      <!-- CONSULTA -->
-      <div style="background:var(--preto);border-top:4px solid var(--laranja);padding:32px 36px;margin-bottom:2px;position:relative;overflow:hidden">
-        <div style="position:absolute;top:0;right:0;bottom:0;width:4px;background:var(--laranja);opacity:.2"></div>
-        <div style="display:grid;grid-template-columns:200px 1fr auto;gap:32px;align-items:center">
-          <div>
-            <div style="font-family:'Barlow Condensed',sans-serif;font-size:10px;font-weight:600;letter-spacing:2px;text-transform:uppercase;color:var(--laranja);margin-bottom:6px">Produto de entrada</div>
-            <div style="font-family:'Barlow Condensed',sans-serif;font-weight:800;font-size:40px;text-transform:uppercase;letter-spacing:-1px;line-height:1">Consulta</div>
-            <div style="font-size:11px;font-weight:300;color:rgba(255,255,255,.4);margin-top:4px">1 sessão · diagnóstico remunerado</div>
-          </div>
-          <div>
-            <p style="font-size:13px;font-weight:300;color:rgba(255,255,255,.6);line-height:1.7;margin-bottom:12px">Uma sessão focada com o dono ou dona da empresa para resolver um problema específico do negócio. O objetivo real é ser um <strong style="color:#fff;font-weight:500">diagnóstico remunerado</strong> — o cliente paga, recebe valor imediato e quebra a principal objeção do high ticket: a desconfiança de que a consultoria funciona. Quem passa pela Consulta já experimentou a Tutoreanos na prática.</p>
-            <div style="display:flex;gap:24px;flex-wrap:wrap">
-              <div style="background:var(--cinza-e);padding:10px 16px"><div style="font-family:'Barlow Condensed',sans-serif;font-size:10px;font-weight:600;letter-spacing:1.5px;text-transform:uppercase;color:rgba(255,255,255,.35);margin-bottom:3px">Perfil ideal</div><div style="font-size:12px;font-weight:300;color:rgba(255,255,255,.65)">Qualquer empresário que queira resolver um problema pontual</div></div>
-              <div style="background:var(--cinza-e);padding:10px 16px"><div style="font-family:'Barlow Condensed',sans-serif;font-size:10px;font-weight:600;letter-spacing:1.5px;text-transform:uppercase;color:rgba(255,255,255,.35);margin-bottom:3px">Papel na esteira</div><div style="font-size:12px;font-weight:300;color:rgba(255,255,255,.65)">Quebrar desconfiança → abrir caminho para T3, T5 ou Decola</div></div>
-            </div>
-          </div>
-          <div style="text-align:right;flex-shrink:0">
-            <div style="font-family:'Barlow Condensed',sans-serif;font-size:11px;font-weight:600;letter-spacing:1.5px;text-transform:uppercase;color:rgba(255,255,255,.35);margin-bottom:4px">Investimento</div>
-            <div style="font-family:'Barlow Condensed',sans-serif;font-weight:800;font-size:44px;color:var(--laranja);line-height:1">R$350</div>
-            <div style="font-size:11px;font-weight:300;color:rgba(255,255,255,.3);margin-top:4px">sessão única</div>
-          </div>
-        </div>
-        <!-- FUNIL ARROW -->
-        <div style="position:absolute;bottom:-18px;left:50%;transform:translateX(-50%);width:0;height:0;border-left:20px solid transparent;border-right:20px solid transparent;border-top:18px solid var(--preto);z-index:2"></div>
-      </div>
-
-      <!-- DECOLA -->
-      <div style="background:var(--cinza-m);border-top:4px solid rgba(223,95,46,.6);padding:28px 36px;margin-bottom:2px;margin-left:40px;margin-right:40px;position:relative">
-        <div style="display:grid;grid-template-columns:200px 1fr auto;gap:32px;align-items:center">
-          <div>
-            <div style="font-family:'Barlow Condensed',sans-serif;font-size:10px;font-weight:600;letter-spacing:2px;text-transform:uppercase;color:rgba(223,95,46,.7);margin-bottom:6px">Entrada · grupo</div>
-            <div style="font-family:'Barlow Condensed',sans-serif;font-weight:800;font-size:40px;text-transform:uppercase;letter-spacing:-1px;line-height:1">Decola</div>
-            <div style="font-size:11px;font-weight:300;color:rgba(255,255,255,.4);margin-top:4px">Consultoria em grupo</div>
-          </div>
-          <div>
-            <p style="font-size:13px;font-weight:300;color:rgba(255,255,255,.55);line-height:1.7;margin-bottom:12px">Consultoria em formato de grupo — produto de entrada ideal para empresas que ainda não têm capacidade de investimento em high ticket individual. Gera valor real enquanto o cliente experimenta a metodologia Tutoreanos num ambiente colaborativo com outros empresários.</p>
-            <div style="display:flex;gap:24px;flex-wrap:wrap">
-              <div style="background:var(--cinza-e);padding:10px 16px"><div style="font-family:'Barlow Condensed',sans-serif;font-size:10px;font-weight:600;letter-spacing:1.5px;text-transform:uppercase;color:rgba(255,255,255,.35);margin-bottom:3px">Perfil ideal</div><div style="font-size:12px;font-weight:300;color:rgba(255,255,255,.65)">Empresários com restrição de budget, mas dispostos a crescer</div></div>
-              <div style="background:var(--cinza-e);padding:10px 16px"><div style="font-family:'Barlow Condensed',sans-serif;font-size:10px;font-weight:600;letter-spacing:1.5px;text-transform:uppercase;color:rgba(255,255,255,.35);margin-bottom:3px">Papel na esteira</div><div style="font-size:12px;font-weight:300;color:rgba(255,255,255,.65)">Qualificar e preparar para T3 ou T5 quando o cliente crescer</div></div>
-            </div>
-          </div>
-          <div style="text-align:right;flex-shrink:0">
-            <div style="font-family:'Barlow Condensed',sans-serif;font-size:11px;font-weight:600;letter-spacing:1.5px;text-transform:uppercase;color:rgba(255,255,255,.35);margin-bottom:4px">Investimento</div>
-            <div style="font-family:'Barlow Condensed',sans-serif;font-weight:800;font-size:36px;color:rgba(223,95,46,.8);line-height:1">Sob consulta</div>
-            <div style="font-size:11px;font-weight:300;color:rgba(255,255,255,.3);margin-top:4px">formato grupo</div>
-          </div>
-        </div>
-        <div style="position:absolute;bottom:-18px;left:50%;transform:translateX(-50%);width:0;height:0;border-left:20px solid transparent;border-right:20px solid transparent;border-top:18px solid var(--cinza-m);z-index:2"></div>
-      </div>
-
-      <!-- T3 -->
-      <div style="background:var(--cinza-e);border-top:4px solid rgba(223,95,46,.5);padding:28px 36px;margin-bottom:2px;margin-left:80px;margin-right:80px;position:relative">
-        <div style="display:grid;grid-template-columns:200px 1fr auto;gap:32px;align-items:start">
-          <div>
-            <div style="font-family:'Barlow Condensed',sans-serif;font-size:10px;font-weight:600;letter-spacing:2px;text-transform:uppercase;color:rgba(223,95,46,.6);margin-bottom:6px">Core · abertura de empresas</div>
-            <div style="font-family:'Barlow Condensed',sans-serif;font-weight:800;font-size:56px;text-transform:uppercase;letter-spacing:-2px;line-height:1;color:var(--laranja)">T3</div>
-            <div style="font-size:11px;font-weight:300;color:rgba(255,255,255,.4);margin-top:4px">3 meses · 3 áreas</div>
-          </div>
-          <div>
-            <p style="font-size:13px;font-weight:300;color:rgba(255,255,255,.55);line-height:1.7;margin-bottom:14px">Consultoria de 3 meses em 3 áreas estratégicas — ideal para empresas em processo de abertura ou estruturação inicial. Trabalha as bases fundamentais do negócio para que o empresário saia do improviso e entre em operação com gestão desde o começo.</p>
-            <div style="display:grid;grid-template-columns:repeat(3,1fr);gap:6px">
-              <div style="background:var(--preto);padding:12px 14px;text-align:center">
-                <div style="font-size:18px;margin-bottom:4px">💰</div>
-                <div style="font-family:'Barlow Condensed',sans-serif;font-size:13px;font-weight:700;text-transform:uppercase;color:var(--laranja)">Financeiro</div>
-                <div style="font-size:11px;font-weight:300;color:rgba(255,255,255,.4);margin-top:3px">Fluxo, custos, precificação</div>
-              </div>
-              <div style="background:var(--preto);padding:12px 14px;text-align:center">
-                <div style="font-size:18px;margin-bottom:4px">🎯</div>
-                <div style="font-family:'Barlow Condensed',sans-serif;font-size:13px;font-weight:700;text-transform:uppercase;color:var(--laranja)">Estratégico</div>
-                <div style="font-size:11px;font-weight:300;color:rgba(255,255,255,.4);margin-top:3px">Posicionamento, metas, modelo</div>
-              </div>
-              <div style="background:var(--preto);padding:12px 14px;text-align:center">
-                <div style="font-size:18px;margin-bottom:4px">📈</div>
-                <div style="font-family:'Barlow Condensed',sans-serif;font-size:13px;font-weight:700;text-transform:uppercase;color:var(--laranja)">Comercial</div>
-                <div style="font-size:11px;font-weight:300;color:rgba(255,255,255,.4);margin-top:3px">Vendas, funil, precificação</div>
-              </div>
-            </div>
-          </div>
-          <div style="text-align:right;flex-shrink:0">
-            <div style="font-family:'Barlow Condensed',sans-serif;font-size:11px;font-weight:600;letter-spacing:1.5px;text-transform:uppercase;color:rgba(255,255,255,.35);margin-bottom:4px">Investimento</div>
-            <div style="font-family:'Barlow Condensed',sans-serif;font-weight:800;font-size:36px;color:var(--laranja);line-height:1">3× R$1.710</div>
-            <div style="font-size:11px;font-weight:300;color:rgba(255,255,255,.3);margin-top:4px">total R$5.130</div>
-          </div>
-        </div>
-        <div style="position:absolute;bottom:-18px;left:50%;transform:translateX(-50%);width:0;height:0;border-left:20px solid transparent;border-right:20px solid transparent;border-top:18px solid var(--cinza-e);z-index:2"></div>
-      </div>
-
-      <!-- T5 -->
-      <div style="background:var(--preto);border-top:4px solid var(--laranja);padding:32px 36px;margin-bottom:2px;margin-left:120px;margin-right:120px;position:relative">
-        <div style="position:absolute;top:12px;right:20px;font-family:'Barlow Condensed',sans-serif;font-size:10px;font-weight:600;letter-spacing:2px;text-transform:uppercase;background:var(--laranja);color:#fff;padding:4px 12px">CARRO-CHEFE</div>
-        <div style="display:grid;grid-template-columns:200px 1fr auto;gap:32px;align-items:start">
-          <div>
-            <div style="font-family:'Barlow Condensed',sans-serif;font-size:10px;font-weight:600;letter-spacing:2px;text-transform:uppercase;color:var(--laranja);margin-bottom:6px">Core · implantação de gestão</div>
-            <div style="font-family:'Barlow Condensed',sans-serif;font-weight:800;font-size:56px;text-transform:uppercase;letter-spacing:-2px;line-height:1;color:var(--laranja)">T5</div>
-            <div style="font-size:11px;font-weight:300;color:rgba(255,255,255,.4);margin-top:4px">5 meses · 5 áreas</div>
-          </div>
-          <div>
-            <p style="font-size:13px;font-weight:300;color:rgba(255,255,255,.6);line-height:1.7;margin-bottom:14px">O carro-chefe da Tutoreanos. Cinco meses de consultoria em cinco áreas — o programa completo para implantar gestão e organização numa pequena empresa. É o produto que gera a maior transformação e cria o cliente mais propenso a continuar para o CGD.</p>
-            <div style="display:grid;grid-template-columns:repeat(5,1fr);gap:4px">
-              <div style="background:var(--cinza-e);padding:10px 8px;text-align:center">
-                <div style="font-size:16px;margin-bottom:3px">💰</div>
-                <div style="font-family:'Barlow Condensed',sans-serif;font-size:11px;font-weight:700;text-transform:uppercase;color:var(--laranja)">Financeiro</div>
-              </div>
-              <div style="background:var(--cinza-e);padding:10px 8px;text-align:center">
-                <div style="font-size:16px;margin-bottom:3px">🎯</div>
-                <div style="font-family:'Barlow Condensed',sans-serif;font-size:11px;font-weight:700;text-transform:uppercase;color:var(--laranja)">Estratégico</div>
-              </div>
-              <div style="background:var(--cinza-e);padding:10px 8px;text-align:center">
-                <div style="font-size:16px;margin-bottom:3px">⚙️</div>
-                <div style="font-family:'Barlow Condensed',sans-serif;font-size:11px;font-weight:700;text-transform:uppercase;color:var(--laranja)">Processos</div>
-              </div>
-              <div style="background:var(--cinza-e);padding:10px 8px;text-align:center">
-                <div style="font-size:16px;margin-bottom:3px">📈</div>
-                <div style="font-family:'Barlow Condensed',sans-serif;font-size:11px;font-weight:700;text-transform:uppercase;color:var(--laranja)">Vendas</div>
-              </div>
-              <div style="background:var(--cinza-e);padding:10px 8px;text-align:center">
-                <div style="font-size:16px;margin-bottom:3px">👥</div>
-                <div style="font-family:'Barlow Condensed',sans-serif;font-size:11px;font-weight:700;text-transform:uppercase;color:var(--laranja)">Pessoas</div>
-              </div>
-            </div>
-          </div>
-          <div style="text-align:right;flex-shrink:0">
-            <div style="font-family:'Barlow Condensed',sans-serif;font-size:11px;font-weight:600;letter-spacing:1.5px;text-transform:uppercase;color:rgba(255,255,255,.35);margin-bottom:4px">Investimento</div>
-            <div style="font-family:'Barlow Condensed',sans-serif;font-weight:800;font-size:36px;color:var(--laranja);line-height:1">5× R$1.710</div>
-            <div style="font-size:11px;font-weight:300;color:rgba(255,255,255,.3);margin-top:4px">total R$8.550</div>
-          </div>
-        </div>
-        <div style="position:absolute;bottom:-18px;left:50%;transform:translateX(-50%);width:0;height:0;border-left:20px solid transparent;border-right:20px solid transparent;border-top:18px solid var(--preto);z-index:2"></div>
-      </div>
-
-      <!-- CGD -->
-      <div style="background:linear-gradient(135deg,rgba(223,95,46,.12) 0%,rgba(20,20,20,0) 100%);border:1px solid rgba(223,95,46,.3);border-top:4px solid var(--laranja);padding:32px 36px;margin-left:160px;margin-right:160px;position:relative">
-        <div style="position:absolute;top:-1px;left:-1px;right:-1px;bottom:-1px;pointer-events:none;border-radius:0"></div>
-        <div style="display:grid;grid-template-columns:200px 1fr auto;gap:32px;align-items:start">
-          <div>
-            <div style="font-family:'Barlow Condensed',sans-serif;font-size:10px;font-weight:600;letter-spacing:2px;text-transform:uppercase;color:var(--laranja);margin-bottom:6px">Extensão de LTV</div>
-            <div style="font-family:'Barlow Condensed',sans-serif;font-weight:800;font-size:56px;text-transform:uppercase;letter-spacing:-2px;line-height:1;color:var(--laranja)">CGD</div>
-            <div style="font-size:11px;font-weight:300;color:rgba(255,255,255,.4);margin-top:4px">6 ou 12 meses · 1 reunião/mês</div>
-          </div>
-          <div>
-            <p style="font-size:13px;font-weight:300;color:rgba(255,255,255,.6);line-height:1.7;margin-bottom:14px">O serviço de acompanhamento e análise de desempenho contínuo — ideal após T3 ou T5, ou sob medida. <strong style="color:#fff;font-weight:500">Chegar ao CGD é a prova máxima de valor entregue:</strong> significa que o cliente passou pela jornada completa, viu resultado e escolheu continuar. É o produto que fecha o ciclo da consultoria e abre o ciclo do relacionamento de longo prazo.</p>
-            <div style="display:flex;gap:12px;flex-wrap:wrap">
-              <div style="background:rgba(223,95,46,.1);border:1px solid rgba(223,95,46,.2);padding:10px 16px">
-                <div style="font-family:'Barlow Condensed',sans-serif;font-size:10px;font-weight:600;letter-spacing:1.5px;text-transform:uppercase;color:var(--laranja);margin-bottom:3px">Quando vender</div>
-                <div style="font-size:12px;font-weight:300;color:rgba(255,255,255,.65)">Pós T3, pós T5 ou sob medida para clientes maduros</div>
-              </div>
-              <div style="background:rgba(223,95,46,.1);border:1px solid rgba(223,95,46,.2);padding:10px 16px">
-                <div style="font-family:'Barlow Condensed',sans-serif;font-size:10px;font-weight:600;letter-spacing:1.5px;text-transform:uppercase;color:var(--laranja);margin-bottom:3px">O que entrega</div>
-                <div style="font-size:12px;font-weight:300;color:rgba(255,255,255,.65)">1 reunião mensal de análise de desempenho e direcionamento</div>
-              </div>
-              <div style="background:rgba(223,95,46,.1);border:1px solid rgba(223,95,46,.2);padding:10px 16px">
-                <div style="font-family:'Barlow Condensed',sans-serif;font-size:10px;font-weight:600;letter-spacing:1.5px;text-transform:uppercase;color:var(--laranja);margin-bottom:3px">Sinal de maturidade</div>
-                <div style="font-size:12px;font-weight:300;color:rgba(255,255,255,.65)">Cliente que chegou ao CGD é curva A — ativar loop de crescimento</div>
-              </div>
-            </div>
-          </div>
-          <div style="text-align:right;flex-shrink:0">
-            <div style="font-family:'Barlow Condensed',sans-serif;font-size:11px;font-weight:600;letter-spacing:1.5px;text-transform:uppercase;color:rgba(255,255,255,.35);margin-bottom:8px">Investimento</div>
-            <div style="margin-bottom:8px">
-              <div style="font-family:'Barlow Condensed',sans-serif;font-weight:800;font-size:28px;color:var(--laranja);line-height:1">6× R$700</div>
-              <div style="font-size:11px;font-weight:300;color:rgba(255,255,255,.3);margin-top:2px">total R$4.200 · 6 meses</div>
-            </div>
-            <div style="border-top:1px solid rgba(255,255,255,.08);padding-top:8px">
-              <div style="font-family:'Barlow Condensed',sans-serif;font-weight:800;font-size:28px;color:var(--laranja);line-height:1">12× R$700</div>
-              <div style="font-size:11px;font-weight:300;color:rgba(255,255,255,.3);margin-top:2px">total R$8.400 · 12 meses</div>
-            </div>
-          </div>
-        </div>
-      </div>
-
-    </div>
-  </div>
-
-  <!-- TABELA COMPARATIVA -->
-  <div class="reveal" style="margin-top:3px">
-    <div style="background:var(--preto);padding:32px">
-      <div style="font-family:'Barlow Condensed',sans-serif;font-weight:700;font-size:20px;text-transform:uppercase;letter-spacing:-0.5px;margin-bottom:20px">Como indicar o produto certo para cada lead</div>
-      <div style="display:grid;grid-template-columns:repeat(5,1fr);gap:2px">
-        <div style="background:var(--cinza-e);padding:20px 16px">
-          <div style="font-family:'Barlow Condensed',sans-serif;font-size:16px;font-weight:800;color:var(--laranja);text-transform:uppercase;margin-bottom:8px">Consulta</div>
-          <ul style="list-style:none;display:flex;flex-direction:column;gap:6px">
-            <li style="font-size:11px;font-weight:300;color:rgba(255,255,255,.5);line-height:1.5;padding-left:12px;position:relative"><span style="position:absolute;left:0;color:rgba(223,95,46,.4);font-size:9px">—</span>Lead com objeção de confiança</li>
-            <li style="font-size:11px;font-weight:300;color:rgba(255,255,255,.5);line-height:1.5;padding-left:12px;position:relative"><span style="position:absolute;left:0;color:rgba(223,95,46,.4);font-size:9px">—</span>Qualquer porte ou segmento</li>
-            <li style="font-size:11px;font-weight:300;color:rgba(255,255,255,.5);line-height:1.5;padding-left:12px;position:relative"><span style="position:absolute;left:0;color:rgba(223,95,46,.4);font-size:9px">—</span>Problema pontual identificado</li>
-            <li style="font-size:11px;font-weight:300;color:rgba(255,255,255,.5);line-height:1.5;padding-left:12px;position:relative"><span style="position:absolute;left:0;color:rgba(223,95,46,.4);font-size:9px">—</span>Porta de entrada para a esteira</li>
-          </ul>
-        </div>
-        <div style="background:var(--cinza-e);padding:20px 16px">
-          <div style="font-family:'Barlow Condensed',sans-serif;font-size:16px;font-weight:800;color:var(--laranja);text-transform:uppercase;margin-bottom:8px">Decola</div>
-          <ul style="list-style:none;display:flex;flex-direction:column;gap:6px">
-            <li style="font-size:11px;font-weight:300;color:rgba(255,255,255,.5);line-height:1.5;padding-left:12px;position:relative"><span style="position:absolute;left:0;color:rgba(223,95,46,.4);font-size:9px">—</span>Budget limitado no momento</li>
-            <li style="font-size:11px;font-weight:300;color:rgba(255,255,255,.5);line-height:1.5;padding-left:12px;position:relative"><span style="position:absolute;left:0;color:rgba(223,95,46,.4);font-size:9px">—</span>Negócio em fase inicial</li>
-            <li style="font-size:11px;font-weight:300;color:rgba(255,255,255,.5);line-height:1.5;padding-left:12px;position:relative"><span style="position:absolute;left:0;color:rgba(223,95,46,.4);font-size:9px">—</span>Quer aprender com outros</li>
-            <li style="font-size:11px;font-weight:300;color:rgba(255,255,255,.5);line-height:1.5;padding-left:12px;position:relative"><span style="position:absolute;left:0;color:rgba(223,95,46,.4);font-size:9px">—</span>Preparar para T3 ou T5</li>
-          </ul>
-        </div>
-        <div style="background:var(--cinza-e);padding:20px 16px">
-          <div style="font-family:'Barlow Condensed',sans-serif;font-size:16px;font-weight:800;color:var(--laranja);text-transform:uppercase;margin-bottom:8px">T3</div>
-          <ul style="list-style:none;display:flex;flex-direction:column;gap:6px">
-            <li style="font-size:11px;font-weight:300;color:rgba(255,255,255,.5);line-height:1.5;padding-left:12px;position:relative"><span style="position:absolute;left:0;color:rgba(223,95,46,.4);font-size:9px">—</span>Empresa abrindo ou nova</li>
-            <li style="font-size:11px;font-weight:300;color:rgba(255,255,255,.5);line-height:1.5;padding-left:12px;position:relative"><span style="position:absolute;left:0;color:rgba(223,95,46,.4);font-size:9px">—</span>Precisa das bases: fin., estratégia, vendas</li>
-            <li style="font-size:11px;font-weight:300;color:rgba(255,255,255,.5);line-height:1.5;padding-left:12px;position:relative"><span style="position:absolute;left:0;color:rgba(223,95,46,.4);font-size:9px">—</span>Quer resultado em 3 meses</li>
-            <li style="font-size:11px;font-weight:300;color:rgba(255,255,255,.5);line-height:1.5;padding-left:12px;position:relative"><span style="position:absolute;left:0;color:rgba(223,95,46,.4);font-size:9px">—</span>Pode evoluir para T5</li>
-          </ul>
-        </div>
-        <div style="background:rgba(223,95,46,.06);border:1px solid rgba(223,95,46,.2);padding:20px 16px">
-          <div style="font-family:'Barlow Condensed',sans-serif;font-size:16px;font-weight:800;color:var(--laranja);text-transform:uppercase;margin-bottom:8px">T5 ★</div>
-          <ul style="list-style:none;display:flex;flex-direction:column;gap:6px">
-            <li style="font-size:11px;font-weight:300;color:rgba(255,255,255,.6);line-height:1.5;padding-left:12px;position:relative"><span style="position:absolute;left:0;color:rgba(223,95,46,.5);font-size:9px">—</span>Empresa operando, precisa de gestão</li>
-            <li style="font-size:11px;font-weight:300;color:rgba(255,255,255,.6);line-height:1.5;padding-left:12px;position:relative"><span style="position:absolute;left:0;color:rgba(223,95,46,.5);font-size:9px">—</span>Dono no operacional, sem visão estratégica</li>
-            <li style="font-size:11px;font-weight:300;color:rgba(255,255,255,.6);line-height:1.5;padding-left:12px;position:relative"><span style="position:absolute;left:0;color:rgba(223,95,46,.5);font-size:9px">—</span>Faturamento entre R$50k e R$500k/mês</li>
-            <li style="font-size:11px;font-weight:300;color:rgba(255,255,255,.6);line-height:1.5;padding-left:12px;position:relative"><span style="position:absolute;left:0;color:rgba(223,95,46,.5);font-size:9px">—</span>Pronto para implantação completa</li>
-          </ul>
-        </div>
-        <div style="background:var(--cinza-e);padding:20px 16px">
-          <div style="font-family:'Barlow Condensed',sans-serif;font-size:16px;font-weight:800;color:var(--laranja);text-transform:uppercase;margin-bottom:8px">CGD</div>
-          <ul style="list-style:none;display:flex;flex-direction:column;gap:6px">
-            <li style="font-size:11px;font-weight:300;color:rgba(255,255,255,.5);line-height:1.5;padding-left:12px;position:relative"><span style="position:absolute;left:0;color:rgba(223,95,46,.4);font-size:9px">—</span>Pós T3 ou T5 concluído</li>
-            <li style="font-size:11px;font-weight:300;color:rgba(255,255,255,.5);line-height:1.5;padding-left:12px;position:relative"><span style="position:absolute;left:0;color:rgba(223,95,46,.4);font-size:9px">—</span>Quer manter o ritmo de crescimento</li>
-            <li style="font-size:11px;font-weight:300;color:rgba(255,255,255,.5);line-height:1.5;padding-left:12px;position:relative"><span style="position:absolute;left:0;color:rgba(223,95,46,.4);font-size:9px">—</span>Curva A confirmada</li>
-            <li style="font-size:11px;font-weight:300;color:rgba(255,255,255,.5);line-height:1.5;padding-left:12px;position:relative"><span style="position:absolute;left:0;color:rgba(223,95,46,.4);font-size:9px">—</span>Jornada completa da Tutoreanos</li>
-          </ul>
-        </div>
-      </div>
-    </div>
-  </div>
-
-  <!-- DICA ESTEIRA -->
-  <div class="dica reveal" style="margin-top:3px">
-    <div class="dica-l">Como usar a esteira na Consulta Tutoreanos</div>
-    <p>Nunca apresente todos os produtos de uma vez. Durante a Consulta Tutoreanos, identifique a dor e o momento do cliente — e indique apenas o próximo passo. Se o lead tem desconfiança: Consulta. Se tem budget limitado: Decola. Se está abrindo o negócio: T3. Se já opera mas está no caos: T5. Se acabou o T5 e quer continuar: CGD. Cada produto vende o seguinte quando bem entregue.</p>
-  </div>
-</div>
-</div>
-
-<div class="divider"></div>
 
 <!-- LINKEDIN DETALHADO -->
 <div class="sec" id="linkedin">
@@ -981,12 +844,54 @@ footer{background:var(--cinza-e);padding:56px 80px;display:flex;align-items:cent
     <div class="ss-intro-text">
       <p>Social Selling é a arte de construir relacionamentos antes de fazer qualquer oferta comercial. Para o franqueado Tutoreanos, o Instagram é o motor principal — onde o lead existe, consome conteúdo e está aberto a interagir. LinkedIn e WhatsApp entram como suporte: o LinkedIn qualifica, o WhatsApp converte.</p>
       <p>A lógica é simples: <strong style="color:#fff;font-weight:500">você vai até o lead, não espera ele vir até você.</strong> Isso significa seguir empresários da sua região, assistir e responder os stories deles, comentar nos posts com algo genuíno — e só então, quando já existe familiaridade, iniciar a conversa comercial.</p>
+
       <div class="dica" style="margin-top:0">
         <div class="dica-l">A lei de ouro do Social Selling</div>
         <p>Nunca aborde frio. Antes de enviar qualquer DM comercial, o lead precisa ter visto seu rosto pelo menos 3 vezes — no feed, nos stories ou num comentário seu no conteúdo dele. Familiaridade abre portas que pitch fecha.</p>
       </div>
     </div>
+    
+    <!-- PIRAMIDE DE CHET HOLMES -->
+    <div style="background:var(--preto);padding:32px;border:1px solid rgba(255,255,255,.05);position:relative;overflow:hidden">
+      <div class="stag" style="margin-bottom:12px">O segredo dos 3%</div>
+      <h3 style="font-family:'Barlow Condensed',sans-serif;font-weight:800;font-size:32px;text-transform:uppercase;line-height:1;margin-bottom:20px">A Pirâmide de <span style="color:var(--laranja)">Chet Holmes</span></h3>
+      <p style="font-size:13px;font-weight:300;color:rgba(255,255,255,.5);line-height:1.6;margin-bottom:32px">O mercado não é composto apenas de quem quer comprar agora. Na verdade, <b>97% do seu mercado precisa ser educado</b> antes de estar pronto para o seu diagnóstico.</p>
+      
+      <div style="display:flex;flex-direction:column;gap:3px;max-width:400px;margin:0 auto">
+        <!-- 3% -->
+        <div style="background:var(--laranja);padding:14px;text-align:center;clip-path:polygon(20% 0, 80% 0, 100% 100%, 0 100%);width:30%;margin:0 auto;position:relative">
+          <div style="font-family:'Barlow Condensed',sans-serif;font-weight:900;font-size:24px;line-height:1">3%</div>
+          <div style="font-size:9px;text-transform:uppercase;font-weight:700;letter-spacing:0.5px">Comprando agora</div>
+        </div>
+        <!-- 7% -->
+        <div style="background:rgba(223,95,46,.85);padding:14px;text-align:center;clip-path:polygon(10% 0, 90% 0, 100% 100%, 0 100%);width:50%;margin:0 auto">
+          <div style="font-family:'Barlow Condensed',sans-serif;font-weight:900;font-size:24px;line-height:1">7%</div>
+          <div style="font-size:9px;text-transform:uppercase;font-weight:700;letter-spacing:0.5px">Abertos a ouvir</div>
+        </div>
+        <!-- 30% -->
+        <div style="background:rgba(223,95,46,.6);padding:14px;text-align:center;clip-path:polygon(5% 0, 95% 0, 100% 100%, 0 100%);width:70%;margin:0 auto">
+          <div style="font-family:'Barlow Condensed',sans-serif;font-weight:900;font-size:24px;line-height:1">30%</div>
+          <div style="font-size:9px;text-transform:uppercase;font-weight:700;letter-spacing:0.5px">Não pensam nisso</div>
+        </div>
+        <!-- 30% -->
+        <div style="background:rgba(223,95,46,.35);padding:14px;text-align:center;clip-path:polygon(2% 0, 98% 0, 100% 100%, 0 100%);width:85%;margin:0 auto">
+          <div style="font-family:'Barlow Condensed',sans-serif;font-weight:900;font-size:24px;line-height:1">30%</div>
+          <div style="font-size:9px;text-transform:uppercase;font-weight:700;letter-spacing:0.5px">Acreditam não estar interessados</div>
+        </div>
+        <!-- 30% -->
+        <div style="background:rgba(223,95,46,.15);padding:14px;text-align:center;width:100%;margin:0 auto">
+          <div style="font-family:'Barlow Condensed',sans-serif;font-weight:900;font-size:24px;line-height:1">30%</div>
+          <div style="font-size:9px;text-transform:uppercase;font-weight:700;letter-spacing:0.5px">Certeza que não estão interessados</div>
+        </div>
+      </div>
+      
+      <div style="margin-top:32px;background:rgba(223,95,46,.08);padding:20px;border-left:4px solid var(--laranja)">
+        <p style="font-size:14px;font-style:italic;color:rgba(255,255,255,.8);line-height:1.5">"A educação é a chave. Ao educar o lead sobre os problemas operacionais e financeiros que ele nem sabe que tem, você move ele dos 90% da base diretamente para o topo da pirâmide."</p>
+      </div>
+    </div>
+
     <div class="ssi-score">
+
       <div class="ssi-title">Papel de cada plataforma no funil</div>
       <div class="ssi-items">
         <div class="ssi-item">
@@ -1185,6 +1090,158 @@ footer{background:var(--cinza-e);padding:56px 80px;display:flex;align-items:cent
         <div style="font-family:'Barlow Condensed',sans-serif;font-size:9px;font-weight:600;letter-spacing:2px;text-transform:uppercase;color:var(--laranja);margin-bottom:6px">WhatsApp · follow-up após diagnóstico</div>
         <div class="ss-script-msg">"Oi [Nome]! Analisei suas respostas do diagnóstico e identifiquei 3 pontos críticos que estão provavelmente limitando o crescimento do seu negócio agora. Quero te convidar para uma Consulta Tutoreanos gratuita — 30 min onde você vai sair com clareza sobre o que está travando seu crescimento. Quando você tem disponibilidade essa semana?"</div>
         <div style="font-size:10px;color:rgba(255,255,255,.25);margin-top:10px;font-weight:300">→ Objetivo: agendar a Consulta Tutoreanos</div>
+      </div>
+    </div>
+  </div>
+
+
+  <!-- MANUAL TÉCNICO DE SOCIAL SELLING -->
+  <div style="margin-top:3px" class="reveal">
+    <div style="display:grid;grid-template-columns:1.2fr 1.8fr;gap:3px">
+      
+      <!-- FRAMEWORK 3-2-1 -->
+      <div style="background:var(--preto);padding:32px;border-left:4px solid var(--laranja)">
+        <div class="stag" style="margin-bottom:12px">Framework de engajamento</div>
+        <h3 style="font-family:'Barlow Condensed',sans-serif;font-weight:800;font-size:32px;text-transform:uppercase;line-height:1;margin-bottom:20px">O sistema <span style="color:var(--laranja)">3-2-1</span></h3>
+        <p style="font-size:13px;font-weight:300;color:rgba(255,255,255,.5);line-height:1.6;margin-bottom:24px">A técnica para ser notado pelo lead sem parecer um vendedor chato. Execute isso com 5 prospects novos todos os dias.</p>
+        
+        <div style="display:flex;flex-direction:column;gap:16px">
+          <div style="display:flex;gap:16px">
+            <div style="width:36px;height:36px;background:rgba(223,95,46,.1);border-radius:50%;display:flex;align-items:center;justify-content:center;font-family:'Barlow Condensed',sans-serif;font-weight:800;color:var(--laranja);flex-shrink:0">3</div>
+            <div>
+              <div style="font-family:'Barlow Condensed',sans-serif;font-weight:700;font-size:15px;text-transform:uppercase;color:#fff">Curtidas</div>
+              <div style="font-size:11px;font-weight:300;color:rgba(255,255,255,.4)">Curta os 3 últimos posts do lead. Isso garante que ele veja seu nome 3x nas notificações.</div>
+            </div>
+          </div>
+          <div style="display:flex;gap:16px">
+            <div style="width:36px;height:36px;background:rgba(223,95,46,.1);border-radius:50%;display:flex;align-items:center;justify-content:center;font-family:'Barlow Condensed',sans-serif;font-weight:800;color:var(--laranja);flex-shrink:0">2</div>
+            <div>
+              <div style="font-family:'Barlow Condensed',sans-serif;font-weight:700;font-size:15px;text-transform:uppercase;color:#fff">Comentários</div>
+              <div style="font-size:11px;font-weight:300;color:rgba(255,255,255,.4)">Comente em 2 posts diferentes com perguntas abertas que gerem resposta do lead.</div>
+            </div>
+          </div>
+          <div style="display:flex;gap:16px">
+            <div style="width:36px;height:36px;background:rgba(223,95,46,.1);border-radius:50%;display:flex;align-items:center;justify-content:center;font-family:'Barlow Condensed',sans-serif;font-weight:800;color:var(--laranja);flex-shrink:0">1</div>
+            <div>
+              <div style="font-family:'Barlow Condensed',sans-serif;font-weight:700;font-size:15px;text-transform:uppercase;color:#fff">Resposta de Story</div>
+              <div style="font-size:11px;font-weight:300;color:rgba(255,255,255,.4)">Responda a um story do dia com uma observação genuína. Isso abre a sua DM com ele.</div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- TRÍADE DE CONTEÚDO -->
+      <div style="background:var(--cinza-e);padding:32px">
+        <div class="stag" style="margin-bottom:12px">Estratégia de feed</div>
+        <h3 style="font-family:'Barlow Condensed',sans-serif;font-weight:800;font-size:32px;text-transform:uppercase;line-height:1;margin-bottom:20px">A Tríade de <span style="color:var(--laranja)">Vendas</span></h3>
+        <p style="font-size:13px;font-weight:300;color:rgba(255,255,255,.5);line-height:1.6;margin-bottom:24px">O que postar para que, quando o lead clicar no seu perfil, ele sinta confiança imediata em você.</p>
+        
+        <div style="display:grid;grid-template-columns:1fr 1fr 1fr;gap:16px">
+          <div style="background:var(--preto);padding:16px;border-top:2px solid var(--laranja)">
+            <div style="font-size:24px;margin-bottom:10px">🏛️</div>
+            <div style="font-family:'Barlow Condensed',sans-serif;font-weight:700;text-transform:uppercase;font-size:14px;color:var(--laranja);margin-bottom:6px">Autoridade</div>
+            <div style="font-size:11px;font-weight:300;color:rgba(255,255,255,.4)">Análise técnica de mercado, erros comuns empresariais, "como fazer" técnico.</div>
+          </div>
+          <div style="background:var(--preto);padding:16px;border-top:2px solid var(--laranja)">
+            <div style="font-size:24px;margin-bottom:10px">🤝</div>
+            <div style="font-family:'Barlow Condensed',sans-serif;font-weight:700;text-transform:uppercase;font-size:14px;color:var(--laranja);margin-bottom:6px">Conexão</div>
+            <div style="font-size:11px;font-weight:300;color:rgba(255,255,255,.4)">Bastidores de visitas, reuniões, seus valores como consultor, sua jornada.</div>
+          </div>
+          <div style="background:var(--preto);padding:16px;border-top:2px solid var(--laranja)">
+            <div style="font-size:24px;margin-bottom:10px">💎</div>
+            <div style="font-family:'Barlow Condensed',sans-serif;font-weight:700;text-transform:uppercase;font-size:14px;color:var(--laranja);margin-bottom:6px">Prova Social</div>
+            <div style="font-size:11px;font-weight:300;color:rgba(255,255,255,.4)">Resultado de clientes (números), depoimentos, fotos de contratos assinados.</div>
+          </div>
+        </div>
+
+
+        <!-- PIRÂMIDE DE CHET HOLMES -->
+        <div style="margin-top:24px;background:var(--preto);padding:32px;border:1px solid rgba(223,95,46,.15)">
+          <div class="stag" style="margin-bottom:12px">Estratégia de Captação</div>
+          <h4 style="font-family:'Barlow Condensed',sans-serif;font-weight:700;text-transform:uppercase;font-size:22px;color:#fff;margin-bottom:16px">A Pirâmide de <span style="color:var(--laranja)">Chet Holmes</span></h4>
+          <p style="font-size:13px;font-weight:300;color:rgba(255,255,255,.5);line-height:1.6;margin-bottom:24px">O erro do franqueado amador é tentar vender apenas para os 3%. O consultor elite foca na <b>Educação</b> para capturar os outros 97%.</p>
+          
+          <div style="display:flex;flex-direction:column;gap:4px;max-width:500px;margin:0 auto">
+            <div style="background:var(--laranja);padding:10px;text-align:center;width:15%;margin:0 auto;clip-path: polygon(25% 0%, 75% 0%, 100% 100%, 0% 100%);">
+              <div style="font-family:'Barlow Condensed',sans-serif;font-weight:900;font-size:11px;color:#000">3%</div>
+            </div>
+            <div style="background:rgba(223,95,46,.8);padding:10px;text-align:center;width:35%;margin:0 auto;clip-path: polygon(15% 0%, 85% 0%, 100% 100%, 0% 100%);">
+              <div style="font-family:'Barlow Condensed',sans-serif;font-weight:800;font-size:11px;color:#000">7% DISPOSTOS A OUVIR</div>
+            </div>
+            <div style="background:rgba(223,95,46,.5);padding:12px;text-align:center;width:60%;margin:0 auto;clip-path: polygon(10% 0%, 90% 0%, 100% 100%, 0% 100%);">
+              <div style="font-family:'Barlow Condensed',sans-serif;font-weight:700;font-size:11px;color:#fff">30% NÃO ESTÃO PENSANDO NISSO</div>
+            </div>
+            <div style="background:rgba(223,95,46,.2);padding:14px;text-align:center;width:85%;margin:0 auto;clip-path: polygon(5% 0%, 95% 0%, 100% 100%, 0% 100%);">
+              <div style="font-family:'Barlow Condensed',sans-serif;font-weight:500;font-size:11px;color:rgba(255,255,255,.6)">60% ACHAM QUE NÃO TÊM INTERESSE</div>
+            </div>
+          </div>
+          
+          <div style="margin-top:24px;padding:16px;background:rgba(223,95,46,.05);border-left:3px solid var(--laranja)">
+            <p style="font-size:12px;color:rgba(255,255,255,.7);line-height:1.6"><b>Insight:</b> 90% do seu mercado precisa ser EDUCADO antes de ser VENDIDO. É por isso que o seu Social Selling deve focar em gerar <b>Valor e Diagnóstico</b>, não em oferecer contrato logo de cara.</p>
+          </div>
+        </div>
+
+        <!-- NÍVEIS DE CONSCIÊNCIA -->
+        <div style="margin-top:24px;border-top:1px solid rgba(255,255,255,.07);padding-top:24px">
+          <div class="stag" style="margin-bottom:12px">Jornada do Lead</div>
+          <h4 style="font-family:'Barlow Condensed',sans-serif;font-weight:700;text-transform:uppercase;font-size:18px;color:#fff;margin-bottom:16px">Níveis de Consciência e Qualificação</h4>
+          <div style="display:grid;grid-template-columns:repeat(5,1fr);gap:2px">
+            <div style="background:rgba(255,255,255,.02);padding:12px;text-align:center">
+              <div style="font-family:'Barlow Condensed',sans-serif;font-weight:800;font-size:10px;color:rgba(255,255,255,.3);text-transform:uppercase;margin-bottom:4px">Nível 1</div>
+              <div style="font-size:12px;font-weight:700;color:rgba(255,255,255,.5);margin-bottom:8px">Inconsciente</div>
+              <p style="font-size:9px;color:rgba(255,255,255,.3);line-height:1.4">Não sabe que tem um problema. <br><b>Estratégia:</b> <br>Post de autoridade + Educação.</p>
+            </div>
+            <div style="background:rgba(223,95,46,.05);padding:12px;text-align:center">
+              <div style="font-family:'Barlow Condensed',sans-serif;font-weight:800;font-size:10px;color:rgba(223,95,46,.5);text-transform:uppercase;margin-bottom:4px">Nível 2</div>
+              <div style="font-size:12px;font-weight:700;color:rgba(255,255,255,.7);margin-bottom:8px">Consciente do Problema</div>
+              <p style="font-size:9px;color:rgba(255,255,255,.4);line-height:1.4">Sente a dor mas não sabe a causa. <br><b>Estratégia:</b> <br>Focar no sintoma (DM).</p>
+            </div>
+            <div style="background:rgba(223,95,46,.1);padding:12px;text-align:center">
+              <div style="font-family:'Barlow Condensed',sans-serif;font-weight:800;font-size:10px;color:rgba(223,95,46,.7);text-transform:uppercase;margin-bottom:4px">Nível 3</div>
+              <div style="font-size:12px;font-weight:700;color:rgba(255,255,255,.9);margin-bottom:8px">Consciente da Solução</div>
+              <p style="font-size:9px;color:rgba(255,255,255,.5);line-height:1.4">Sabe que existem soluções. <br><b>Estratégia:</b> <br>Diferencial Tutoreanos.</p>
+            </div>
+            <div style="background:rgba(223,95,46,.2);padding:12px;text-align:center">
+              <div style="font-family:'Barlow Condensed',sans-serif;font-weight:800;font-size:10px;color:var(--laranja);text-transform:uppercase;margin-bottom:4px">Nível 4</div>
+              <div style="font-size:12px;font-weight:800;color:#fff;margin-bottom:8px">Consciente do Produto</div>
+              <p style="font-size:9px;color:rgba(255,255,255,.7);line-height:1.4">Já conhece você e o Método. <br><b>Estratégia:</b> <br>Prova Social + Resultado.</p>
+            </div>
+            <div style="background:var(--laranja);padding:12px;text-align:center">
+              <div style="font-family:'Barlow Condensed',sans-serif;font-weight:800;font-size:10px;color:#000;text-transform:uppercase;margin-bottom:4px">Nível 5</div>
+              <div style="font-size:12px;font-weight:900;color:#000;margin-bottom:8px">Pronto para Conversão</div>
+              <p style="font-size:9px;color:rgba(0,0,0,.7);line-height:1.4">Confia em você e quer ajuda. <br><b>Estratégia:</b> <br>Diagnóstico Imediato.</p>
+            </div>
+          </div>
+
+          <!-- SCRIPTS POR NÍVEL -->
+          <div style="margin-top:24px;display:grid;grid-template-columns:1fr 1fr;gap:3px">
+            <div style="background:var(--cinza-e);padding:20px">
+              <div style="font-family:'Barlow Condensed',sans-serif;font-size:10px;font-weight:600;letter-spacing:1px;text-transform:uppercase;color:var(--laranja);margin-bottom:8px">Abordagem para Nível 1/2 (Inconsciente)</div>
+              <div style="font-size:12px;font-weight:300;color:rgba(255,255,255,.5);line-height:1.5;font-style:italic">"Vi seu post sobre [tema] e achei brilhante. Geralmente quem foca nisso acaba esquecendo do [ponto cego]. Mandei um material no seu direct que mostra como equilibrar os dois."</div>
+            </div>
+            <div style="background:var(--cinza-e);padding:20px">
+              <div style="font-family:'Barlow Condensed',sans-serif;font-size:10px;font-weight:600;letter-spacing:1px;text-transform:uppercase;color:var(--laranja);margin-bottom:8px">Abordagem para Nível 4 (Desejo)</div>
+              <div style="font-size:12px;font-weight:300;color:rgba(255,255,255,.5);line-height:1.5;font-style:italic">"[Nome], vi que você curtiu meus últimos 3 posts sobre gestão de equipe. Imagino que esse seja um desafio real por aí hoje. Quer que eu te mande o Diagnóstico para mapearmos onde está o gargalo?"</div>
+            </div>
+          </div>
+        </div>
+        </div>
+
+        <!-- MATRIX DE OBJEÇÕES -->
+
+        <div style="margin-top:24px;background:rgba(0,0,0,.3);padding:20px 24px">
+          <div style="font-family:'Barlow Condensed',sans-serif;font-size:10px;font-weight:600;letter-spacing:2px;text-transform:uppercase;color:rgba(255,255,255,.3);margin-bottom:12px">Matriz de quebra de objeções na DM</div>
+          <div style="display:grid;grid-template-columns:1fr 1fr;gap:20px">
+            <div>
+              <div style="font-size:11px;font-weight:500;color:#fff;margin-bottom:4px">"Não tenho tempo agora"</div>
+              <div style="font-size:11px;font-weight:300;color:rgba(255,255,255,.4)">"Entendo. É justamente por isso que os empresários me buscam: para parar de apagar incêndio e ganhar tempo. O diagnóstico leva 5 min e vai te dar exatamente esse caminho."</div>
+            </div>
+            <div>
+              <div style="font-size:11px;font-weight:500;color:#fff;margin-bottom:4px">"Meu negócio é diferente"</div>
+              <div style="font-size:11px;font-weight:300;color:rgba(255,255,255,.4)">"Concordo, cada negócio tem seu DNA. Mas o motor financeiro e comercial é universal. O diagnóstico foi feito para se adaptar ao seu segmento específico. Vamos testar?"</div>
+            </div>
+          </div>
+        </div>
       </div>
     </div>
   </div>
@@ -1694,7 +1751,47 @@ footer{background:var(--cinza-e);padding:56px 80px;display:flex;align-items:cent
     </div>
   </div>
 
-  <!-- MÉTRICAS DO FUNIL OUTBOUND -->
+  <!-- CHEAT SHEET DE QUALIFICAÇÃO -->
+  <div style="margin-top:40px;background:var(--preto);padding:40px;border:1px solid rgba(223,95,46,.1)">
+    <div class="stag" style="margin-bottom:12px">Guia de Execução</div>
+    <h3 style="font-family:'Barlow Condensed',sans-serif;font-weight:800;font-size:28px;text-transform:uppercase;letter-spacing:-1px;margin-bottom:20px">Cheat Sheet de <span style="color:var(--laranja)">Qualificação Ninja</span></h3>
+    <p style="font-size:13px;font-weight:300;color:rgba(255,255,255,.5);line-height:1.6;margin-bottom:24px">O que perguntar para extrair a verdade e como ler o gatilho de fechamento.</p>
+    
+    <div style="display:grid;grid-template-columns:1fr 1fr;gap:3px">
+      <!-- BANT EXPANDIDO -->
+      <div style="background:var(--cinza-e);padding:24px">
+        <div style="font-family:'Barlow Condensed',sans-serif;font-size:12px;font-weight:700;color:var(--laranja);margin-bottom:16px;text-transform:uppercase">BANT · Filtro Rápido</div>
+        <div style="display:flex;flex-direction:column;gap:16px">
+          <div>
+            <div style="font-size:11px;font-weight:600;color:#fff;margin-bottom:4px">Budget (Orçamento)</div>
+            <div style="font-size:11px;color:rgba(255,255,255,.4);font-style:italic">"Quanto o caos atual já te custou no último ano?"</div>
+            <div style="font-size:10px;color:var(--laranja);margin-top:4px">Gatilho: Se o custo da dor > investimento, a venda está feita.</div>
+          </div>
+          <div>
+            <div style="font-size:11px;font-weight:600;color:#fff;margin-bottom:4px">Authority (Poder)</div>
+            <div style="font-size:11px;color:rgba(255,255,255,.4);font-style:italic">"Além de você, quem mais precisa estar convencido de que este é o caminho?"</div>
+            <div style="font-size:10px;color:var(--laranja);margin-top:4px">Gatilho: Mapeie o 'Sócio Silencioso' ou a 'Esposa/Marido'.</div>
+          </div>
+        </div>
+      </div>
+      <!-- MEDDIC EXPANDIDO -->
+      <div style="background:var(--cinza-e);padding:24px">
+        <div style="font-family:'Barlow Condensed',sans-serif;font-size:12px;font-weight:700;color:var(--laranja);margin-bottom:16px;text-transform:uppercase">MEDDIC · Contas Complexas</div>
+        <div style="display:flex;flex-direction:column;gap:16px">
+          <div>
+            <div style="font-size:11px;font-weight:600;color:#fff;margin-bottom:4px">Metrics (Números)</div>
+            <div style="font-size:11px;color:rgba(255,255,255,.4);font-style:italic">"Se reduzirmos seu churn em 10%, quanto isso muda seu lucro líquido?"</div>
+            <div style="font-size:10px;color:var(--laranja);margin-top:4px">Gatilho: Transforme o benefício em R$ antes da proposta.</div>
+          </div>
+          <div>
+            <div style="font-size:11px;font-weight:600;color:#fff;margin-bottom:4px">Champion (Aliado)</div>
+            <div style="font-size:11px;color:rgba(255,255,255,.4);font-style:italic">"Como seu gerente veria essa mudança na operação?"</div>
+            <div style="font-size:10px;color:var(--laranja);margin-top:4px">Gatilho: Encontre quem vai sofrer se a solução NÃO for comprada.</div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
   <div class="reveal" style="margin-top:40px;margin-bottom:40px">
     <div style="font-family:'Barlow Condensed',sans-serif;font-weight:700;font-size:20px;text-transform:uppercase;letter-spacing:-0.5px;margin-bottom:16px">Taxa de conversão esperada · Outbound Ativo</div>
     <div style="display:grid;grid-template-columns:repeat(5,1fr);gap:2px">
@@ -1848,6 +1945,212 @@ footer{background:var(--cinza-e);padding:56px 80px;display:flex;align-items:cent
 <div class="sec" id="conversao">
   <div class="stag reveal">Fase 3 · Semanas 5–8</div>
   <h2 class="stitle reveal">Conversão e<br><span class="acc">fechamento</span></h2>
+
+  <!-- NOVO: PROTOCOLO DE REUNIÃO DE ELITE -->
+  <div id="protocolo-reuniao" class="reveal" style="margin-top:48px;margin-bottom:64px">
+    <div style="background:var(--cinza-e);padding:40px;border-top:3px solid var(--laranja);position:relative;overflow:hidden">
+      <div style="position:absolute;right:-20px;bottom:-20px;font-size:120px;color:rgba(223,95,46,.03);font-family:'Barlow Condensed',sans-serif;font-weight:900;user-select:none">ELITE</div>
+      
+      <div class="stag" style="margin-bottom:12px">O Ritual da Venda Consultiva</div>
+      <h3 style="font-family:'Barlow Condensed',sans-serif;font-weight:800;font-size:32px;text-transform:uppercase;letter-spacing:-1px;margin-bottom:32px">Protocolo de <span style="color:var(--laranja)">Reunião de Elite</span></h3>
+
+      <div style="display:grid;grid-template-columns:1fr 1fr;gap:40px">
+        <!-- PRÉ-REUNIÃO -->
+        <div>
+          <div style="font-family:'Barlow Condensed',sans-serif;font-size:12px;font-weight:700;letter-spacing:1px;text-transform:uppercase;color:var(--laranja);margin-bottom:16px;display:flex;align-items:center;gap:8px">
+            <span style="font-size:18px">🧠</span> Inteligência Pré-Reunião
+          </div>
+          <div style="display:flex;flex-direction:column;gap:16px">
+            <div style="background:rgba(255,255,255,.03);padding:16px;border-left:2px solid rgba(223,95,46,.3)">
+              <div style="font-size:13px;font-weight:600;color:#fff;margin-bottom:4px">1. Anatomia do Diagnóstico</div>
+              <p style="font-size:11px;color:rgba(255,255,255,.45);line-height:1.6">Não entre em call sem ler o diagnóstico 3 vezes. Identifique o <b>"Ponto Cego"</b> (ex: a margem de lucro que ele acha que tem vs. o que os custos indicam). Isso será sua âncora de fechamento.</p>
+            </div>
+            <div style="background:rgba(255,255,255,.03);padding:16px;border-left:2px solid rgba(223,95,46,.3)">
+              <div style="font-size:13px;font-weight:600;color:#fff;margin-bottom:4px">2. Stalking de Autoridade</div>
+              <p style="font-size:11px;color:rgba(255,255,255,.45);line-height:1.6">Veja o LinkedIn/Insta dos sócios. Eles são técnicos ou gestores? Têm orgulho da história da empresa? Prepare um elogio específico sobre um marco real para o quebra-gelo inicial.</p>
+            </div>
+            <div style="background:rgba(255,255,255,.03);padding:16px;border-left:2px solid rgba(223,95,46,.3)">
+              <div style="font-size:13px;font-weight:600;color:#fff;margin-bottom:4px">3. Ambiente de Consultor</div>
+              <p style="font-size:11px;color:rgba(255,255,255,.45);line-height:1.6">Fundo neutro, iluminação frontal, fone de ouvido com isolamento. <b>Sua imagem é 50% do ticket médio.</b> Garanta que o som seja cristalino — ruído gera dúvida.</p>
+            </div>
+          </div>
+        </div>
+
+        <!-- O RITUAL -->
+        <div>
+          <div style="font-family:'Barlow Condensed',sans-serif;font-size:12px;font-weight:700;letter-spacing:1px;text-transform:uppercase;color:var(--laranja);margin-bottom:16px;display:flex;align-items:center;gap:8px">
+            <span style="font-size:18px">🎭</span> O Ritual de Condução (60 min)
+          </div>
+          <div style="display:flex;flex-direction:column;gap:12px">
+            <div style="background:rgba(223,95,46,.05);padding:14px;border-radius:2px">
+              <div style="display:flex;justify-content:space-between;margin-bottom:4px">
+                <span style="font-size:11px;font-weight:700;color:#fff">00-05 min: Rapport Contextual</span>
+                <span style="font-size:9px;color:var(--laranja)">QUEBRA-GELO</span>
+              </div>
+              <p style="font-size:10px;color:rgba(255,255,255,.35);font-style:italic">"Fulano, vi que você postou sobre a nova expansão em [Cidade]. Como está sendo lidar com esse desafio logístico mantendo a operação rodando?"</p>
+            </div>
+            <div style="background:rgba(255,255,255,.02);padding:14px">
+              <div style="display:flex;justify-content:space-between;margin-bottom:4px">
+                <span style="font-size:11px;font-weight:700;color:#fff">05-07 min: Pauta e Controle</span>
+                <span style="font-size:9px;color:rgba(255,255,255,.3)">ASSERTIVIDADE</span>
+              </div>
+              <p style="font-size:10px;color:rgba(255,255,255,.35);font-style:italic">"Hoje nossa pauta é: 1. Entender seus desafios; 2. Aplicar meu olhar técnico sobre o diagnóstico; 3. Definir se fazemos sentido juntos. Combinado?"</p>
+            </div>
+            <div style="background:rgba(223,95,46,.05);padding:14px;border-radius:2px">
+              <div style="display:flex;justify-content:space-between;margin-bottom:4px">
+                <span style="font-size:11px;font-weight:700;color:#fff">07-40 min: Investigação e Insight</span>
+                <span style="font-size:9px;color:var(--laranja)">CORE (SPIN)</span>
+              </div>
+              <p style="font-size:10px;color:rgba(255,255,255,.35);font-style:italic">"Você mencionou que perde 2h por dia com retrabalho da equipe. No fim do ano, isso são 500h do seu tempo de dono. O que você faria com 20 dias extras de vida por ano?"</p>
+            </div>
+            <div style="background:rgba(255,255,255,.02);padding:14px">
+              <div style="display:flex;justify-content:space-between;margin-bottom:4px">
+                <span style="font-size:11px;font-weight:700;color:#fff">40-60 min: ROI e Fechamento</span>
+                <span style="font-size:9px;color:rgba(255,255,255,.3)">CONVERSÃO</span>
+              </div>
+              <p style="font-size:10px;color:rgba(255,255,255,.35);font-style:italic">"O T5 recupera R$3.200/mês pra você só em desperdício operacional. O investimento é de R$1.710. Basicamente, o lucro paga o projeto e ainda sobra R$1.500 no seu bolso."</p>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- BLOCOS DE EXPANSÃO ULTRA-DETALHADA -->
+      <div style="display:grid;grid-template-columns:1fr 1fr;gap:3px;margin-top:3px">
+        
+        <!-- MENTALIDADE & SILÊNCIO -->
+        <div style="background:var(--cinza-e);padding:32px" class="reveal">
+          <div style="font-family:'Barlow Condensed',sans-serif;font-size:11px;font-weight:700;text-transform:uppercase;color:var(--laranja);margin-bottom:20px;letter-spacing:1px">Postura e Controle de Call</div>
+          
+          <div style="margin-bottom:24px">
+            <div style="font-size:14px;font-weight:700;color:#fff;margin-bottom:8px">A Mentalidade do "Médico da Gestão"</div>
+            <p style="font-size:12px;color:rgba(255,255,255,.5);line-height:1.6">O consultor elite não vende, ele <b>prescreve</b>. Se o lead não tem perfil ou o problema não é o que resolvemos, diga. Perder uma venda errada gera mais autoridade do que fechar um contrato que vai dar churn. Sua intenção deve ser 100% de ajuda, sua necessidade de venda deve ser zero.</p>
+          </div>
+
+          <div>
+            <div style="font-size:14px;font-weight:700;color:#fff;margin-bottom:8px">A Tática do Silêncio Estratégico</div>
+            <p style="font-size:12px;color:rgba(255,255,255,.5);line-height:1.6">Após uma pergunta de implicação (ex: "Qual o impacto familiar de você trabalhar 14h/dia?"), <b>calando-se</b> por 5 a 10 segundos. Deixe o lead sentir o peso da própria resposta. Quem fala primeiro após uma pergunta de dor, perde a força do argumento.</p>
+          </div>
+        </div>
+
+        <!-- MICRO-CONCORDÂNCIA & FECHAMENTO -->
+        <div style="background:var(--cinza-e);padding:32px" class="reveal">
+          <div style="font-family:'Barlow Condensed',sans-serif;font-size:11px;font-weight:700;text-transform:uppercase;color:var(--laranja);margin-bottom:20px;letter-spacing:1px">Engenharia de Decisão</div>
+          
+          <div style="margin-bottom:24px">
+            <div style="font-size:14px;font-weight:700;color:#fff;margin-bottom:8px">O Loop de Micro-Compromissos</div>
+            <p style="font-size:12px;color:rgba(255,255,255,.5);line-height:1.6">Garanta pequenos "sim" durante toda a call. <br><i>"Ficou claro como esse erro de precificação está corroendo sua margem?"</i> (Sim) <br><i>"Faz sentido resolvermos isso antes do próximo fechamento mensal?"</i> (Sim). <br>O "Sim" final do contrato é apenas a consequência natural.</p>
+          </div>
+
+          <div>
+            <div style="font-size:14px;font-weight:700;color:#fff;margin-bottom:8px">Fechamento em 3 Opções (Ancoragem na Esteira)</div>
+            <p style="font-size:12px;color:rgba(255,255,255,.5);line-height:1.6">Nunca apresente um preço único. Use os produtos da sua <a href="#esteira" style="color:var(--laranja);text-decoration:none;font-weight:700">Esteira</a> para criar contraste e facilitar a decisão:</p>
+            <div style="display:flex;flex-direction:column;gap:8px;margin:12px 0">
+              <div style="font-size:11px;color:rgba(255,255,255,.7)"><b>1. CGD:</b> Jornada completa de transformação definitiva.</div>
+              <div style="font-size:11px;color:#fff;background:rgba(223,95,46,.1);padding:4px 8px;border-left:2px solid var(--laranja)"><b>2. T5:</b> O Carro-chefe. Gestão 360º com ROI em 90 dias.</div>
+              <div style="font-size:11px;color:rgba(255,255,255,.7)"><b>3. T3:</b> Estruturação básica das 3 áreas fundamentais.</div>
+            </div>
+            <div style="background:rgba(255,255,255,.03);padding:12px;font-style:italic;font-size:10px;line-height:1.5;color:rgba(255,255,255,.4)">
+              <b>Script de Fechamento:</b> "Fulano, para o seu momento, vejo 3 caminhos na nossa esteira: O CGD para quem quer a transformação total; o T5, que é o nosso carro-chefe e se paga em 3 meses; ou o T3 para darmos o primeiro passo na estruturação. Qual desses faz mais sentido para você agora?"
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- PROTOCOLO DE DEMONSTRAÇÃO (SHOW ME) -->
+      <div style="margin-top:3px;background:var(--preto);padding:40px;border-top:1px solid rgba(223,95,46,.15)" class="reveal">
+        <div class="stag" style="margin-bottom:12px">Tecnologia em Campo</div>
+        <h4 style="font-family:'Barlow Condensed',sans-serif;font-weight:800;font-size:24px;text-transform:uppercase;color:#fff;margin-bottom:24px">Como demonstrar a <span style="color:var(--laranja)">TutorIA e TUO</span> na Call</h4>
+        <div style="display:grid;grid-template-columns:1fr 1.5fr;gap:40px;align-items:center">
+          <p style="font-size:13px;color:rgba(255,255,255,.5);line-height:1.7">A tecnologia não é o fim, é o <b>acelerador</b>. Não abra as ferramentas logo no início. Espere o lead dizer: "Eu não tenho tempo para gerir números". <br><br><b>O Momento WOW:</b> "Entendo, Fulano. É por isso que nossos clientes usam a TutorIA. Olha como eu peço para ela analisar esse dashboard agora..." (Compartilhe a tela por apenas 3 minutos).</p>
+          <div style="background:rgba(223,95,46,.05);padding:24px;border:1px solid rgba(223,95,46,.2)">
+            <div style="font-size:11px;font-weight:700;color:var(--laranja);text-transform:uppercase;margin-bottom:12px">Script de Follow-up Imediato (A Regra dos 5 Min)</div>
+            <p style="font-size:12px;color:rgba(255,255,255,.8);line-height:1.6;font-style:italic">"Assim que desligar a call, mande um áudio de 60s: 'Fulano, gostei muito da nossa conversa e da sua clareza sobre os desafios da [Empresa]. Já estou separando os materiais que conversamos. O contrato chega em 10 min no seu e-mail. Vamos pra cima!'"</p>
+          </div>
+        </div>
+      </div>
+
+      <!-- ESTRATÉGIA DE PARCEIROS (DOMA ERP) -->
+      <div style="margin-top:3px;background:var(--cinza-e);padding:40px;display:grid;grid-template-columns:1fr 1fr;gap:48px;align-items:center" class="reveal">
+        <div>
+          <div style="font-family:'Barlow Condensed',sans-serif;font-size:11px;font-weight:700;text-transform:uppercase;color:var(--laranja);margin-bottom:12px;letter-spacing:1px">O Momento do Parceiro (DOMA ERP)</div>
+          <div style="font-size:14px;font-weight:700;color:#fff;margin-bottom:8px">Como identificar a brecha para Cross-selling</div>
+          <p style="font-size:12px;color:rgba(255,255,255,.5);line-height:1.6">Muitas vezes, o caos do lead vem de um software legado ou falta de integração. Não tente vender o ERP como um custo a mais. Venda como a <b>"Infraestrutura de Guerra"</b> necessária para a consultoria funcionar. <br><br><b>O Gatilho:</b> "Fulano, para eu conseguir te entregar os números do T5 em tempo real, precisamos de um motor confiável por baixo. Vou te apresentar a DOMA ERP para resolvermos esse gargalo sistêmico de uma vez."</p>
+        </div>
+        <div style="background:rgba(255,255,255,.03);padding:24px;border:1px solid rgba(255,255,255,.1);display:flex;flex-direction:column;gap:12px">
+          <div style="font-size:11px;font-weight:600;color:var(--laranja);text-transform:uppercase">Regra de Ouro do Parceiro</div>
+          <div style="font-size:12px;font-weight:300;color:rgba(255,255,255,.8);line-height:1.6">Nunca apresente o parceiro como uma "terceirização". Apresente como: <br><b>"Um braço tecnológico que eu validei e que garante o resultado do meu projeto."</b> <br>Isso transfere sua autoridade para o parceiro e facilita o aceite da indicação.</div>
+        </div>
+      </div>
+
+      <!-- ENRIQUECIMENTO: PERSONAS & LUCRO CESSANTE -->
+      <div style="display:grid;grid-template-columns:1fr 1.5fr;gap:3px;margin-top:3px">
+        <!-- DIFERENCIAÇÃO POR PERSONA -->
+        <div style="background:var(--cinza-e);padding:32px" class="reveal">
+          <div style="font-family:'Barlow Condensed',sans-serif;font-size:11px;font-weight:700;text-transform:uppercase;color:var(--laranja);margin-bottom:20px;letter-spacing:1px">Diferenciação por Persona</div>
+          
+          <div style="margin-bottom:24px">
+            <div style="font-size:13px;font-weight:700;color:#fff;margin-bottom:6px">Dono Técnico (O Especialista)</div>
+            <p style="font-size:11px;color:rgba(255,255,255,.5);line-height:1.6">Foque em <b>Libertação</b>. Use argumentos de que a Tutoreanos vai "organizar a casa" para ele voltar a fazer o que ama sem ser sugado pelo operacional. <br><i>"A gestão vai trabalhar para o seu produto, e não você para a gestão."</i></p>
+          </div>
+
+          <div>
+            <div style="font-size:13px;font-weight:700;color:#fff;margin-bottom:6px">Dono Gestor (O Visionário)</div>
+            <p style="font-size:11px;color:rgba(255,255,255,.5);line-height:1.6">Foque em <b>Escala e Dados</b>. Mostre como a padronização e os números em tempo real permitem decisões rápidas para crescer 10x. <br><i>"Vamos transformar sua empresa em uma máquina previsível de gerar lucro."</i></p>
+          </div>
+        </div>
+
+        <!-- CÁLCULO DE LUCRO CESSANTE -->
+        <div style="background:var(--preto);padding:32px;border:1px solid rgba(223,95,46,.1)" class="reveal">
+          <div style="font-family:'Barlow Condensed',sans-serif;font-size:11px;font-weight:700;text-transform:uppercase;color:var(--laranja);margin-bottom:20px;letter-spacing:1px">Técnica: Cálculo de Lucro Cessante</div>
+          <p style="font-size:11px;color:rgba(255,255,255,.8);line-height:1.6;margin-bottom:16px">Se o lead adia, ele perde dinheiro. Transforme o "não" em um custo real.</p>
+          <div style="background:rgba(223,95,46,.03);padding:16px;border-radius:4px">
+            <div style="font-size:10px;color:var(--laranja);font-weight:700;margin-bottom:8px">Script de Pressão Saudável (Quantificação):</div>
+            <div style="font-size:10px;color:rgba(255,255,255,.6);line-height:1.6;font-style:italic">"Fulano, sua margem hoje é de 10%, mas deveria ser 15%. Em um faturamento de R$100k, você deixa R$5.000 na mesa TODO MÊS. Cada mês que você adia o T5, é um boleto de R$5.000 que você paga pela ineficiência. Vamos parar esse sangramento hoje?"</div>
+          </div>
+        </div>
+      </div>
+
+      <!-- ENRIQUECIMENTO: SERVIÇO SOB MEDIDA & BLINDAGEM -->
+      <div style="display:grid;grid-template-columns:1.5fr 1fr;gap:3px;margin-top:3px">
+        <!-- SERVIÇO SOB MEDIDA (tailored) -->
+        <div style="background:var(--cinza-m);padding:32px" class="reveal">
+          <div style="font-family:'Barlow Condensed',sans-serif;font-size:11px;font-weight:700;text-transform:uppercase;color:var(--laranja);margin-bottom:20px;letter-spacing:1px">Plano B: Serviço Sob Medida</div>
+          <div style="font-size:13px;font-weight:700;color:#fff;margin-bottom:8px">Não deixe o dinheiro na mesa</div>
+          <p style="font-size:11px;color:rgba(255,255,255,.5);line-height:1.6">Se o T5 (5 meses/5 áreas) está pesado no budget, não tente empurrar. <b>Modularize.</b> <br><br><b>O Gatilho:</b> "Fulano, para caber no seu fluxo hoje, podemos focar primeiro apenas em <b>Financeiro + Processos</b> (os seus maiores gargalos). Fazemos um projeto de 3 meses focado nessas dores. O investimento cai para R$1.200/mês. Faz sentido começarmos por aqui?"</p>
+        </div>
+
+        <!-- BLINDAGEM PÓS-VENDA (24H) -->
+        <div style="background:var(--cinza-e);padding:32px;border:1px solid rgba(255,255,255,.03)" class="reveal">
+          <div style="font-family:'Barlow Condensed',sans-serif;font-size:11px;font-weight:700;text-transform:uppercase;color:var(--laranja);margin-bottom:20px;letter-spacing:1px">Blindagem das Primeiras 24h</div>
+          <ul style="list-style:none;display:flex;flex-direction:column;gap:12px">
+            <li style="font-size:10px;color:rgba(255,255,255,.6);padding-left:20px;position:relative"><span style="position:absolute;left:0;color:var(--laranja)">✓</span><b>Boas-vindas VIP:</b> Mande um vídeo curto (30s) pelo WhatsApp comemorando a decisão dele.</li>
+            <li style="font-size:10px;color:rgba(255,255,255,.6);padding-left:20px;position:relative"><span style="position:absolute;left:0;color:var(--laranja)">✓</span><b>Micro-tarefa:</b> Peça uma info simples (ex: lista de sócios) para ele já se sentir "em movimento".</li>
+            <li style="font-size:10px;color:rgba(255,255,255,.6);padding-left:20px;position:relative"><span style="position:absolute;left:0;color:var(--laranja)">✓</span><b>Convite Grupo:</b> Adicione-o ao grupo de avisos da rede para gerar pertencimento imediato.</li>
+          </ul>
+        </div>
+      </div>
+
+      <!-- BOX DE EXEMPLOS PRÁTICOS (MANTER E EXPANDIR) -->
+      <div style="margin-top:32px;background:var(--cinza-m);padding:24px;border:1px solid rgba(223,95,46,.15)">
+        <div style="font-family:'Barlow Condensed',sans-serif;font-size:11px;font-weight:800;text-transform:uppercase;color:var(--laranja);margin-bottom:20px;letter-spacing:1px">Laboratório de Perguntas (Exemplos Práticos)</div>
+        <div style="display:grid;grid-template-columns:1fr 1fr 1fr;gap:20px">
+          <div>
+            <div style="font-size:11px;font-weight:600;color:#fff;margin-bottom:8px">Sobre Margem de Lucro</div>
+            <p style="font-size:11px;color:rgba(255,255,255,.45);line-height:1.6;font-style:italic">"Qual seria o impacto no seu balanço semestral se conseguíssemos recuperar apenas 4% de margem líquida através da precificação correta? Quantos mil reais seriam?"</p>
+          </div>
+          <div>
+            <div style="font-size:11px;font-weight:600;color:#fff;margin-bottom:8px">Sobre Tempo do Dono</div>
+            <p style="font-size:11px;color:rgba(255,255,255,.45);line-height:1.6;font-style:italic">"Se você continuasse fora da operação por 15 dias, a empresa rodaria sem você? Se não, quanto de crescimento você está travando por ser o gargalo?"</p>
+          </div>
+          <div>
+            <div style="font-size:11px;font-weight:600;color:#fff;margin-bottom:8px">Sobre Fechamento Assumido</div>
+            <p style="font-size:11px;color:rgba(255,255,255,.45);line-height:1.6;font-style:italic">"Para começarmos a travar esse desperdício já na segunda-feira, você prefere que eu mande o contrato pelo seu e-mail ou aqui pelo WhatsApp?"</p>
+          </div>
+        </div>
+      </div>
+
+    </div>
+  </div>
   <div class="conv-grid">
     <div class="conv-block reveal">
       <div class="conv-block-t">Fluxo de conversão</div>
@@ -1862,11 +2165,9 @@ footer{background:var(--cinza-e);padding:56px 80px;display:flex;align-items:cent
     <div class="conv-block reveal" style="transition-delay:.15s">
       <div class="conv-block-t">Gestão de objeções</div>
       <div class="conv-steps">
-        <div class="conv-step"><div class="conv-dot" style="background:rgba(255,255,255,.05);border-color:rgba(255,255,255,.12);color:rgba(255,255,255,.4)">?</div><div class="conv-text"><strong>"Preciso pensar"</strong><br>Pergunte o que falta para se sentir seguro. Reconecte às dores do diagnóstico — o custo de não resolver.</div></div>
-        <div class="conv-step"><div class="conv-dot" style="background:rgba(255,255,255,.05);border-color:rgba(255,255,255,.12);color:rgba(255,255,255,.4)">?</div><div class="conv-text"><strong>"Está caro"</strong><br>Mostre o ROI pelo diagnóstico aplicado. Quanto está perdendo sem resolver? Reposicione o investimento.</div></div>
-        <div class="conv-step"><div class="conv-dot" style="background:rgba(255,255,255,.05);border-color:rgba(255,255,255,.12);color:rgba(255,255,255,.4)">?</div><div class="conv-text"><strong>"Não é o momento"</strong><br>Entre o lead no grupo VIP. Nutrir com conteúdo de valor. Reativar em 30 dias com novo diagnóstico ou abordagem de contexto diferente.</div></div>
-        <div class="conv-step"><div class="conv-dot" style="background:rgba(255,255,255,.05);border-color:rgba(255,255,255,.12);color:rgba(255,255,255,.4)">?</div><div class="conv-text"><strong>Lead não responde</strong><br>Sequência: WA → comentário no Instagram → WA com valor. Até 3 tentativas com contexto diferente.</div></div>
-        <div class="conv-step"><div class="conv-dot" style="background:rgba(255,255,255,.05);border-color:rgba(255,255,255,.12);color:rgba(255,255,255,.4)">?</div><div class="conv-text"><strong>"Já tenho contador/advogado"</strong><br>Diferencie: consultoria de gestão não é contabilidade. Mostre o que é exclusivo na abordagem Tutoreanos.</div></div>
+        <div class="conv-step"><div class="conv-dot" style="background:rgba(255,255,255,.05);border-color:rgba(255,255,255,.12);color:rgba(255,255,255,.4)">?</div><div class="conv-text"><strong>"Preciso falar com meu sócio/esposa"</strong><br>Diga: "Justamente para ele não achar nada, vamos fazer uma call rápida de 10 min com ele? Eu apresento apenas os números do diagnóstico, sem conversa mole."</div></div>
+        <div class="conv-step"><div class="conv-dot" style="background:rgba(255,255,255,.05);border-color:rgba(255,255,255,.12);color:rgba(255,255,255,.4)">?</div><div class="conv-text"><strong>"Está caro"</strong><br>Ancoragem de Lucro Cessante: "Caro é deixar R$X na mesa todo mês por falta de processo. O projeto se paga em 90 dias com 4% de ganho de margem. Vamos calcular?"</div></div>
+        <div class="conv-step"><div class="conv-dot" style="background:rgba(255,255,255,.05);border-color:rgba(255,255,255,.12);color:rgba(255,255,255,.4)">?</div><div class="conv-text"><strong>"Já tenho contador/advogado"</strong><br>Diferenciação: "Ótimo, eles cuidam do seu passado e obrigações. Eu cuido do seu futuro e da gestão. Eles te dizem quanto você pagou, eu te digo quanto você vai lucrar."</div></div>
       </div>
     </div>
   </div>
@@ -2055,6 +2356,30 @@ footer{background:var(--cinza-e);padding:56px 80px;display:flex;align-items:cent
     </div>
   </div>
 
+  <!-- ROI T5 VISUAL -->
+  <div style="background:rgba(223,95,46,.05);padding:32px 80px;border-top:1px solid rgba(223,95,46,.15);display:grid;grid-template-columns:1.5fr 1fr;gap:40px;align-items:center" class="reveal">
+    <div>
+      <div style="font-family:'Barlow Condensed',sans-serif;font-size:11px;font-weight:700;text-transform:uppercase;color:var(--laranja);margin-bottom:8px">Lógica de Retorno (ROI)</div>
+      <div style="font-family:'Barlow Condensed',sans-serif;font-weight:800;font-size:24px;text-transform:uppercase;color:#fff;line-height:1.2;margin-bottom:12px">O T5 se paga em <span style="font-size:32px;color:var(--laranja)">90 dias?</span></div>
+      <p style="font-size:12px;font-weight:300;color:rgba(255,255,255,.5);line-height:1.6">Para uma empresa que fatura R$80k/mês, o investimento total no T5 é de R$8.550. Se a consultoria recuperar apenas <b>3.5% de margem</b> (via redução de desperdício ou melhor precificação), o projeto está totalmente pago em 3 meses. Tudo depois disso é lucro líquido direto no bolso do dono.</p>
+    </div>
+    <div style="background:var(--preto);padding:20px;border:1px solid rgba(223,95,46,.3)">
+      <div style="display:flex;justify-content:space-between;margin-bottom:10px">
+        <span style="font-size:11px;color:rgba(255,255,255,.4)">Investimento T5</span>
+        <span style="font-size:11px;color:#fff;font-weight:600">R$ 8.550</span>
+      </div>
+      <div style="display:flex;justify-content:space-between;margin-bottom:15px">
+        <span style="font-size:11px;color:rgba(255,255,255,.4)">Ganho de Margem (Est.)</span>
+        <span style="font-size:11px;color:var(--laranja);font-weight:600">+ R$ 2.800/mês</span>
+      </div>
+      <div style="height:1px;background:rgba(255,255,255,.1);margin-bottom:15px"></div>
+      <div style="text-align:center">
+        <div style="font-family:'Barlow Condensed',sans-serif;font-size:10px;text-transform:uppercase;color:rgba(255,255,255,.3);margin-bottom:4px">Breakeven</div>
+        <div style="font-family:'Barlow Condensed',sans-serif;font-weight:900;font-size:24px;color:var(--laranja)">3.0 MESES</div>
+      </div>
+    </div>
+  </div>
+
   <!-- PRODUTO 5: CGD -->
   <div style="display:grid;grid-template-columns:1fr 60px 1fr;align-items:center;margin-bottom:2px;position:relative;z-index:1;">
     <div style="background:linear-gradient(135deg,#1a1a14 0%,#222218 100%);padding:40px 48px 40px 80px;border-top:3px solid var(--laranja);position:relative;overflow:hidden;">
@@ -2143,10 +2468,148 @@ footer{background:var(--cinza-e);padding:56px 80px;display:flex;align-items:cent
       </div>
     </div>
   </div>
+
+  <!-- TABELA COMPARATIVA -->
+  <div class="reveal" style="margin-top:3px">
+    <div style="background:var(--preto);padding:32px">
+      <div style="font-family:'Barlow Condensed',sans-serif;font-weight:700;font-size:20px;text-transform:uppercase;letter-spacing:-0.5px;margin-bottom:20px">Como indicar o produto certo para cada lead</div>
+      <div style="display:grid;grid-template-columns:repeat(5,1fr);gap:2px">
+        <div style="background:var(--cinza-e);padding:20px 16px">
+          <div style="font-family:'Barlow Condensed',sans-serif;font-size:16px;font-weight:800;color:var(--laranja);text-transform:uppercase;margin-bottom:8px">Consulta</div>
+          <ul style="list-style:none;display:flex;flex-direction:column;gap:6px">
+            <li style="font-size:11px;font-weight:300;color:rgba(255,255,255,.5);line-height:1.5;padding-left:12px;position:relative"><span style="position:absolute;left:0;color:rgba(223,95,46,.4);font-size:9px">—</span>Lead com objeção de confiança</li>
+            <li style="font-size:11px;font-weight:300;color:rgba(255,255,255,.5);line-height:1.5;padding-left:12px;position:relative"><span style="position:absolute;left:0;color:rgba(223,95,46,.4);font-size:9px">—</span>Qualquer porte ou segmento</li>
+            <li style="font-size:11px;font-weight:300;color:rgba(255,255,255,.5);line-height:1.5;padding-left:12px;position:relative"><span style="position:absolute;left:0;color:rgba(223,95,46,.4);font-size:9px">—</span>Problema pontual identificado</li>
+            <li style="font-size:11px;font-weight:300;color:rgba(255,255,255,.5);line-height:1.5;padding-left:12px;position:relative"><span style="position:absolute;left:0;color:rgba(223,95,46,.4);font-size:9px">—</span>Porta de entrada para a esteira</li>
+          </ul>
+        </div>
+        <div style="background:var(--cinza-e);padding:20px 16px">
+          <div style="font-family:'Barlow Condensed',sans-serif;font-size:16px;font-weight:800;color:var(--laranja);text-transform:uppercase;margin-bottom:8px">Decola</div>
+          <ul style="list-style:none;display:flex;flex-direction:column;gap:6px">
+            <li style="font-size:11px;font-weight:300;color:rgba(255,255,255,.5);line-height:1.5;padding-left:12px;position:relative"><span style="position:absolute;left:0;color:rgba(223,95,46,.4);font-size:9px">—</span>Budget limitado no momento</li>
+            <li style="font-size:11px;font-weight:300;color:rgba(255,255,255,.5);line-height:1.5;padding-left:12px;position:relative"><span style="position:absolute;left:0;color:rgba(223,95,46,.4);font-size:9px">—</span>Negócio em fase inicial</li>
+            <li style="font-size:11px;font-weight:300;color:rgba(255,255,255,.5);line-height:1.5;padding-left:12px;position:relative"><span style="position:absolute;left:0;color:rgba(223,95,46,.4);font-size:9px">—</span>Quer aprender com outros</li>
+            <li style="font-size:11px;font-weight:300;color:rgba(255,255,255,.5);line-height:1.5;padding-left:12px;position:relative"><span style="position:absolute;left:0;color:rgba(223,95,46,.4);font-size:9px">—</span>Preparar para T3 ou T5</li>
+          </ul>
+        </div>
+        <div style="background:var(--cinza-e);padding:20px 16px">
+          <div style="font-family:'Barlow Condensed',sans-serif;font-size:16px;font-weight:800;color:var(--laranja);text-transform:uppercase;margin-bottom:8px">T3</div>
+          <ul style="list-style:none;display:flex;flex-direction:column;gap:6px">
+            <li style="font-size:11px;font-weight:300;color:rgba(255,255,255,.5);line-height:1.5;padding-left:12px;position:relative"><span style="position:absolute;left:0;color:rgba(223,95,46,.4);font-size:9px">—</span>Empresa abrindo ou nova</li>
+            <li style="font-size:11px;font-weight:300;color:rgba(255,255,255,.5);line-height:1.5;padding-left:12px;position:relative"><span style="position:absolute;left:0;color:rgba(223,95,46,.4);font-size:9px">—</span>Precisa das bases: fin., estratégia, vendas</li>
+            <li style="font-size:11px;font-weight:300;color:rgba(255,255,255,.5);line-height:1.5;padding-left:12px;position:relative"><span style="position:absolute;left:0;color:rgba(223,95,46,.4);font-size:9px">—</span>Quer resultado em 3 meses</li>
+            <li style="font-size:11px;font-weight:300;color:rgba(255,255,255,.5);line-height:1.5;padding-left:12px;position:relative"><span style="position:absolute;left:0;color:rgba(223,95,46,.4);font-size:9px">—</span>Pode evoluir para T5</li>
+          </ul>
+        </div>
+        <div style="background:rgba(223,95,46,.06);border:1px solid rgba(223,95,46,.2);padding:20px 16px">
+          <div style="font-family:'Barlow Condensed',sans-serif;font-size:16px;font-weight:800;color:var(--laranja);text-transform:uppercase;margin-bottom:8px">T5 ★</div>
+          <ul style="list-style:none;display:flex;flex-direction:column;gap:6px">
+            <li style="font-size:11px;font-weight:300;color:rgba(255,255,255,.6);line-height:1.5;padding-left:12px;position:relative"><span style="position:absolute;left:0;color:rgba(223,95,46,.5);font-size:9px">—</span>Empresa operando, precisa de gestão</li>
+            <li style="font-size:11px;font-weight:300;color:rgba(255,255,255,.6);line-height:1.5;padding-left:12px;position:relative"><span style="position:absolute;left:0;color:rgba(223,95,46,.5);font-size:9px">—</span>Dono no operacional, sem visão estratégica</li>
+            <li style="font-size:11px;font-weight:300;color:rgba(255,255,255,.6);line-height:1.5;padding-left:12px;position:relative"><span style="position:absolute;left:0;color:rgba(223,95,46,.5);font-size:9px">—</span>Faturamento entre R$50k e R$500k/mês</li>
+            <li style="font-size:11px;font-weight:300;color:rgba(255,255,255,.6);line-height:1.5;padding-left:12px;position:relative"><span style="position:absolute;left:0;color:rgba(223,95,46,.5);font-size:9px">—</span>Pronto para implantação completa</li>
+          </ul>
+        </div>
+        <div style="background:var(--cinza-e);padding:20px 16px">
+          <div style="font-family:'Barlow Condensed',sans-serif;font-size:16px;font-weight:800;color:var(--laranja);text-transform:uppercase;margin-bottom:8px">CGD</div>
+          <ul style="list-style:none;display:flex;flex-direction:column;gap:6px">
+            <li style="font-size:11px;font-weight:300;color:rgba(255,255,255,.5);line-height:1.5;padding-left:12px;position:relative"><span style="position:absolute;left:0;color:rgba(223,95,46,.4);font-size:9px">—</span>Pós T3 ou T5 concluído</li>
+            <li style="font-size:11px;font-weight:300;color:rgba(255,255,255,.5);line-height:1.5;padding-left:12px;position:relative"><span style="position:absolute;left:0;color:rgba(223,95,46,.4);font-size:9px">—</span>Quer manter o ritmo de crescimento</li>
+            <li style="font-size:11px;font-weight:300;color:rgba(255,255,255,.5);line-height:1.5;padding-left:12px;position:relative"><span style="position:absolute;left:0;color:rgba(223,95,46,.4);font-size:9px">—</span>Curva A confirmada</li>
+            <li style="font-size:11px;font-weight:300;color:rgba(255,255,255,.5);line-height:1.5;padding-left:12px;position:relative"><span style="position:absolute;left:0;color:rgba(223,95,46,.4);font-size:9px">—</span>Jornada completa da Tutoreanos</li>
+          </ul>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- DICA ESTEIRA -->
+  <div class="dica reveal" style="margin-top:3px">
+    <div class="dica-l">Como usar a esteira na Consulta Tutoreanos</div>
+    <p>Nunca apresente todos os produtos de uma vez. Durante a Consulta Tutoreanos, identifique a dor e o momento do cliente — e indique apenas o próximo passo. Se o lead tem desconfiança: Consulta. Se tem budget limitado: Decola. Se está abrindo o negócio: T3. Se já opera mas está no caos: T5. Se acabou o T5 e quer continuar: CGD. Cada produto vende o seguinte quando bem entregue.</p>
+  </div>
 </div>
 </div>
 
+
 <div class="divider"></div>
+
+<!-- CROSS SELLING TUTOREANOS -->
+<div class="sec-full" id="cross-selling" style="background:var(--cinza-e);padding:100px 0;">
+  <div class="sec-inner" style="padding:0 80px">
+    <div class="stag reveal">Produtos Complementares</div>
+    <h2 class="stitle reveal">Hub de <span class="acc">Cross Selling</span><br>Tutoreanos</h2>
+    <p class="reveal" style="font-size:15px;font-weight:300;line-height:1.75;color:rgba(255,255,255,.5);max-width:680px;margin-bottom:60px">O Cross Selling não é apenas "vender mais", é garantir que o cliente tenha as ferramentas certas para executar a gestão que você propõe. Estas ferramentas quebram objeções técnicas e aumentam o LTV da sua unidade enquanto o cliente percorre a jornada da Esteira Comercial.</p>
+    
+    <div style="display:grid;grid-template-columns:repeat(3,1fr);gap:3px" class="reveal">
+      
+      <!-- TUTORIA -->
+      <div style="background:var(--preto);padding:40px;border-top:3px solid var(--laranja);display:flex;flex-direction:column;">
+        <div style="display:flex;align-items:center;gap:15px;margin-bottom:24px">
+          <div style="width:50px;height:50px;background:var(--laranja);border-radius:12px;display:flex;align-items:center;justify-content:center;font-family:'Barlow Condensed',sans-serif;font-weight:900;font-size:24px;color:#fff;box-shadow:0 0 20px rgba(223,95,46,.3)">IA</div>
+          <div>
+            <div style="font-family:'Barlow Condensed',sans-serif;font-weight:800;font-size:24px;text-transform:uppercase;line-height:1">Tutor<span style="color:var(--laranja)">IA</span></div>
+            <div style="font-size:10px;text-transform:uppercase;letter-spacing:1px;color:rgba(255,255,255,.4)">Inteligência Especializada</div>
+          </div>
+        </div>
+        <p style="font-size:13px;font-weight:300;color:rgba(255,255,255,.5);line-height:1.6;margin-bottom:24px">A primeira IA especializada em gestão de pequenas empresas do Brasil. Traduz conceitos complexos em ações práticas para o dono do negócio 24/7.</p>
+        
+        <div style="margin-top:auto">
+          <div style="background:rgba(223,95,46,.08);padding:16px;border-left:3px solid var(--laranja);margin-bottom:16px">
+            <div style="font-family:'Barlow Condensed',sans-serif;font-size:10px;font-weight:700;text-transform:uppercase;color:var(--laranja);margin-bottom:4px">Momento de Venda</div>
+            <div style="font-size:12px;color:rgba(255,255,255,.8)">Durante o <b>Decola</b> ou <b>T3/T5</b>, quando o lead trava em dúvidas técnicas operacionais fora do horário de consultoria.</div>
+          </div>
+          <div style="font-size:11px;color:rgba(255,255,255,.3);font-style:italic">"Use a TutorIA como seu braço direito consultivo entre nossas reuniões semanais."</div>
+        </div>
+      </div>
+
+      <!-- TUO FINANÇAS -->
+      <div style="background:var(--preto);padding:40px;border-top:3px solid var(--laranja);display:flex;flex-direction:column;">
+        <div style="display:flex;align-items:center;gap:15px;margin-bottom:24px">
+          <div style="width:50px;height:50px;background:#fff;border-radius:12px;display:flex;align-items:center;justify-content:center;font-size:24px;">📱</div>
+          <div>
+            <div style="font-family:'Barlow Condensed',sans-serif;font-weight:800;font-size:24px;text-transform:uppercase;line-height:1">TUO <span style="color:var(--laranja)">Finanças</span></div>
+            <div style="font-size:10px;text-transform:uppercase;letter-spacing:1px;color:rgba(255,255,255,.4)">Gestão no Bolso</div>
+          </div>
+        </div>
+        <p style="font-size:13px;font-weight:300;color:rgba(255,255,255,.5);line-height:1.6;margin-bottom:24px">A ferramenta que coloca o controle financeiro no dashboard do celular. Quebra a objeção de "é muito difícil anotar tudo" com simplicidade extrema.</p>
+        
+        <div style="margin-top:auto">
+          <div style="background:rgba(223,95,46,.08);padding:16px;border-left:3px solid var(--laranja);margin-bottom:16px">
+            <div style="font-family:'Barlow Condensed',sans-serif;font-size:10px;font-weight:700;text-transform:uppercase;color:var(--laranja);margin-bottom:4px">Momento de Venda</div>
+            <div style="font-size:12px;color:rgba(255,255,255,.8)">Na <b>Consulta Tutoreanos</b> ou início do <b>Financeiro</b>, para leads que reclamam do caos de planilhas.</div>
+          </div>
+          <div style="font-size:11px;color:rgba(255,255,255,.3);font-style:italic">"Tire o peso do financeiro das planilhas e traga para a palma da sua mão com o TUO."</div>
+        </div>
+      </div>
+
+      <!-- DOMA ERP -->
+      <div style="background:var(--preto);padding:40px;border-top:3px solid #ffc107;display:flex;flex-direction:column;">
+        <div style="display:flex;align-items:center;gap:15px;margin-bottom:24px">
+          <div style="width:50px;height:50px;background:#ffc107;border-radius:6px;display:flex;flex-direction:column;align-items:center;justify-content:center;font-family:'Barlow Condensed',sans-serif;font-weight:950;line-height:0.8;color:#000;font-size:20px;letter-spacing:-1px;flex-shrink:0">
+            <div style="margin-left:-4px">DO</div>
+            <div style="position:relative;margin-left:2px">MA<span style="position:absolute;bottom:2px;right:-5px;width:3.5px;height:3.5px;background:#000;"></span></div>
+          </div>
+          <div>
+            <div style="font-family:'Barlow Condensed',sans-serif;font-weight:800;font-size:24px;text-transform:uppercase;line-height:1">DOMA <span style="color:#ffc107">ERP</span></div>
+            <div style="font-size:10px;text-transform:uppercase;letter-spacing:1px;color:rgba(255,255,255,.4)">Parceiro Estratégico</div>
+          </div>
+        </div>
+        <p style="font-size:13px;font-weight:300;color:rgba(255,255,255,.5);line-height:1.6;margin-bottom:24px">O ERP parceiro para empresas que precisam de integração total. Quando o controle manual não basta mais para sustentar o crescimento.</p>
+        
+        <div style="margin-top:auto">
+          <div style="background:rgba(255,193,7,.08);padding:16px;border-left:3px solid #ffc107;margin-bottom:16px">
+            <div style="font-family:'Barlow Condensed',sans-serif;font-size:10px;font-weight:700;text-transform:uppercase;color:#ffc107;margin-bottom:4px">Momento de Venda</div>
+            <div style="font-size:12px;color:rgba(255,255,255,.8)">A partir do <b>mês 3 do T5</b> ou <b>CGD</b>, quando a empresa escala e a gestão precisa de integração sistêmica robusta.</div>
+          </div>
+          <div style="font-size:11px;color:rgba(255,255,255,.3);font-style:italic">"Para crescer com segurança, precisamos de um sistema que fale a língua do seu negócio: o DOMA."</div>
+        </div>
+      </div>
+
+    </div>
+  </div>
+</div>
+
 
 <!-- FIDELIZAÇÃO E GESTÃO DE CARTEIRA -->
 <div class="sec" id="fidelizacao">
@@ -2302,7 +2765,7 @@ footer{background:var(--cinza-e);padding:56px 80px;display:flex;align-items:cent
   <div class="fidel-row">
     <div class="fidel-card reveal"><div class="fidel-n">01</div><div class="fidel-t">NPS ativo</div><div class="fidel-d">Aplique NPS com todos os clientes ativos e inativos. Publique os resultados nas redes sociais e no site para construir prova social contínua.</div><div class="fidel-detail"><p>Clientes com NPS ≥ 8 são candidatos ao programa de indicação VIP. Trate-os como promotores ativos da marca.</p></div></div>
     <div class="fidel-card reveal" style="transition-delay:.1s"><div class="fidel-n">02</div><div class="fidel-t">Sessão Estratégica</div><div class="fidel-d">Ofereça aos clientes da curva A e B uma sessão avaliativa pautada no maior desafio atual. Grave toda a reunião obrigatoriamente.</div><div class="fidel-detail"><p>40 min de consultoria · 20 min de coleta de prova social com as 5 perguntas matadoras. Gravar é obrigatório — o material vira conteúdo e prova social.</p></div></div>
-    <div class="fidel-card reveal" style="transition-delay:.2s"><div class="fidel-n">03</div><div class="fidel-t">Indicação ativa</div><div class="fidel-d">Pergunte o que o cliente gostaria de ganhar por indicar. Dê o link do diagnóstico para ele enviar a quem indicar. Inclua no grupo VIP de empreendedores estratégicos.</div><div class="fidel-detail"><p>Diferencie o empreendedor tático do estratégico. O grupo VIP é o benefício — e também o ambiente onde novas indicações surgem naturalmente.</p></div></div>
+    <div class="fidel-card reveal" style="transition-delay:.2s"><div class="fidel-n">03</div><div class="fidel-t">Indicação ativa</div><div class="fidel-d">Pergunte o que o cliente gostaria de ganhar por indicar. Dê o link do diagnóstico para ele enviar a quem indicar. Inclua no grupo VIP de empreendedores estratégicos.</div><div class="fidel-detail"><p><b>Script:</b> "Fulano, estamos com um slot vago para consultoria este mês e eu queria abrir apenas para indicações de quem já tem resultado. Quem você conhece que está no caos operacional e merece ter essa mesma clareza que você tem hoje?"</p></div></div>
   </div>
 
   <div class="dica reveal">
@@ -2405,6 +2868,52 @@ footer{background:var(--cinza-e);padding:56px 80px;display:flex;align-items:cent
 </footer>
 
 <script>
+// LOGIN SYSTEM
+let curLoginStep = 0;
+const overlay = document.getElementById('login-overlay');
+const feedback = document.getElementById('login-feedback');
+
+function checkAuth() {
+  if(localStorage.getItem('tutoreanos_auth_v1')) {
+    overlay.classList.add('hidden');
+    document.body.style.overflow = 'auto';
+  } else {
+    document.body.style.overflow = 'hidden';
+  }
+}
+
+function nextLoginStep(step) {
+  document.querySelectorAll('.login-step').forEach(s => s.classList.remove('active'));
+  document.getElementById('step-' + step).classList.add('active');
+  feedback.textContent = '';
+  feedback.style.color = '';
+}
+
+function checkAnswer(el, isCorrect, tip = '') {
+  if(isCorrect) {
+    el.classList.add('correct');
+    feedback.textContent = 'Correto! Avançando...';
+    feedback.style.color = '#50ff78';
+    setTimeout(() => {
+      curLoginStep++;
+      nextLoginStep(curLoginStep + 1);
+    }, 800);
+  } else {
+    el.classList.add('wrong');
+    feedback.textContent = tip;
+    feedback.style.color = '#ff8080';
+    setTimeout(() => el.classList.remove('wrong'), 2000);
+  }
+}
+
+function unlockPlaybook() {
+  localStorage.setItem('tutoreanos_auth_v1', 'true');
+  overlay.classList.add('hidden');
+  document.body.style.overflow = 'auto';
+}
+
+document.addEventListener('DOMContentLoaded', checkAuth);
+
 // CHECKLIST
 function ck(el){el.classList.toggle('ck');upProg();}
 function upProg(){
