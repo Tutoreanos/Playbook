@@ -261,6 +261,15 @@ footer{background:var(--cinza-e);padding:56px 80px;display:flex;align-items:cent
   .footer-r p{text-align:center;}
   .sn-seq-step::after{display:none;}
 }
+/* FLOWCHART */
+.flow-container { display: flex; justify-content: space-between; align-items: center; background: var(--preto); padding: 24px; margin-top: 20px; border-radius: 2px; gap: 10px; overflow-x: auto; }
+.flow-step { flex: 1; background: var(--cinza-e); padding: 14px; text-align: center; border-top: 2px solid var(--laranja); position: relative; min-width: 130px; transition: transform .3s; }
+.flow-step:hover { transform: translateY(-3px); background: var(--cinza-m); }
+.flow-time { font-family: 'Barlow Condensed', sans-serif; font-size: 9px; font-weight: 600; letter-spacing: 1px; color: var(--laranja); margin-bottom: 2px; }
+.flow-name { font-family: 'Barlow Condensed', sans-serif; font-size: 16px; font-weight: 800; text-transform: uppercase; margin-bottom: 2px; }
+.flow-desc { font-size: 10px; font-weight: 300; color: rgba(255,255,255,.5); line-height: 1.2; }
+.flow-arrow { font-size: 18px; color: rgba(223,95,46,.3); }
+.flow-note { margin-top: 12px; font-size: 11px; color: rgba(255,255,255,.35); font-style: italic; text-align: center; }
 </style>
 </head>
 <body>
@@ -342,7 +351,7 @@ footer{background:var(--cinza-e);padding:56px 80px;display:flex;align-items:cent
     <div class="cl-sticky cl-intro reveal">
       <p>Antes de abordar qualquer pessoa, o franqueado precisa existir digitalmente com autoridade. Esses são os pré-requisitos inegociáveis — sem eles, qualquer abordagem perde força.</p>
       <div class="prog-block">
-        <div class="prog-top"><span>Progresso</span><span id="ptxt">0 / 13</span></div>
+        <div class="prog-top"><span>Progresso</span><span id="ptxt">0 / 12</span></div>
         <div class="prog-bar"><div class="prog-fill" id="pfill"></div></div>
       </div>
       <div class="dica">
@@ -386,10 +395,10 @@ footer{background:var(--cinza-e);padding:56px 80px;display:flex;align-items:cent
   <h2 class="stitle reveal">Os <span class="acc">10 canais</span><br>de aquisição</h2>
 
   <div class="tabs-nav reveal" id="canal-tabs">
-    <button class="tab-btn active" onclick="setTab('todos')">Todos os canais</button>
-    <button class="tab-btn" onclick="setTab('digital')">Digital</button>
-    <button class="tab-btn" onclick="setTab('presencial')">Presencial</button>
-    <button class="tab-btn" onclick="setTab('indicacao')">Indicação</button>
+    <button class="tab-btn active" onclick="setTab(this, 'todos')">Todos os canais</button>
+    <button class="tab-btn" onclick="setTab(this, 'digital')">Digital</button>
+    <button class="tab-btn" onclick="setTab(this, 'presencial')">Presencial</button>
+    <button class="tab-btn" onclick="setTab(this, 'indicacao')">Indicação</button>
   </div>
 
   <!-- TODOS -->
@@ -548,7 +557,7 @@ footer{background:var(--cinza-e);padding:56px 80px;display:flex;align-items:cent
 <div class="divider"></div>
 
 <!-- ESTEIRA COMERCIAL -->
-<div class="sec-full" style="background:var(--cinza-e);" id="esteira">
+<div class="sec-full" style="background:var(--cinza-e);" id="esteira-old">
 <div class="sec-inner">
   <div class="stag reveal">Portfólio de produtos</div>
   <h2 class="stitle reveal">Esteira<br><span class="acc">comercial</span></h2>
@@ -1297,7 +1306,6 @@ footer{background:var(--cinza-e);padding:56px 80px;display:flex;align-items:cent
 
   <!-- ETAPA 1: TOPO — ATRAÇÃO -->
   <div class="funil-stage" style="grid-template-columns:1fr 340px 1fr;background:var(--cinza-e);border-top:3px solid var(--laranja)">
-    <div class="funil-stage::after" style="border-width:18px 20px 0;border-color:var(--cinza-e) transparent transparent"></div>
     <div class="fs-left">
       <div class="fs-tag">Canais de aquisição</div>
       <div style="display:flex;flex-direction:column;gap:8px">
@@ -1847,7 +1855,40 @@ footer{background:var(--cinza-e);padding:56px 80px;display:flex;align-items:cent
     </div>
   </div>
     <div class="dica-l">Combinação recomendada para a Consulta Tutoreanos</div>
-    <p>Comece com <strong style="color:#fff;font-weight:500">BANT</strong> para qualificar (5 min) → aprofunde com <strong style="color:#fff;font-weight:500">SPIN</strong> para descobrir dores que o lead não verbalizou (10 min) → use <strong style="color:#fff;font-weight:500">Gap Selling</strong> para tornar o custo do problema concreto e financeiro (5 min) → feche com um insight <strong style="color:#fff;font-weight:500">Challenger</strong> que reframe o problema e posicione a Tutoreanos como o caminho (5 min) → proposta e CTA (5 min). Reserve o MEDDIC para propostas acima de R$3k/mês ou com múltiplos sócios envolvidos.</p>
+    <div class="flow-container reveal">
+      <div class="flow-step">
+        <div class="flow-time">5 min</div>
+        <div class="flow-name">BANT</div>
+        <div class="flow-desc">Qualificar o lead e filtrar potencial</div>
+      </div>
+      <div class="flow-arrow">→</div>
+      <div class="flow-step">
+        <div class="flow-time">10 min</div>
+        <div class="flow-name">SPIN</div>
+        <div class="flow-desc">Descobrir dores profundas ocultas</div>
+      </div>
+      <div class="flow-arrow">→</div>
+      <div class="flow-step">
+        <div class="flow-time">5 min</div>
+        <div class="flow-name">Gap Selling</div>
+        <div class="flow-desc">Tornar o custo do problema concreto</div>
+      </div>
+      <div class="flow-arrow">→</div>
+      <div class="flow-step">
+        <div class="flow-time">5 min</div>
+        <div class="flow-name">Challenger</div>
+        <div class="flow-desc">Insight e reframe do problema</div>
+      </div>
+      <div class="flow-arrow">→</div>
+      <div class="flow-step">
+        <div class="flow-time">5 min</div>
+        <div class="flow-name">Proposta</div>
+        <div class="flow-desc">Apresentação de valor e CTA</div>
+      </div>
+    </div>
+    <div class="flow-note reveal">
+      * Reserve o <strong>MEDDIC</strong> para propostas acima de R$3k/mês ou com múltiplos sócios envolvidos.
+    </div>
   </div>
 </div>
 </div>
@@ -2359,24 +2400,30 @@ footer{background:var(--cinza-e);padding:56px 80px;display:flex;align-items:cent
 function ck(el){el.classList.toggle('ck');upProg();}
 function upProg(){
   const all=document.querySelectorAll('.ci'),done=document.querySelectorAll('.ci.ck').length;
-  const pct=Math.round(done/all.length*100);
+  const pct=Math.round(done/all.length*100) || 0;
   document.getElementById('pfill').style.width=pct+'%';
   document.getElementById('ptxt').textContent=done+' / '+all.length;
 }
 
 // TABS
-function setTab(id){
+function setTab(btn, id){
   document.querySelectorAll('.tab-btn').forEach(b=>b.classList.remove('active'));
   document.querySelectorAll('.tab-pane').forEach(p=>p.classList.remove('active'));
   document.getElementById('tab-'+id).classList.add('active');
-  event.target.classList.add('active');
+  btn.classList.add('active');
 }
 
 // ACCORDION
 function ta(btn){
   const item=btn.closest('.acc-item'),body=item.querySelector('.acc-body'),isOpen=item.classList.contains('open');
-  document.querySelectorAll('.acc-item.open').forEach(i=>{i.classList.remove('open');i.querySelector('.acc-body').style.maxHeight='0';});
-  if(!isOpen){item.classList.add('open');body.style.maxHeight=body.scrollHeight+'px';}
+  document.querySelectorAll('.acc-item.open').forEach(i=>{
+    i.classList.remove('open');
+    i.querySelector('.acc-body').style.maxHeight='0';
+  });
+  if(!isOpen){
+    item.classList.add('open');
+    body.style.maxHeight=body.scrollHeight+'px';
+  }
 }
 
 // REVEAL
@@ -2384,11 +2431,12 @@ const obs=new IntersectionObserver(es=>es.forEach(e=>{if(e.isIntersecting)e.targ
 document.querySelectorAll('.reveal').forEach(el=>obs.observe(el));
 
 // NAV ACTIVE
-const secs=document.querySelectorAll('div[id],section[id]');
 const navLinks=document.querySelectorAll('.nav-links a');
+const secs=Array.from(navLinks).map(a=>document.querySelector(a.getAttribute('href'))).filter(s=>s);
 window.addEventListener('scroll',()=>{
   let cur='';
-  secs.forEach(s=>{if(window.scrollY>=s.offsetTop-100)cur=s.id;});
+  const scrollPos=window.scrollY+110;
+  secs.forEach(s=>{if(scrollPos>=s.offsetTop)cur=s.id;});
   navLinks.forEach(a=>{a.classList.toggle('active',a.getAttribute('href')==='#'+cur);});
 });
 </script>
